@@ -1,0 +1,177 @@
+html, body {
+  height: 100%;
+  color: #707070;
+  font-family: 'PT Sans', sans-serif;
+  font-size: 20px;
+}
+
+body {
+  margin: 0;
+  background-color:#1695A3;
+  background-image: linear-gradient(rgba(255,255,255,.3) 2px, transparent 2px),
+  linear-gradient(90deg, rgba(255,255,255,.3) 2px, transparent 2px),
+  linear-gradient(rgba(255,255,255,.2) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(255,255,255,.2) 1px, transparent 1px);
+  background-size:100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-position:-2px -2px, -2px -2px, -1px -1px, -1px -1px
+}
+
+/* disables highlighting */
+::selection {
+    background-color: Transparent;
+    color :#000;
+}
+
+.drop-zone {
+  position: relative;
+  height: 75%;
+}
+
+.steps {
+  position: absolute;
+  height: 150px;
+  width: 150px;
+  background: white;
+  box-shadow: 0 5px 15px rgba(0,0,0,.2);
+  text-align: center;
+  line-height: 100px;
+  vertical-align: center;
+  border-radius: 50%;
+}
+
+.text {
+  position: relative;
+  float: left;
+  padding: 10px;
+  color: #225378;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.can--drop:not(.caught--it):not(.can--catch) {
+  -webkit-animation: glow 1.5s ease infinite;
+}
+
+@-webkit-keyframes glow {
+  50% {
+    background: rgba(255,255,255,.6);
+  }
+}
+
+@-webkit-keyframes bounce {
+  50% {
+    -webkit-transform:
+      scale(.98)
+      translateY(-5%);
+  }
+}
+
+.steps:before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%;
+  width: 100%;
+  background: #6dc001;
+  -webkit-transform-origin: center;
+  -webkit-transform: scale(0.01);
+  border-radius: 50%;
+}
+
+.can--catch:before {
+  -webkit-animation: grow .75s ease infinite;
+}
+
+@-webkit-keyframes grow {
+  from {
+    -webkit-transform: scale(0.01);
+  }
+  to {
+    opacity: 0;
+    -webkit-transform: scale(1);
+  }
+}
+
+.drag-zone-background {
+  position: fixed;
+  width: 100%;
+  height: 20%;
+  background: rgba(255,255,255,.3);
+}
+
+.drag-zone {
+  position: fixed;
+  width: 1700px; /* increase to allow more blocks per row */
+  height: 20%;
+}
+
+.bubble {
+  background-color: #E6E6E6;
+  width: 150px;
+  height: 150px;
+  text-align: center;
+  vertical-align: center;
+  line-height: 100px;
+  margin: -10px;
+  float: left;
+  overflow: hidden;
+  border-radius: 50%;
+  box-shadow: 0 5px 15px rgba(0,0,0,.2);
+  cursor: -webkit-grab;
+  cursor:    -moz-grab;
+  cursor:         grab;
+}
+
+.draggable {
+  background-color: #E6E6E6;
+  width: 150px;
+  height: 150px;
+  text-align: center;
+  vertical-align: center;
+  line-height: 100px;
+  margin: -10px;
+  float: left;
+  overflow: hidden;
+  border-radius: 50%;
+  box-shadow: 0 5px 15px rgba(0,0,0,.2);
+  cursor: -webkit-grab;
+  cursor:    -moz-grab;
+  cursor:         grab;
+}
+
+.draggable.getting--dragged {
+  background-color: #F3FFE2;
+  cursor: -webkit-grabbing;
+  cursor:    -moz-grabbing;
+  cursor:         grabbing;
+}
+
+.not-draggable {
+  background-color: #E6E6E6;
+  width: 150px;
+  height: 150px;
+  text-align: center;
+  vertical-align: center;
+  line-height: 100px;
+  margin: -10px;
+  float: left;
+  overflow: hidden;
+  border-radius: 50%;
+  box-shadow: 0 5px 15px rgba(0,0,0,.2);
+  cursor: -webkit-grab;
+  cursor:    -moz-grab;
+  cursor:         grab;
+}
+
+
+#button_run {
+  right: 7px;
+  top: 67%;
+  position: fixed;
+}
+
+#button_reset {
+  left: 7px;
+  top: 67%;
+  position: fixed;
+}
