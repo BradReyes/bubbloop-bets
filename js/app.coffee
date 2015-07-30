@@ -15,6 +15,8 @@ $ ->
 	# # Step 2 - Source
 	window.block_hoovertower = new block_hoovertower_()
 	window.block_my_location = new block_my_location_()
+	window.block_photos = new block_photos_()
+	window.block_likes = new block_likes_()
 	# window.block_map = new block_map_()
 	# window.block_source = new block_source_()
 	# window.block_instagram = new block_instagram_()

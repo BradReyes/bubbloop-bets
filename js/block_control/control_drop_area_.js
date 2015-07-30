@@ -3,6 +3,8 @@ var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); 
 
 this.control_drop_area_ = (function() {
   function control_drop_area_() {
+    this.show_winner = bind(this.show_winner, this);
+    this.begin_competition = bind(this.begin_competition, this);
     this.begin_animation = bind(this.begin_animation, this);
     var css;
     css = ".drop_area {\n	position: relative;\n}";
@@ -85,26 +87,120 @@ this.control_drop_area_ = (function() {
     });
   };
 
+  control_drop_area_.prototype.begin_competition = function(competitors) {
+    var css;
+    $("#matchup-container").remove();
+    $("#new-button").remove();
+    $("#blackened-background-button").remove();
+    $(".drop-zone").css("display", "none");
+    $(".drag-zone-background").remove();
+    $(".drag-zone").css("display", "none");
+    $("#current-step").remove();
+    $(".delete-p-tags").remove();
+    css = ".instagram-matchup-screen {\n	/*width: 33%;*/\n	display: inline;\n	text-align: center;\n\n}\n\n.profile-pic-matchup {\n	width: 150px;\n	height: auto;\n	border-radius: 200px;\n}\n\n.vs-text {\n	height: 300px;\n	padding: 30px;\n	font-size: 150%;\n	color: white;\n}\n\n.counter-matchup {\n	display: block;\n	color: white;\n}\n\n.not-main-pic {\n	width: 50px;\n	height: auto;\n	border-radius: 200px;\n}\n";
+    $("<style type='text/css'></style>").html(css).appendTo("head");
+    $("<div id='matchup-container'>\n</div>").appendTo($("body"));
+    $("<div class='instagram-matchup-screen profile-pic-matchup' style='position:absolute;top:170px;left:10px;'>\n	<img class='profile-pic-matchup' src='" + competitors.first_val[1].images.standard_resolution.url + "'>\n	<img class='not-main-pic' style='position:absolute;top:0px;left:0px;' src='" + competitors.first_val[1].user.profile_picture + "'>\n	<p id=\"instagram-matchup-counter-1\" class='counter-matchup'> TEST HERE 1</p>\n</div>").appendTo($("#matchup-container"));
+    $("<div class='instagram-matchup-screen vs-text' style='position:absolute;top:200px;left:140px;'>\n	VS\n</div>").appendTo($("#matchup-container"));
+    $("<div class='instagram-matchup-screen profile-pic-matchup' style='position:absolute;top:170px;left:215px;'>\n	<img class='profile-pic-matchup' src='" + competitors.second_val[1].images.standard_resolution.url + "'>\n	<img class='not-main-pic' style='position:absolute;top:0px;right:0px;' src='" + competitors.second_val[1].user.profile_picture + "'>\n	<p id=\"instagram-matchup-counter-2\" class='counter-matchup'> TEST HERE 2</p>\n</div>").appendTo($("#matchup-container"));
+    $("body").css('text-align', 'center');
+    return $("<p class='delete-p-tags' style='margin:0px;margin-top:450px;font-size:200%;color:white;'> GOAL </p>\n<p id='put-goal-here' class='delete-p-tags' style='margin:0px;font-size:200%;color:white;'> #### </p>").appendTo($("body"));
+  };
+
+  control_drop_area_.prototype.show_winner = function(winner, player1) {
+    var $container, $info_container, $info_container2;
+    $(".delete-p-tags").remove();
+    $container = $("#matchup-container");
+    $container.html(" ");
+    $container.css("text-align", "center");
+    if (player1) {
+      $("<img id='actual-pic-animation' src='" + winner.images.standard_resolution.url + "' \nstyle='width:150px;height:auto;border-radius:200px;position:absolute;top:170px;left:10px;'>").appendTo($container);
+      $info_container = $("<div id='info-matchup-container'></div>");
+      $info_container2 = $("<div id='info-matchup-container2'></div>");
+      $info_container.appendTo($container);
+      $info_container.css({
+        "display": 'flex',
+        'justify-content': 'center',
+        'align-items': 'center'
+      });
+      $info_container2.appendTo($container);
+      $("<img id='profile-pic-animation' src='" + winner.user.profile_picture + "' \nstyle='position:absolute;top:170px;left:10px;\nwidth:50px;height:auto;border-radius:200px;'>").appendTo($info_container);
+      $("<p id='results-winnerinfo-1' \nstyle='position:absolute;top:365px;left:120px;\nfont-size:200%;margin:20px;margin-left:10px;color:white;\n'> " + winner.user.username + " </p>").appendTo($info_container);
+      $("<p id='results-winnerinfo-2' style='display:block;font-size:200%;color:white;margin-top:440px;padding:0px;'\n> is the WINNER! </p>").appendTo($info_container2);
+
+      /* Animations here */
+      $("#results-winnerinfo-1").velocity("fadeIn", {
+        'duration': 2500
+      });
+      $("#results-winnerinfo-2").velocity("fadeIn", {
+        'duration': 3000
+      });
+      $("#actual-pic-animation").velocity({
+        top: 80,
+        left: 40,
+        width: 300,
+        height: 300
+      });
+      return $("#profile-pic-animation").velocity({
+        top: 390,
+        left: 70
+      });
+    } else {
+      $("<img id='actual-pic-animation' src='" + winner.images.standard_resolution.url + "' \nstyle='width:150px;height:auto;border-radius:200px;position:absolute;top:170px;left:215px;'>").appendTo($container);
+      $info_container = $("<div id='info-matchup-container'></div>");
+      $info_container2 = $("<div id='info-matchup-container2'></div>");
+      $info_container.appendTo($container);
+      $info_container.css({
+        "display": 'flex',
+        'justify-content': 'center',
+        'align-items': 'center'
+      });
+      $info_container2.appendTo($container);
+      $("<img id='profile-pic-animation' src='" + winner.user.profile_picture + "' \nstyle='position:absolute;top:170px;left:315px;\nwidth:50px;height:auto;border-radius:200px;'>").appendTo($info_container);
+      $("<p id='results-winnerinfo-1' \nstyle='position:absolute;top:365px;left:120px;\nfont-size:200%;margin:20px;margin-left:10px;color:white;\n'> " + winner.user.username + " </p>").appendTo($info_container);
+      $("<p id='results-winnerinfo-2' style='display:block;font-size:200%;color:white;margin-top:440px;padding:0px;'\n> is the WINNER! </p>").appendTo($info_container2);
+
+      /* Animations here */
+      $("#results-winnerinfo-1").velocity("fadeIn", {
+        'duration': 2500
+      });
+      $("#results-winnerinfo-2").velocity("fadeIn", {
+        'duration': 3000
+      });
+      $("#actual-pic-animation").velocity({
+        top: 80,
+        left: 40,
+        width: 300,
+        height: 300
+      });
+      return $("#profile-pic-animation").velocity({
+        top: 390,
+        left: 70
+      });
+    }
+  };
+
   control_drop_area_.prototype.run = function() {
-    var geocaching;
-    this.begin_animation();
-    geocaching = (function(_this) {
+    var competition;
+    competition = (function(_this) {
       return function() {
-        return _this.location.run(function(latLng) {
-          var cur_lat, cur_lng;
-          cur_lat = latLng.lat();
-          cur_lng = latLng.lng();
-          $("#geocaching-message-coordinate").text(cur_lat + ", " + cur_lng);
-          return _this.destination.run(latLng, function(is_true) {
-            if (is_true) {
-              return _this.action();
+        console.log("Got in competition");
+        return _this.location.run(function(competitors) {
+          console.log(competitors);
+          _this.begin_competition(competitors);
+          return _this.destination.run(competitors, function(winner, player1) {
+            console.log("got in winner");
+            if (winner != null) {
+              clearInterval(_this.stop_interval);
+              console.log("There's a winner!");
+              return _this.show_winner(winner, player1);
             }
           });
         });
       };
     })(this);
-    geocaching();
-    return setInterval(geocaching, 7000);
+    competition();
+    return this.stop_interval = setInterval(competition, 7000);
   };
 
   return control_drop_area_;
