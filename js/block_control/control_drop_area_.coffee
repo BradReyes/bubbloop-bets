@@ -12,25 +12,66 @@ class @control_drop_area_
 		<div id='current-step' class='text'></div>
 		<div class='drop_area' role='drop_area'></div>
 		""").appendTo $("body")
-		@celebrity = new control_drag_zone_ 5, 50, 365, 'celeb'
+		# left, top, diameter
+		#@celebrity = new control_drag_zone_ 5, 5, 365, 'celeb'
+		@add_bubble_sections()
 
+	add_bubble_sections: () =>
+		# left, top, diamater, bubble_type
+		bubble_size = 130
+		new bubble_section_ 50, 5, bubble_size, 'Who?'
+		new bubble_section_ 200, 5, bubble_size, "What?"
+		new bubble_section_ 5, 150, bubble_size, "When?"
+		new bubble_section_ 240, 150, bubble_size, "Where?"
+		new bubble_section_ 125, 250, bubble_size, "Why?"
+
+	step_animation: (new_text) =>
+		duration = 200
+		$next = $(".step-by-step")
+		$next.velocity
+			left: '-400'
+		,
+			duration: duration
+			complete: () =>
+				$next.text new_text
+				$next.velocity
+					left: '5'
+				,
+					duration: duration
+
+		# setTimeout () =>
+		# 	$next.text new_text
+		# , duration
+
+
+	split_zones: (original_drag_zone, new_drag_zone) =>
+		# Logic is as follows
+		# this is called when this is dropped in the drop zone
+		# this will move the drag zones respectively
 
 	expand: (block_name) ->
-		current_counter = window.counter
-		switch current_counter
-			when 1 #this is after celeb has been dragged in
-				#will expand to drop zone in celeb
-				@location = new control_drag_zone_ 45, 75, 205, 'source'
-				# @source.run(@celebrity)
-			when 2
-				#expand to overlap once
-				@destination = new control_drag_zone_ 125, 75, 205, 'filter'
-			when 3
-				#expand to triple circles
-				@action = new control_drag_zone_ 85, 182, 205, 'action'
-			when 4
-				#run button shows up!
-				@create_button()
+		# current_counter = window.counter
+		# switch current_counter
+		# 	when 1 #this is after celeb has been dragged in
+		# 		#will expand to drop zone in celeb
+		# 		@location = new control_drag_zone_ 45, 35, 205, 'source'
+		# 		# .text "Choose your logic"
+		# 		@step_animation "Choose your logic"
+
+		# 		# @source.run(@celebrity)
+		# 	when 2
+		# 		#expand to overlap once
+		# 		@destination = new control_drag_zone_ 125, 35, 205, 'filter'
+		# 	when 3
+		# 		#expand to triple circles
+		# 		@action = new control_drag_zone_ 85, 142, 205, 'action'
+		# 		# $(".step-by-step").text "Choose your output"
+		# 		@step_animation "Choose your output"
+		# 	when 4
+		# 		#run button shows up!
+		# 		# $(".step-by-step").text "Press run!"
+		# 		@step_animation "Tap run!"
+		# 		@create_button()
 
 	create_button: () ->
 		$blacken = $("<div id='blackened-background-button'></div>").css
@@ -45,6 +86,7 @@ class @control_drop_area_
 
 		$("body").prepend $blacken
 
+		# This is the button!
 		$new_div = $("""
 			<div id="new-button">
 				<p style='position:absolute;font-size: 25px;left:17px;top:5px;' >RUN!</p>
@@ -56,7 +98,7 @@ class @control_drop_area_
 			width: 90
 			height: 90
 			position: 'absolute'
-			top: 180
+			top: 140
 			left: 140
 			zIndex: 1000
 			backgroundColor: 'white'
@@ -262,6 +304,7 @@ class @control_drop_area_
 				left: 70
 
 	run: ()->
+		$(".step-by-step").remove()
 		# @begin_animation()
 		# geocaching = ()=>
 		# 	@location.run (latLng) =>

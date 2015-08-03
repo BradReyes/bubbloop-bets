@@ -1,12 +1,13 @@
 class @control_drag_zone_
 
-	constructor: (left, top, diameter, bubble_type)->
+	constructor: (left, top, diameter, bubble_type, section)->
 		@counter_id = window.counter
 		window.counter = @counter_id + 1
 		@left = left
 		@top = top
 		@diameter = diameter
 		@bubble_type = bubble_type
+		@section = section
 
 		css = """
 			.droppable-#{@counter_id} {
@@ -25,9 +26,9 @@ class @control_drag_zone_
 			opacity: 1
 
 		# Fade out invalid bubbles
-		inValid_bubbles = $(".draggable:not(.#{@bubble_type})")
-		inValid_bubbles.css
-			opacity: .1
+		# inValid_bubbles = $(".draggable:not(.#{@bubble_type})")
+		# inValid_bubbles.css
+		# 	opacity: .1
 
 		append_to_this = null
 		if $target?
@@ -36,6 +37,7 @@ class @control_drag_zone_
 
 		$("""
 		<div id='celeb-drop-zone' class='droppable steps droppable-#{@counter_id}' role='condition'>
+			Drag Here
 		</div>
 		""").appendTo ".drop-zone"
 
@@ -108,6 +110,13 @@ class @control_drag_zone_
 					$clone.appendTo '.drop-zone'
 					$clone.removeClass "#{@bubble_type}"
 
+					#THIS IS NEW LOGIC!!!
+					$clone.addClass "dragged-block-#{@counter_id}"
+					console.log "dragged-block-#{@counter_id}"
+
+					# This complicates everything
+					#$clone.addClass "droppable-#{@counter_id}"
+
 					# update position attributes
 					x = $target.position().left + 10
 					y = $target.position().top + 10
@@ -130,7 +139,7 @@ class @control_drag_zone_
 					# update bank
 					items = $ ".drag-wrap"
 					onScroll()
-
+					@section.revert($clone)
 					window.control.expand(block_name)
 
 			ondropdeactivate: (event) ->
@@ -139,3 +148,18 @@ class @control_drag_zone_
 
 	run: (name, cb)=>
 		@block.run name, cb
+
+	hide: () =>
+		$(".droppable-#{@counter_id}").css
+			display: 'none'
+
+	show: () =>
+		$(".droppable-#{@counter_id}").css
+			display: 'block'
+
+	get_selector: () =>
+		selector = ".droppable-#{@counter_id}"
+		selector
+
+	get_id: () =>
+		@counter_id

@@ -2,23 +2,24 @@
 var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
 this.control_drag_zone_ = (function() {
-  function control_drag_zone_(left, top, diameter, bubble_type) {
+  function control_drag_zone_(left, top, diameter, bubble_type, section) {
+    this.get_id = bind(this.get_id, this);
+    this.get_selector = bind(this.get_selector, this);
+    this.show = bind(this.show, this);
+    this.hide = bind(this.hide, this);
     this.run = bind(this.run, this);
-    var append_to_this, css, inValid_bubbles, items, onScroll;
+    var append_to_this, css, items, onScroll;
     this.counter_id = window.counter;
     window.counter = this.counter_id + 1;
     this.left = left;
     this.top = top;
     this.diameter = diameter;
     this.bubble_type = bubble_type;
+    this.section = section;
     css = ".droppable-" + this.counter_id + " {\n	position: absolute;\n	top: " + top + "px;\n	left: " + left + "px;\n	width: " + diameter + "px;\n	height: " + diameter + "px;\n	border: 1px black solid;\n	background: rgba(255, 255, 255, 0.8);\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
     $("." + this.bubble_type).css({
       opacity: 1
-    });
-    inValid_bubbles = $(".draggable:not(." + this.bubble_type + ")");
-    inValid_bubbles.css({
-      opacity: .1
     });
     append_to_this = null;
     if (typeof $target !== "undefined" && $target !== null) {
@@ -26,7 +27,7 @@ this.control_drag_zone_ = (function() {
     } else {
       append_to_this = '.drop-zone';
     }
-    $("<div id='celeb-drop-zone' class='droppable steps droppable-" + this.counter_id + "' role='condition'>\n</div>").appendTo(".drop-zone");
+    $("<div id='celeb-drop-zone' class='droppable steps droppable-" + this.counter_id + "' role='condition'>\n	Drag Here\n</div>").appendTo(".drop-zone");
     items = $(".drag-wrap");
     onScroll = (function(_this) {
       return function() {
@@ -91,6 +92,8 @@ this.control_drag_zone_ = (function() {
             $clone.addClass('not-draggable');
             $clone.appendTo('.drop-zone');
             $clone.removeClass("" + _this.bubble_type);
+            $clone.addClass("dragged-block-" + _this.counter_id);
+            console.log("dragged-block-" + _this.counter_id);
             x = $target.position().left + 10;
             y = $target.position().top + 10;
             $clone.css({
@@ -108,6 +111,7 @@ this.control_drag_zone_ = (function() {
             $("." + _this.bubble_type).remove();
             items = $(".drag-wrap");
             onScroll();
+            _this.section.revert($clone);
             return window.control.expand(block_name);
           }
         };
@@ -122,6 +126,28 @@ this.control_drag_zone_ = (function() {
 
   control_drag_zone_.prototype.run = function(name, cb) {
     return this.block.run(name, cb);
+  };
+
+  control_drag_zone_.prototype.hide = function() {
+    return $(".droppable-" + this.counter_id).css({
+      display: 'none'
+    });
+  };
+
+  control_drag_zone_.prototype.show = function() {
+    return $(".droppable-" + this.counter_id).css({
+      display: 'block'
+    });
+  };
+
+  control_drag_zone_.prototype.get_selector = function() {
+    var selector;
+    selector = ".droppable-" + this.counter_id;
+    return selector;
+  };
+
+  control_drag_zone_.prototype.get_id = function() {
+    return this.counter_id;
   };
 
   return control_drag_zone_;

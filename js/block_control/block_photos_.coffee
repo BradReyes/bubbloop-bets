@@ -204,7 +204,8 @@ class @block_photos_
 						break
 					if both_done
 						console.log @competitors
-						cb(@competitors)
+						cb @competitors
+						
 					else
 						both_done = true
 

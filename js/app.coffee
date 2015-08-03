@@ -5,6 +5,7 @@ $ ->
 	# BLOCKS (bank layout 9-8-9)
 	# -----------------------------
 	# Step 1 - Celeb
+	# ic = new instagram_competition_ "dr.bradass", "emsandy2", 2
 	#window.block_beyonce = new block_beyonce_()
 	#window.block_taylorswift = new block_taylorswift_()
 	#window.block_drake = new block_drake_()

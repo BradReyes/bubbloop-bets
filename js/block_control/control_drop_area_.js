@@ -6,27 +6,50 @@ this.control_drop_area_ = (function() {
     this.show_winner = bind(this.show_winner, this);
     this.begin_competition = bind(this.begin_competition, this);
     this.begin_animation = bind(this.begin_animation, this);
+    this.split_zones = bind(this.split_zones, this);
+    this.step_animation = bind(this.step_animation, this);
+    this.add_bubble_sections = bind(this.add_bubble_sections, this);
     var css;
     css = ".drop_area {\n	position: relative;\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
     $("<div id='current-step' class='text'></div>\n<div class='drop_area' role='drop_area'></div>").appendTo($("body"));
-    this.celebrity = new control_drag_zone_(5, 50, 365, 'celeb');
+    this.add_bubble_sections();
   }
 
-  control_drop_area_.prototype.expand = function(block_name) {
-    var current_counter;
-    current_counter = window.counter;
-    switch (current_counter) {
-      case 1:
-        return this.location = new control_drag_zone_(45, 75, 205, 'source');
-      case 2:
-        return this.destination = new control_drag_zone_(125, 75, 205, 'filter');
-      case 3:
-        return this.action = new control_drag_zone_(85, 182, 205, 'action');
-      case 4:
-        return this.create_button();
-    }
+  control_drop_area_.prototype.add_bubble_sections = function() {
+    var bubble_size;
+    bubble_size = 130;
+    new bubble_section_(50, 5, bubble_size, 'Who?');
+    new bubble_section_(200, 5, bubble_size, "What?");
+    new bubble_section_(5, 150, bubble_size, "When?");
+    new bubble_section_(240, 150, bubble_size, "Where?");
+    return new bubble_section_(125, 250, bubble_size, "Why?");
   };
+
+  control_drop_area_.prototype.step_animation = function(new_text) {
+    var $next, duration;
+    duration = 200;
+    $next = $(".step-by-step");
+    return $next.velocity({
+      left: '-400'
+    }, {
+      duration: duration,
+      complete: (function(_this) {
+        return function() {
+          $next.text(new_text);
+          return $next.velocity({
+            left: '5'
+          }, {
+            duration: duration
+          });
+        };
+      })(this)
+    });
+  };
+
+  control_drop_area_.prototype.split_zones = function(original_drag_zone, new_drag_zone) {};
+
+  control_drop_area_.prototype.expand = function(block_name) {};
 
   control_drop_area_.prototype.create_button = function() {
     var $blacken, $new_div;
@@ -47,7 +70,7 @@ this.control_drop_area_ = (function() {
       width: 90,
       height: 90,
       position: 'absolute',
-      top: 180,
+      top: 140,
       left: 140,
       zIndex: 1000,
       backgroundColor: 'white'
@@ -182,6 +205,7 @@ this.control_drop_area_ = (function() {
 
   control_drop_area_.prototype.run = function() {
     var competition;
+    $(".step-by-step").remove();
     competition = (function(_this) {
       return function() {
         console.log("Got in competition");

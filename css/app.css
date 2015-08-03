@@ -16,6 +16,14 @@ body {
   background-position:-2px -2px, -2px -2px, -1px -1px, -1px -1px
 }
 
+.step-by-step {
+  position: absolute;
+  left: 5px;
+  top: 400px;
+  font-size: 100%;
+  color: white;
+}
+
 /* disables highlighting */
 ::selection {
     background-color: Transparent;
