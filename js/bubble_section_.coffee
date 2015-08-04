@@ -121,6 +121,17 @@ class @bubble_section_
 
 		$(".draggable:not(.#{@type})").css
 			display: "none"
+		
+		items = $(".#{@type}.draggable") 
+		i=0
+		while i < items.length
+			pos = items[i].getBoundingClientRect()
+			s2 = (pos.left + pos.width / 2 - (window.innerWidth / 2)) / (window.innerWidth/1.2)
+			s2 = 1 - Math.abs(s2)
+
+			$(items[i]).css
+				'-webkit-transform': "scale(#{s2})"
+			++i
 
 	revert: () =>
 		@drag_zone.hide()
@@ -144,6 +155,17 @@ class @bubble_section_
 			duration: 1000
 		$(".bubble-sections:not(.bubble-section-#{@counter})").velocity "fadeIn",
 			duration: 1000
+		
+		items = $(".draggable") 
+		i=0
+		while i < items.length
+			pos = items[i].getBoundingClientRect()
+			s2 = (pos.left + pos.width / 2 - (window.innerWidth / 2)) / (window.innerWidth/1.2)
+			s2 = 1 - Math.abs(s2)
+
+			$(items[i]).css
+				'-webkit-transform': "scale(#{s2})"
+			++i
 
 		# $(".draggable").css
 		# 	display: "block"
