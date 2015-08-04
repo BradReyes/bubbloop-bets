@@ -7,7 +7,7 @@ this.block_geocaching_ = (function() {
     var css;
     css = "		";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable celeb\" name=\"geocaching\">\n	geocaching\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable celeb What\" name=\"geocaching\">\n	geocaching\n</div>").appendTo(".drag-zone");
   }
 
   block_geocaching_.prototype.run = function() {

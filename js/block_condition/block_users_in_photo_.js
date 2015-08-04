@@ -7,7 +7,7 @@ this.block_users_in_photo_ = (function() {
     var css;
     css = "[name=users_in_photo] {\n	font-size: 30px;\n}\n#username_input" + window.users_counter + " {\n	position: absolute;\n	top: 55%;\n	width: 80%;\n	left: 6%;\n	text-align: center;\n	font-size: 12px;\n}\n\ninput[type='text'],\ninput[type='number'],\ntextarea {\n	font-size: 16px;\n}";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable filter\" name=\"users_in_photo\">\n	WITH @\n	<input id=\"username_input" + window.users_counter + "\" type=\"\" value=\"\">\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable filter Who\" name=\"users_in_photo\">\n	WITH @\n	<input id=\"username_input" + window.users_counter + "\" type=\"\" value=\"\">\n</div>").appendTo(".drag-zone");
     interact("[name=users_in_photo]").on('tap click', (function(_this) {
       return function(event) {
         event.preventDefault();

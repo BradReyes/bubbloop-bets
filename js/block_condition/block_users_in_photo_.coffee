@@ -23,7 +23,7 @@ class @block_users_in_photo_
 		$('<style type="text/css"></style>').html(css).appendTo "head"
 
 		$("""
-		<div class="drag-wrap draggable filter" name="users_in_photo">
+		<div class="drag-wrap draggable filter Who" name="users_in_photo">
 			WITH @
 			<input id="username_input#{window.users_counter}" type="" value="">
 		</div>

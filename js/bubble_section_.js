@@ -17,17 +17,36 @@ this.bubble_section_ = (function() {
     this.diameter = diameter;
     this.revert = bind(this.revert, this);
     this.expand_section = bind(this.expand_section, this);
+    this.toggle_bank = bind(this.toggle_bank, this);
     if (window.bubble_counter == null) {
       window.bubble_counter = -1;
     }
     this.counter = ++window.bubble_counter;
+    this.bank_visible = false;
+    this.type = "what";
+    if (this.counter === 0) {
+      this.type = 'Who';
+    }
+    if (this.counter === 1) {
+      this.type = 'What';
+    }
+    if (this.counter === 2) {
+      this.type = 'When';
+    }
+    if (this.counter === 3) {
+      this.type = 'Where';
+    }
+    if (this.counter === 4) {
+      this.type = 'Why';
+    }
     css = ".bubble-section-" + this.counter + " {\n	position: absolute;\n	top: " + this.top + "px;\n	left: " + this.left + "px;\n	width: " + this.diameter + "px;\n	height: " + this.diameter + "px;\n	border: 1px black solid;\n	background: rgba(255, 255, 255,0.8);\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
-    $("<div class='steps bubble-sections bubble-section-" + this.counter + "' role='bubble_section' type='" + bubble_type + "'>\n	<div id='bubble-text-" + this.counter + "'>" + bubble_type + "</div>\n</div>").appendTo(".drop-zone");
+    $("<div class='steps bubble-sections bubble-section-" + this.counter + " " + this.type + "' role='bubble_section' type='" + bubble_type + "'>\n	<div id='bubble-text-" + this.counter + "'>" + bubble_type + "</div>\n</div>").appendTo(".drop-zone");
     this.drag_zone = new control_drag_zone_(12, 20, 350, 'source', this);
     this.drag_zone.hide();
     $(".bubble-section-" + this.counter).on('tap click', (function(_this) {
       return function() {
+        _this.toggle_bank();
 
         /*
         			bubble section will expand and become a drop zone
@@ -37,6 +56,44 @@ this.bubble_section_ = (function() {
       };
     })(this));
   }
+
+  bubble_section_.prototype.toggle_bank = function() {
+    var $bank, real_height, w_height;
+    $bank = $(".drag-selector");
+    console.log("Called");
+    if (this.bank_visible) {
+      w_height = window.innerHeight;
+      console.log(w_height);
+      $bank.velocity({
+        top: w_height + 50
+      }, {
+        duration: 1000,
+        complete: (function(_this) {
+          return function() {
+            console.log("Got em");
+            $(".draggable").css({
+              display: "block"
+            });
+            return $bank.css({
+              display: 'none'
+            });
+          };
+        })(this)
+      });
+    } else {
+      w_height = window.innerHeight;
+      real_height = w_height - 160;
+      $bank.css({
+        display: 'block'
+      });
+      $bank.velocity({
+        top: real_height
+      }, {
+        duration: 1000
+      });
+    }
+    return this.bank_visible = !this.bank_visible;
+  };
 
   bubble_section_.prototype.expand_section = function() {
     $(".bubble-sections:not(.bubble-section-" + this.counter + ")").velocity("fadeOut", {
@@ -59,7 +116,7 @@ this.bubble_section_ = (function() {
       })(this)
     });
     console.log($("#bubble-text-" + this.counter)[0]);
-    return $("#bubble-text-" + this.counter).velocity("fadeOut", {
+    $("#bubble-text-" + this.counter).velocity("fadeOut", {
       duration: 500,
       complete: (function(_this) {
         return function() {
@@ -69,6 +126,9 @@ this.bubble_section_ = (function() {
           });
         };
       })(this)
+    });
+    return $(".draggable:not(." + this.type + ")").css({
+      display: "none"
     });
   };
 

@@ -134,12 +134,13 @@ class @control_drag_zone_
 						opacity: '0'
 
 					# remove all bubbles of current type
-					$(".#{@bubble_type}").remove()
+					# $(".#{@bubble_type}").remove()
 
 					# update bank
 					items = $ ".drag-wrap"
 					onScroll()
 					@section.revert($clone)
+					@section.toggle_bank()
 					window.control.expand(block_name)
 
 			ondropdeactivate: (event) ->

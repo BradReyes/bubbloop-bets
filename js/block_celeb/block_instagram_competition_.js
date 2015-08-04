@@ -7,7 +7,7 @@ this.block_instagram_competition_ = (function() {
     var css;
     css = "		";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable celeb\" name=\"instagram_competition\">\n	Instagram Competition\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable celeb What\" name=\"instagram_competition\">\n	Instagram Competition\n</div>").appendTo(".drag-zone");
   }
 
   block_instagram_competition_.prototype.run = function() {

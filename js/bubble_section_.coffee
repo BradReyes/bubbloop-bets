@@ -1,5 +1,4 @@
 class @bubble_section_
-
 	###
 	Parameters:
 		left
@@ -7,11 +6,20 @@ class @bubble_section_
 		diameter
 		bubble_type
 	###
-
 	constructor: (@left, @top, @diameter, bubble_type)->
 		if not window.bubble_counter?
 			window.bubble_counter = -1
 		@counter = ++window.bubble_counter
+		@bank_visible = false #this means that the bubble bank is not visible
+		# @toggle_bank()
+
+		# Filters blocks
+		@type = "what"
+		if @counter is 0 then @type = 'Who'
+		if @counter is 1 then @type = 'What'
+		if @counter is 2 then @type = 'When'
+		if @counter is 3 then @type = 'Where'
+		if @counter is 4 then @type = 'Why'
 
 		css = """
 			.bubble-section-#{@counter} {
@@ -24,10 +32,11 @@ class @bubble_section_
 				background: rgba(255, 255, 255,0.8);
 			}
 		"""
+
 		$("<style type='text/css'></style>").html(css).appendTo "head"
 
 		$("""
-			<div class='steps bubble-sections bubble-section-#{@counter}' role='bubble_section' type='#{bubble_type}'>
+			<div class='steps bubble-sections bubble-section-#{@counter} #{@type}' role='bubble_section' type='#{bubble_type}'>
 				<div id='bubble-text-#{@counter}'>#{bubble_type}</div>
 			</div>
 		""").appendTo ".drop-zone"
@@ -40,6 +49,7 @@ class @bubble_section_
 		# 	console.log "yeah"
 
 		$(".bubble-section-#{@counter}").on 'tap click', =>
+			@toggle_bank()
 			# Here is where the drop zone would expand to full screen
 			# animations to accomplish this:
 			###
@@ -49,6 +59,37 @@ class @bubble_section_
 			#alert "Tapped #{bubble_type}"
 			@expand_section()
 		#@drag_zone = new drag_zone_()
+
+	toggle_bank: () =>
+		$bank = $(".drag-selector")
+		console.log "Called"
+		if @bank_visible
+			w_height = window.innerHeight
+			console.log w_height
+			$bank.velocity
+				top: w_height + 50
+			,
+				duration: 1000
+				complete: =>
+					console.log "Got em"
+					# $(".draggable").css
+					# 	display: "block"
+					$(".draggable").css
+						display: "block"
+					$bank.css
+						display: 'none'
+		else #invisible to visible
+			w_height = window.innerHeight
+			real_height = w_height - 160
+			$bank.css
+				display: 'block'
+			$bank.velocity
+				top:  real_height
+			,
+				duration: 1000
+			
+
+		@bank_visible = not @bank_visible
 
 	expand_section: () =>
 		# $("body").on 'click', =>
@@ -78,6 +119,9 @@ class @bubble_section_
 				$("#bubble-text-#{@counter}").velocity "fadeIn",
 					duration: 500
 
+		$(".draggable:not(.#{@type})").css
+			display: "none"
+
 	revert: () =>
 		@drag_zone.hide()
 		console.log "Going back"
@@ -101,143 +145,8 @@ class @bubble_section_
 		$(".bubble-sections:not(.bubble-section-#{@counter})").velocity "fadeIn",
 			duration: 1000
 
+		# $(".draggable").css
+		# 	display: "block"
 
-
-	# 	@counter_id = window.counter
-	# 	window.counter = @counter_id + 1
-	# 	@left = left
-	# 	@top = top
-	# 	@diameter = diameter
-	# 	@bubble_type = bubble_type
-
-	# 	css = """
-	# 		.droppable-#{@counter_id} {
-	# 			position: absolute;
-	# 			top: #{top}px;
-	# 			left: #{left}px;
-	# 			width: #{diameter}px;
-	# 			height: #{diameter}px;
-	# 			border: 1px black solid;
-	# 			background: rgba(255, 255, 255, 0.8);
-	# 		}
-	# 	"""
-	# 	$("<style type='text/css'></style>").html(css).appendTo "head"
-
-	# 	$(".#{@bubble_type}").css
-	# 		opacity: 1
-
-	# 	# Fade out invalid bubbles
-	# 	inValid_bubbles = $(".draggable:not(.#{@bubble_type})")
-	# 	inValid_bubbles.css
-	# 		opacity: .1
-
-	# 	append_to_this = null
-	# 	if $target?
-	# 		append_to_this = $target
-	# 	else append_to_this = '.drop-zone'
-
-	# 	$("""
-	# 	<div id='celeb-drop-zone' class='droppable steps droppable-#{@counter_id}' role='condition'>
-	# 	</div>
-	# 	""").appendTo ".drop-zone"
-
-	# 	# Block bank UI
-	# 	items = $ ".drag-wrap"
-	# 	onScroll = ()=>
-	# 		i=0
-	# 		while i < items.length
-	# 			pos = items[i].getBoundingClientRect()
-	# 			s2 = (pos.left + pos.width / 2 - (window.innerWidth / 2)) / (window.innerWidth/1.2)
-	# 			s2 = 1 - Math.abs(s2)
-
-	# 			$(items[i]).css
-	# 				'-webkit-transform': "scale(#{s2})"
-	# 			++i
-	# 		return
-
-	# 	# still double fillable
-	# 	# interact('.droppable:not(.caught--it)').dropzone
-	# 	interact(".droppable-#{@counter_id}").dropzone
-	# 		accept: '.draggable'
-	# 		overlap: .1
-
-	# 		ondropactivate: (event) ->
-	# 			$target = $ event.target
-	# 			$target.addClass 'can--drop'
-	# 			# $target.addClass 'can--catch'
-	# 			# $target.addClass 'drop--me'
-
-	# 		ondragenter: (event) ->
-	# 			$draggableElement = $ event.relatedTarget
-	# 			dropzoneElement = event.target
-	# 			dropRect = interact.getElementRect dropzoneElement
-	# 			dropCenter =
-	# 				x: dropRect.left + dropRect.width / 2
-	# 				y: dropRect.top + dropRect.height / 2
-	# 			event.draggable.draggable
-	# 				snap:
-	# 					targets: [ dropCenter ]
-
-	# 			# feedback the possibility of a drop
-	# 			dropzoneElement.classList.add 'can--catch'
-	# 			$draggableElement.addClass 'drop--me'
-
-	# 		ondragleave: (event) ->
-	# 			# remove the drop feedback style
-	# 			$target = $ event.target
-	# 			$relatedTarget = $ event.relatedTarget
-	# 			$target.removeClass 'can--catch'
-	# 			$relatedTarget.removeClass 'caught--it'
-	# 			$relatedTarget.removeClass 'drop--me'
-
-	# 		ondrop: (event) =>
-	# 			$target = $ event.target
-	# 			$related_target = $ event.relatedTarget
-
-	# 			# This encapsulates the logic
-	# 			block_name = $related_target.attr "name"
-	# 			@block = window["block_#{block_name}"]
-
-
-	# 			# CLONE LOGIC
-	# 			if $related_target.hasClass('drag-wrap')
-	# 				# clone and append to drop zone
-	# 				$clone = $related_target.detach()
-	# 				$clone.removeClass 'drag-wrap'
-	# 				$clone.removeClass 'getting--dragged'
-	# 				$clone.removeClass 'draggable'
-	# 				$clone.addClass 'not-draggable'
-	# 				$clone.appendTo '.drop-zone'
-	# 				$clone.removeClass "#{@bubble_type}"
-
-	# 				# update position attributes
-	# 				x = $target.position().left + 10
-	# 				y = $target.position().top + 10
-	# 				$clone.css
-	# 					'-webkit-transform': "translate(#{x}px, #{y}px)"
-	# 					position: 'absolute'
-	# 					opacity: 0.4
-	# 					width: diameter
-	# 					height: diameter
-	# 				$clone.attr 'data-x', x
-	# 				$clone.attr 'data-y', y
-
-	# 				# original dropzone disappear
-	# 				$target.css
-	# 					opacity: '0'
-
-	# 				# remove all bubbles of current type
-	# 				$(".#{@bubble_type}").remove()
-
-	# 				# update bank
-	# 				items = $ ".drag-wrap"
-	# 				onScroll()
-
-	# 				window.control.expand(block_name)
-
-	# 		ondropdeactivate: (event) ->
-	# 			$target = $ event.target
-	# 			$target.removeClass 'can--drop', 'can--catch'
-
-	# run: (name, cb)=>
-	# 	@block.run name, cb
+		# $("[name=photos]").css
+		# 	display: "block"

@@ -6,7 +6,7 @@ class @block_geocaching_
 		$('<style type="text/css"></style>').html(css).appendTo "head"
 
 		$("""
-		<div class="drag-wrap draggable celeb" name="geocaching">
+		<div class="drag-wrap draggable celeb What" name="geocaching">
 			geocaching
 		</div>
 		""").appendTo ".drag-zone"

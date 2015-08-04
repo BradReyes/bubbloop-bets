@@ -11,7 +11,7 @@ this.block_photos_ = (function() {
     var css;
     css = "#first-input{\n	position: absolute;\n	top: 30%;\n	width: 80%;\n	left: 6%;\n	text-align: center;\n	font-size: 12px;\n}\n\n#second-input{\n	position: absolute;\n	top: 60%;\n	width: 80%;\n	left: 6%;\n	text-align: center;\n	font-size: 12px;\n}\n\ninput[type='text'],\ninput[type='number'],\ntextarea {\n	font-size: 16px;\n}";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable source\" name=\"photos\">\n	<input id=\"first-input\" type=\"text\" value=\"\">\n	<input id=\"second-input\" type=\"text\" value=\"\">\n	<div id='instafeed' style='display:none'></div>\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable source Who\" name=\"photos\">\n	<input id=\"first-input\" type=\"text\" value=\"\">\n	<input id=\"second-input\" type=\"text\" value=\"\">\n	<div id='instafeed' style='display:none'></div>\n</div>").appendTo(".drag-zone");
     interact("#first-input").on('tap', (function(_this) {
       return function(event) {
         event.preventDefault();

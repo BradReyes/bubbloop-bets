@@ -20,7 +20,7 @@ class @block_likes_
 		$('<style type="text/css"></style>').html(css).appendTo "head"
 
 		$("""
-		<div class="drag-wrap draggable filter" name="likes">
+		<div class="drag-wrap draggable filter What" name="likes">
 			LIKES
 			<input id="likes-input" type="text" value="">
 		</div>

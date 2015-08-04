@@ -15,7 +15,7 @@ this.block_hoovertower_ = (function() {
     southEastLng = -122.167537441803;
     css = "#hoover {\n	background-image: url(img/hoover.jpg);\n	background-size: cover;\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
-    $("<div id=\"hoover\" class=\"drag-wrap draggable filter\" name=\"hoovertower\">\n</div>").appendTo(".drag-zone");
+    $("<div id=\"hoover\" class=\"drag-wrap draggable filter Where\" name=\"hoovertower\">\n</div>").appendTo(".drag-zone");
     rectangle = [new google.maps.LatLng(southWestLat, southWestLng), new google.maps.LatLng(northWestLat, northWestLng), new google.maps.LatLng(northEastLat, northEastLng), new google.maps.LatLng(southEastLat, southEastLng)];
     this.polygon_area = new google.maps.Polygon({
       paths: rectangle

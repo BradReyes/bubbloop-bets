@@ -108,10 +108,10 @@ this.control_drag_zone_ = (function() {
             $target.css({
               opacity: '0'
             });
-            $("." + _this.bubble_type).remove();
             items = $(".drag-wrap");
             onScroll();
             _this.section.revert($clone);
+            _this.section.toggle_bank();
             return window.control.expand(block_name);
           }
         };

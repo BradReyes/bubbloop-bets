@@ -28,7 +28,7 @@ class @block_hoovertower_
 		$("<style type='text/css'></style>").html(css).appendTo "head"
 
 		$("""
-		<div id="hoover" class="drag-wrap draggable filter" name="hoovertower">
+		<div id="hoover" class="drag-wrap draggable filter Where" name="hoovertower">
 		</div>
 		""").appendTo ".drag-zone"
 

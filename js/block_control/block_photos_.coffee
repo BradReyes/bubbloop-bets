@@ -29,7 +29,7 @@ class @block_photos_
 		$('<style type="text/css"></style>').html(css).appendTo "head"
 
 		$("""
-		<div class="drag-wrap draggable source" name="photos">
+		<div class="drag-wrap draggable source Who" name="photos">
 			<input id="first-input" type="text" value="">
 			<input id="second-input" type="text" value="">
 			<div id='instafeed' style='display:none'></div>

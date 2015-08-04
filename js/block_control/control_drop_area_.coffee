@@ -19,11 +19,18 @@ class @control_drop_area_
 	add_bubble_sections: () =>
 		# left, top, diamater, bubble_type
 		bubble_size = 130
-		new bubble_section_ 50, 5, bubble_size, 'Who?'
-		new bubble_section_ 200, 5, bubble_size, "What?"
-		new bubble_section_ 5, 150, bubble_size, "When?"
-		new bubble_section_ 240, 150, bubble_size, "Where?"
-		new bubble_section_ 125, 250, bubble_size, "Why?"
+		# new bubble_section_ 50, 5, bubble_size, 'Who?'
+		# new bubble_section_ 200, 5, bubble_size, "What?"
+		# new bubble_section_ 5, 150, bubble_size, "When?"
+		# new bubble_section_ 240, 150, bubble_size, "Where?"
+		# new bubble_section_ 125, 250, bubble_size, "Why?"
+		height_adjustment = 100
+
+		new bubble_section_ 50, 5 + height_adjustment, bubble_size, 'Who'
+		new bubble_section_ 200, 5 + height_adjustment, bubble_size, "What"
+		new bubble_section_ 5, 150 + height_adjustment, bubble_size, "When"
+		new bubble_section_ 240, 150 + height_adjustment, bubble_size, "Where"
+		new bubble_section_ 125, 250 + height_adjustment, bubble_size, "Why"
 
 	step_animation: (new_text) =>
 		duration = 200

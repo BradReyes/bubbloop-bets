@@ -9,7 +9,7 @@ this.block_likes_ = (function() {
     var css;
     css = "#likes-input{\n	position: absolute;\n	top: 55%;\n	width: 80%;\n	left: 6%;\n	text-align: center;\n	font-size: 12px;\n}\n\ninput[type='text'],\ninput[type='number'],\ntextarea {\n	font-size: 16px;\n}";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable filter\" name=\"likes\">\n	LIKES\n	<input id=\"likes-input\" type=\"text\" value=\"\">\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable filter What\" name=\"likes\">\n	LIKES\n	<input id=\"likes-input\" type=\"text\" value=\"\">\n</div>").appendTo(".drag-zone");
     interact("#likes-input").on('tap', (function(_this) {
       return function(event) {
         event.preventDefault();

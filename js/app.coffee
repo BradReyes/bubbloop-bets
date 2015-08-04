@@ -1,4 +1,7 @@
 $ ->
+	
+
+
 	window.counter = 0 # this is to separate logic between conditions
 
 	# -----------------------------
@@ -162,16 +165,26 @@ $ ->
 	$("#button_reset").click =>
 		location.reload()
 
+	window_height = window.innerHeight
 
-	# ---------------------------
-	# SPEECH RECOGNITION LOGIC
-	# ---------------------------
-	put_text_in_block = (text, block_name) ->
-		$("##{block_name}").val(text)
+	# Logic for the Block Bank
+	$(".drag-selector").css
+		position: 'absolute'
+		top: window_height
+		left: 0
+		display: 'none'
 
-	commands =
-		'put *text in :block_name block': put_text_in_block
-		'run': control.run
-	annyang.addCommands commands
-	annyang.start
-		continuous: true
+	# This is to prevent scrolling on the page
+
+	# # ---------------------------
+	# # SPEECH RECOGNITION LOGIC
+	# # ---------------------------
+	# put_text_in_block = (text, block_name) ->
+	# 	$("##{block_name}").val(text)
+
+	# commands =
+	# 	'put *text in :block_name block': put_text_in_block
+	# 	'run': control.run
+	# annyang.addCommands commands
+	# annyang.start
+	# 	continuous: true

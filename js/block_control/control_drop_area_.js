@@ -17,13 +17,14 @@ this.control_drop_area_ = (function() {
   }
 
   control_drop_area_.prototype.add_bubble_sections = function() {
-    var bubble_size;
+    var bubble_size, height_adjustment;
     bubble_size = 130;
-    new bubble_section_(50, 5, bubble_size, 'Who?');
-    new bubble_section_(200, 5, bubble_size, "What?");
-    new bubble_section_(5, 150, bubble_size, "When?");
-    new bubble_section_(240, 150, bubble_size, "Where?");
-    return new bubble_section_(125, 250, bubble_size, "Why?");
+    height_adjustment = 100;
+    new bubble_section_(50, 5 + height_adjustment, bubble_size, 'Who');
+    new bubble_section_(200, 5 + height_adjustment, bubble_size, "What");
+    new bubble_section_(5, 150 + height_adjustment, bubble_size, "When");
+    new bubble_section_(240, 150 + height_adjustment, bubble_size, "Where");
+    return new bubble_section_(125, 250 + height_adjustment, bubble_size, "Why");
   };
 
   control_drop_area_.prototype.step_animation = function(new_text) {
