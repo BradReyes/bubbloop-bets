@@ -7,7 +7,7 @@ this.block_ding_ = (function() {
     var css;
     css = "		";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable action Why\" name=\"ding\">\n	DING\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable action Why\" name=\"ding\">\n	<img style='width:80%;height:80%;position:absolute;top:9%;left:9%;' src='http://iconshow.me/media/images/ui/iOS7-optimized-icon/png/256/43.bell.png'>\n</div>").appendTo(".drag-zone");
     this.audio = null;
   }
 

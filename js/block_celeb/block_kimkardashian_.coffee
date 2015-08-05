@@ -1,6 +1,11 @@
 class @block_kimkardashian_
 
 	constructor: ()->
+
+		@kim_kardashian = 
+			name: "kim kardashian"
+			instagram_id: 18428658
+
 		css = """
 		#instafeed {
 			display: none;
@@ -15,7 +20,7 @@ class @block_kimkardashian_
 		$('<style type="text/css"></style>').html(css).appendTo "head"
 
 		$("""
-		<div class="drag-wrap draggable" name="kimkardashian">
+		<div class="drag-wrap draggable Who" name="kimkardashian">
 			<img id="kim-image" src="img/kimkardashian.jpg">
 			<div id="instafeed"></div>
 		</div>
@@ -36,6 +41,4 @@ class @block_kimkardashian_
 		feed.run()
 
 	run: ()=>
-		audio = new Audio "sound/bound2.mp3"
-		audio.play()
-		@images
+		@kim_kardashian.instagram_id

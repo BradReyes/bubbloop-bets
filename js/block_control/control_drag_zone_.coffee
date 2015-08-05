@@ -112,7 +112,7 @@ class @control_drag_zone_
 					$clone.removeClass 'draggable'
 					$clone.addClass 'not-draggable'
 					$clone.appendTo '.drop-zone'
-					$clone.removeClass "#{@bubble_type}"
+					$clone.removeClass @bubble_type
 
 					#THIS IS NEW LOGIC!!!
 					$clone.addClass "dragged-block-#{@counter_id}"
@@ -124,18 +124,18 @@ class @control_drag_zone_
 					# update position attributes
 					x = $target.position().left + 10
 					y = $target.position().top + 10
-					$clone.css
-						'-webkit-transform': "translate(#{x}px, #{y}px)"
-						position: 'absolute'
-						opacity: 0.4
-						width: diameter
-						height: diameter
+					# $clone.css
+					# 	'-webkit-transform': "translate(#{x}px, #{y}px)"
+					# 	position: 'absolute'
+					# 	opacity: 0 #0.4
+					# 	width: diameter
+					# 	height: diameter
 					$clone.attr 'data-x', x
 					$clone.attr 'data-y', y
 
 					# original dropzone disappear
-					$target.css
-						opacity: 0
+					# $target.css
+					# 	opacity: 0
 
 					# remove all bubbles of current type
 					# $(".#{@bubble_type}").remove()

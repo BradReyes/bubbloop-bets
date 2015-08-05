@@ -5,9 +5,13 @@ this.block_kimkardashian_ = (function() {
   function block_kimkardashian_() {
     this.run = bind(this.run, this);
     var css, feed, kimkardashian;
+    this.kim_kardashian = {
+      name: "kim kardashian",
+      instagram_id: 18428658
+    };
     css = "#instafeed {\n	display: none;\n}\n#kim-image {\n	width:120%;\n	position: relative;\n	left: -15px;\n	bottom:0;\n}";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable\" name=\"kimkardashian\">\n	<img id=\"kim-image\" src=\"img/kimkardashian.jpg\">\n	<div id=\"instafeed\"></div>\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable Who\" name=\"kimkardashian\">\n	<img id=\"kim-image\" src=\"img/kimkardashian.jpg\">\n	<div id=\"instafeed\"></div>\n</div>").appendTo(".drag-zone");
     kimkardashian = 18428658;
     feed = new Instafeed({
       get: 'user',
@@ -27,10 +31,7 @@ this.block_kimkardashian_ = (function() {
   }
 
   block_kimkardashian_.prototype.run = function() {
-    var audio;
-    audio = new Audio("sound/bound2.mp3");
-    audio.play();
-    return this.images;
+    return this.kim_kardashian.instagram_id;
   };
 
   return block_kimkardashian_;

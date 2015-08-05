@@ -97,23 +97,13 @@ this.control_drag_zone_ = (function() {
             $clone.removeClass('draggable');
             $clone.addClass('not-draggable');
             $clone.appendTo('.drop-zone');
-            $clone.removeClass("" + _this.bubble_type);
+            $clone.removeClass(_this.bubble_type);
             $clone.addClass("dragged-block-" + _this.counter_id);
             console.log("dragged-block-" + _this.counter_id);
             x = $target.position().left + 10;
             y = $target.position().top + 10;
-            $clone.css({
-              '-webkit-transform': "translate(" + x + "px, " + y + "px)",
-              position: 'absolute',
-              opacity: 0.4,
-              width: diameter,
-              height: diameter
-            });
             $clone.attr('data-x', x);
             $clone.attr('data-y', y);
-            $target.css({
-              opacity: 0
-            });
             items = $(".drag-wrap");
             onScroll();
             _this.section.revert($clone);

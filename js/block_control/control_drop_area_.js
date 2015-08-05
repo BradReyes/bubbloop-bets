@@ -242,7 +242,7 @@ this.control_drop_area_ = (function() {
 
   control_drop_area_.prototype.filtering_app = function() {
     console.log(this.who.block_name().block_name);
-    if ((this.who.block_name().block_name === null) || (this.who.block_name().block_name !== "taylorswift")) {
+    if ((this.who.block_name().block_name === null) || (this.who.block_name().block_name === "my_location")) {
       alert("Specify a correct who");
       return;
     }
@@ -364,7 +364,7 @@ this.control_drop_area_ = (function() {
       alert("Specify a correct who");
       return;
     }
-    if ((this.where.block_name().block_name === null) || (this.where.block_name().block_name !== "hoovertower")) {
+    if (this.where.block_name().block_name === null) {
       alert("Not a correct where block");
       return;
     }
@@ -382,7 +382,7 @@ this.control_drop_area_ = (function() {
           cur_lat = latLng.lat();
           cur_lng = latLng.lng();
           $("#geocaching-message-coordinate").text(cur_lat + ", " + cur_lng);
-          return _this.destination(latLng, function(is_true) {
+          return _this.where.block_name().block.run(latLng, function(is_true) {
             if (is_true) {
               return _this.coord_action();
             }

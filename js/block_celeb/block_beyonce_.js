@@ -11,11 +11,11 @@ this.block_beyonce_ = (function() {
     };
     css = "#instafeed {\n	display: none;\n}\n\n#beyonce-image {\n	height:100%;\n	position: relative;\n	left: -40px;\n	bottom:0;\n}";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable celeb\" name=\"beyonce\">\n	<img id=\"beyonce-image\" src=\"img/beyonce.jpg\">\n<div id=\"instafeed\"></div>\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable celeb Who\" name=\"beyonce\">\n	<img id=\"beyonce-image\" src=\"img/beyonce.jpg\">\n<div id=\"instafeed\"></div>\n</div>").appendTo(".drag-zone");
   }
 
   block_beyonce_.prototype.run = function() {
-    return this.beyonce;
+    return this.beyonce.instagram_id;
   };
 
   return block_beyonce_;

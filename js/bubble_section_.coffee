@@ -157,19 +157,27 @@ class @bubble_section_
 			left: -110
 		,
 			duration: 500
-		# console.log $(".dragged-block-#{@drag_zone.get_id()}").html()
-
-		# $(".bubble-section-#{@counter}")[0].outerHTML = $(".dragged-block-#{@drag_zone.get_id()}")[0].outerHTML
+		
+		# safeguard against multiple things
 		if @drag_zone.is_filled()
 			$(".bubble-section-#{@counter}").html $(".dragged-block-#{@drag_zone.get_id()}").html()
 			console.log $(".dragged-block-#{@drag_zone.get_id()}").html()
 
 			img_value = $(".dragged-block-#{@drag_zone.get_id()}").css("background-image")
 			size_value = $(".dragged-block-#{@drag_zone.get_id()}").css("background-size")
+			repeat_value = $(".dragged-block-#{@drag_zone.get_id()}").css("background-repeat")
+			position_value = $(".dragged-block-#{@drag_zone.get_id()}").css("background-position")
+
+			# background-image: url(http://images.clipartpanda.com/map-clip-art-treasure-map4.png);
+			# 	background-size: 110px 110px;
+			# 	background-repeat: no-repeat;
+			# 	background-position: 25px 20px;
 
 			$(".bubble-section-#{@counter}").css
 				'background-image': img_value
 				'background-size': size_value
+				'background-position': position_value
+				'background-repeat': repeat_value
 
 		else
 			# $(".bubble-section-#{@counter}").text @inner_text

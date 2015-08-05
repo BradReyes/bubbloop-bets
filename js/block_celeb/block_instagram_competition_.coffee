@@ -6,7 +6,7 @@ class @block_instagram_competition_
 
 		$("""
 		<div class="drag-wrap draggable celeb What" name="instagram_competition">
-			Instagram Competition
+			<img style='width:100%;height:auto;position:absolute;top:16%;left:0%;' src='http://d13zeczpqm2715.cloudfront.net/wp-content/uploads/2015/06/instagram-logo-vector-image.png'>
 		</div>
 		""").appendTo ".drag-zone"
 

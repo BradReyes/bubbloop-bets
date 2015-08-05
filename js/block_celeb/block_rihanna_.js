@@ -5,9 +5,13 @@ this.block_rihanna_ = (function() {
   function block_rihanna_() {
     this.run = bind(this.run, this);
     var css, feed, rihanna;
+    this.rihanna = {
+      name: "rihanna",
+      instagram_id: 25945306
+    };
     css = "#instafeed {\n	display: none;\n}\n#rihanna-image {\n	width:130%;\n	position: relative;\n	left: -10px;\n	bottom:0;\n}";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable\" name=\"rihanna\">\n	<img id=\"rihanna-image\" src=\"img/rihanna.jpg\">\n	<div id=\"instafeed\"></div>\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable Who\" name=\"rihanna\">\n	<img id=\"rihanna-image\" src=\"img/rihanna.jpg\">\n	<div id=\"instafeed\"></div>\n</div>").appendTo(".drag-zone");
     rihanna = 25945306;
     feed = new Instafeed({
       get: 'user',
@@ -27,10 +31,7 @@ this.block_rihanna_ = (function() {
   }
 
   block_rihanna_.prototype.run = function() {
-    var audio;
-    audio = new Audio("sound/fourfiveseconds.mp3");
-    audio.play();
-    return this.images;
+    return this.rihanna.instagram_id;
   };
 
   return block_rihanna_;

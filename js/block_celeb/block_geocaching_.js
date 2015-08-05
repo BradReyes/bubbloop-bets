@@ -5,9 +5,9 @@ this.block_geocaching_ = (function() {
   function block_geocaching_() {
     this.run = bind(this.run, this);
     var css;
-    css = "		";
+    css = "/*#geocaching_block_ {\n	background-image: url(http://images.clipartpanda.com/map-clip-art-treasure-map4.png);\n	background-size: 110px 110px;\n	background-position: center;\n	background-repeat: no-repeat;\n}*/";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable celeb What\" name=\"geocaching\">\n	geocaching\n</div>").appendTo(".drag-zone");
+    $("<div id='geocaching_block_' class=\"drag-wrap draggable celeb What\" name=\"geocaching\">\n	<img style='width:80%;height:80%;position:absolute;top:11%;left:11%;' src='http://images.clipartpanda.com/map-clip-art-treasure-map4.png'>\n</div>").appendTo(".drag-zone");
   }
 
   block_geocaching_.prototype.run = function() {

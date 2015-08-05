@@ -4,7 +4,6 @@ class @block_taylorswift_
 		@taylor_swift =
 			name: "taylor swift"
 			instagram_id: 11830955
-		@id = 11830955
 
 		css = """
 		#instafeed {
@@ -28,4 +27,4 @@ class @block_taylorswift_
 		""").appendTo ".drag-zone"
 
 	run: ()=>
-		@id
+		@taylor_swift.instagram_id

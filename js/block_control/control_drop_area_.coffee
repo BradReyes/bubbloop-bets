@@ -412,7 +412,7 @@ class @control_drop_area_
 		# check for parameters
 		# alert @where.block_name().block_name
 		console.log @who.block_name().block_name
-		if (@who.block_name().block_name is null) or (@who.block_name().block_name isnt "taylorswift")
+		if (@who.block_name().block_name is null) or (@who.block_name().block_name is "my_location")
 			alert "Specify a correct who"
 			return
 		# if (@where.block_name().block_name is null) or (@where.block_name().block_name isnt "hoovertower")
@@ -544,7 +544,7 @@ class @control_drop_area_
 		if (@who.block_name().block_name is null) or (@who.block_name().block_name isnt "my_location")
 			alert "Specify a correct who"
 			return
-		if (@where.block_name().block_name is null) or (@where.block_name().block_name isnt "hoovertower")
+		if (@where.block_name().block_name is null)
 			alert "Not a correct where block"
 			return
 
@@ -562,7 +562,7 @@ class @control_drop_area_
 				cur_lat = latLng.lat()
 				cur_lng = latLng.lng()
 				$("#geocaching-message-coordinate").text "#{cur_lat}, #{cur_lng}"
-				@destination latLng, (is_true)=>
+				@where.block_name().block.run latLng, (is_true)=>
 					@coord_action() if is_true
 		geocaching()
 		setInterval geocaching, 7000

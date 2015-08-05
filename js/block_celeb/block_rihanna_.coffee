@@ -1,6 +1,11 @@
 class @block_rihanna_
 
 	constructor: ()->
+
+		@rihanna = 
+			name: "rihanna"
+			instagram_id: 25945306
+
 		css = """
 		#instafeed {
 			display: none;
@@ -15,7 +20,7 @@ class @block_rihanna_
 		$('<style type="text/css"></style>').html(css).appendTo "head"
 
 		$("""
-		<div class="drag-wrap draggable" name="rihanna">
+		<div class="drag-wrap draggable Who" name="rihanna">
 			<img id="rihanna-image" src="img/rihanna.jpg">
 			<div id="instafeed"></div>
 		</div>
@@ -36,6 +41,4 @@ class @block_rihanna_
 		feed.run()
 
 	run: ()=>
-		audio = new Audio "sound/fourfiveseconds.mp3"
-		audio.play()
-		@images
+		@rihanna.instagram_id

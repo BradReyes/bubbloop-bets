@@ -11,11 +11,11 @@ this.block_drake_ = (function() {
     };
     css = "#instafeed {\n	display: none;\n}\n\n#drake-image {\n	height:100%;\n	position: relative;\n	left: -50px;\n	top: 0px;\n}";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable celeb\" name=\"drake\">\n	<img id=\"drake-image\" src=\"img/drake.jpg\">\n	<div id=\"instafeed\"></div>\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable celeb Who\" name=\"drake\">\n	<img id=\"drake-image\" src=\"img/drake.jpg\">\n	<div id=\"instafeed\"></div>\n</div>").appendTo(".drag-zone");
   }
 
   block_drake_.prototype.run = function() {
-    return this.drake;
+    return this.drake.instagram_id;
   };
 
   return block_drake_;

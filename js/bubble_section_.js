@@ -165,7 +165,7 @@ this.bubble_section_ = (function() {
   };
 
   bubble_section_.prototype.revert = function(back_button) {
-    var i, img_value, items, pos, results, s2, size_value;
+    var i, img_value, items, pos, position_value, repeat_value, results, s2, size_value;
     this.drag_zone.hide();
     console.log("Going back");
     $("#expand-navigation").unbind();
@@ -179,9 +179,13 @@ this.bubble_section_ = (function() {
       console.log($(".dragged-block-" + (this.drag_zone.get_id())).html());
       img_value = $(".dragged-block-" + (this.drag_zone.get_id())).css("background-image");
       size_value = $(".dragged-block-" + (this.drag_zone.get_id())).css("background-size");
+      repeat_value = $(".dragged-block-" + (this.drag_zone.get_id())).css("background-repeat");
+      position_value = $(".dragged-block-" + (this.drag_zone.get_id())).css("background-position");
       $(".bubble-section-" + this.counter).css({
         'background-image': img_value,
-        'background-size': size_value
+        'background-size': size_value,
+        'background-position': position_value,
+        'background-repeat': repeat_value
       });
     } else {
       $("#bubble-text-" + this.counter).velocity("fadeOut", {

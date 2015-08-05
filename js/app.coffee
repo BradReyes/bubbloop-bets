@@ -9,22 +9,34 @@ $ ->
 	# -----------------------------
 	# Step 1 - Celeb
 	# ic = new instagram_competition_ "dr.bradass", "emsandy2", 2
-	#window.block_beyonce = new block_beyonce_()
-	#window.block_taylorswift = new block_taylorswift_()
-	#window.block_drake = new block_drake_()
+
 	window.block_picture = new block_picture_()
 	window.block_geocaching = new block_geocaching_()
 	window.block_instagram_competition = new block_instagram_competition_()
 	window.block_my_location = new block_my_location_()
 	window.block_ding = new block_ding_()
 	window.block_taylorswift = new block_taylorswift_()
+	window.block_beyonce = new block_beyonce_()
+	window.block_drake = new block_drake_()
+	window.block_rihanna = new block_rihanna_()
+	window.block_selenagomez = new block_selenagomez_()
+	window.block_kimkardashian = new block_kimkardashian_()
 
 	# # Step 2 - Source
 	window.block_hoovertower = new block_hoovertower_()
+	window.block_dish = new block_dish_()
+	window.block_garden = new block_garden_()
+	window.block_gates = new block_gates_()
+	window.block_goldengatebridge = new block_goldengatebridge_()
+	window.block_lawschool = new block_lawschool_()
+	window.block_mausoleum = new block_mausoleum_()
+	window.block_memorialchurch = new block_memorialchurch_()
+	window.block_yogurtland = new block_yogurtland_()
 	#window.block_my_location = new block_my_location_()
 	# window.block_photos = new block_photos_()
 	window.block_likes = new block_likes_()
 	window.block_display_image = new block_display_image_()
+	window.block_time = new block_time_()
 	# window.block_map = new block_map_()
 	# window.block_source = new block_source_()
 	# window.block_instagram = new block_instagram_()

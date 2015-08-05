@@ -1,6 +1,10 @@
 class @block_selenagomez_
 
 	constructor: ()->
+
+		@selena_gomez =
+			name: "selena gomez"
+			instagram_id: 460563723
 		css = """
 		#instafeed {
 			display: none;
@@ -15,7 +19,7 @@ class @block_selenagomez_
 		$('<style type="text/css"></style>').html(css).appendTo "head"
 
 		$("""
-		<div class="drag-wrap draggable" name="selenagomez">
+		<div class="drag-wrap draggable Who" name="selenagomez">
 			<img id="selena-image" src="img/selenagomez.jpg">
 			<div id="instafeed"></div>
 		</div>
@@ -36,6 +40,4 @@ class @block_selenagomez_
 		feed.run()
 
 	run: ()=>
-		audio = new Audio "sound/goodforyou.mp3"
-		audio.play()
-		@images
+		@selena_gomez.instagram_id

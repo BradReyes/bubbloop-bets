@@ -20,11 +20,11 @@ class @block_beyonce_
 		$('<style type="text/css"></style>').html(css).appendTo "head"
 
 		$("""
-		<div class="drag-wrap draggable celeb" name="beyonce">
+		<div class="drag-wrap draggable celeb Who" name="beyonce">
 			<img id="beyonce-image" src="img/beyonce.jpg">
 		<div id="instafeed"></div>
 		</div>
 		""").appendTo ".drag-zone"
 
 	run: ()=>
-		@beyonce
+		@beyonce.instagram_id
