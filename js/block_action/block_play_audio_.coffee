@@ -7,7 +7,7 @@ class @block_ding_
 
 		$("""
 		<div class="drag-wrap draggable action Why" name="ding">
-			<img style='width:80%;height:80%;position:absolute;top:9%;left:9%;' src='http://iconshow.me/media/images/ui/iOS7-optimized-icon/png/256/43.bell.png'>
+			<img style='width:80%;height:80%;position:absolute;top:9%;left:9%;' src='img/tran_bell.png'>
 		</div>
 		""").appendTo ".drag-zone"
 

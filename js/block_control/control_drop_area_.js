@@ -29,19 +29,19 @@ this.control_drop_area_ = (function() {
   control_drop_area_.prototype.add_bubble_sections = function() {
     var bubble_size, height_adjustment;
     bubble_size = 130;
-    height_adjustment = 100;
-    this.who = new bubble_section_(50, 5 + height_adjustment, bubble_size, 'Who');
-    this.what = new bubble_section_(200, 5 + height_adjustment, bubble_size, "What");
-    this.when = new bubble_section_(5, 150 + height_adjustment, bubble_size, "When");
-    this.where = new bubble_section_(240, 150 + height_adjustment, bubble_size, "Where");
-    this.why = new bubble_section_(125, 250 + height_adjustment, bubble_size, "Why");
+    height_adjustment = 90;
+    this.who = new bubble_section_(125, 5 + height_adjustment, bubble_size, 'Who');
+    this.what = new bubble_section_(195, 240 + height_adjustment, bubble_size, "What");
+    this.when = new bubble_section_(5, 110 + height_adjustment, bubble_size, "When");
+    this.where = new bubble_section_(240, 110 + height_adjustment, bubble_size, "Where");
+    this.why = new bubble_section_(55, 240 + height_adjustment, bubble_size, "Why");
     return $("<div id='expand-navigation' style='\n	background-image:url(http://www.outsource-force.com/blog/wp-content/uploads/2013/11/back-button.png);\n	background-size: 80px 80px;\n	position: absolute;\n	top: 330px;\n	left: -110px;\n	width: 80px;\n	height: 80px;\n	z-index: 3001;\n'>\n</div>").appendTo($("body"));
   };
 
   control_drop_area_.prototype.add_center_button = function() {
     var $build_button, css;
     $build_button = $("<div id='build_button'>\n	Build\n</div>");
-    css = "#build_button {\n	position: absolute;\n	top: 230px;\n	left: 138px;\n	border-radius: 100px;\n	width: 100px;\n	height: 100px;\n	/*background-color: white;*/\n	/*opacity: 0.7;*/\n	line-height: 100px;\n	text-align: center;\n	border: 1px solid black;\n	background: rgba(255, 255, 255,0.8);\n\n}";
+    css = "#build_button {\n	position: absolute;\n	top: 235px;\n	left: 138px;\n	border-radius: 100px;\n	width: 100px;\n	height: 100px;\n	/*background-color: white;*/\n	/*opacity: 0.7;*/\n	line-height: 100px;\n	text-align: center;\n	border: 1px solid black;\n	background: rgba(255, 255, 255,0.8);\n\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
     $build_button.appendTo($("body"));
     return $build_button.on("tap click", (function(_this) {
@@ -236,7 +236,7 @@ this.control_drop_area_ = (function() {
     } else if (what_name === "geocaching") {
       return this.geocaching_app();
     } else {
-      return alert("WHAT NOT HERE");
+      return alert("Please specify a what");
     }
   };
 

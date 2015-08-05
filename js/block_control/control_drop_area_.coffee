@@ -25,13 +25,21 @@ class @control_drop_area_
 		# new bubble_section_ 5, 150, bubble_size, "When?"
 		# new bubble_section_ 240, 150, bubble_size, "Where?"
 		# new bubble_section_ 125, 250, bubble_size, "Why?"
-		height_adjustment = 100
+		height_adjustment = 90
 
-		@who = new bubble_section_ 50, 5 + height_adjustment, bubble_size, 'Who'
-		@what = new bubble_section_ 200, 5 + height_adjustment, bubble_size, "What"
-		@when = new bubble_section_ 5, 150 + height_adjustment, bubble_size, "When"
-		@where = new bubble_section_ 240, 150 + height_adjustment, bubble_size, "Where"
-		@why = new bubble_section_ 125, 250 + height_adjustment, bubble_size, "Why"
+		# upside down
+		# @who = new bubble_section_ 50, 5 + height_adjustment, bubble_size, 'Who'
+		# @what = new bubble_section_ 200, 5 + height_adjustment, bubble_size, "What"
+		# @when = new bubble_section_ 5, 150 + height_adjustment, bubble_size, "When"
+		# @where = new bubble_section_ 240, 150 + height_adjustment, bubble_size, "Where"
+		# @why = new bubble_section_ 125, 250 + height_adjustment, bubble_size, "Why"
+
+		# like a house
+		@who = new bubble_section_ 125, 5 + height_adjustment, bubble_size, 'Who'
+		@what = new bubble_section_ 195, 240 + height_adjustment, bubble_size, "What"
+		@when = new bubble_section_ 5, 110 + height_adjustment, bubble_size, "When"
+		@where = new bubble_section_ 240, 110 + height_adjustment, bubble_size, "Where"
+		@why = new bubble_section_ 55, 240 + height_adjustment, bubble_size, "Why"
 
 		# top: 330
 		# left: 5
@@ -59,7 +67,7 @@ class @control_drop_area_
 		css = """
 			#build_button {
 				position: absolute;
-				top: 230px;
+				top: 235px;
 				left: 138px;
 				border-radius: 100px;
 				width: 100px;
@@ -369,7 +377,7 @@ class @control_drop_area_
 		else if what_name is "geocaching"
 			@geocaching_app()
 		else #no path specified
-			alert "WHAT NOT HERE"
+			alert "Please specify a what"
 
 		# geocaching path
 		# @geocaching_app()
