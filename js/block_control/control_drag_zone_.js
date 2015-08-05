@@ -3,6 +3,8 @@ var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); 
 
 this.control_drag_zone_ = (function() {
   function control_drag_zone_(left, top, diameter, bubble_type, section) {
+    this.get_name = bind(this.get_name, this);
+    this.is_filled = bind(this.is_filled, this);
     this.get_id = bind(this.get_id, this);
     this.get_selector = bind(this.get_selector, this);
     this.show = bind(this.show, this);
@@ -16,6 +18,8 @@ this.control_drag_zone_ = (function() {
     this.diameter = diameter;
     this.bubble_type = bubble_type;
     this.section = section;
+    this.filled = false;
+    this.block_name = null;
     css = ".droppable-" + this.counter_id + " {\n	position: absolute;\n	top: " + top + "px;\n	left: " + left + "px;\n	width: " + diameter + "px;\n	height: " + diameter + "px;\n	border: 1px black solid;\n	background: rgba(255, 255, 255, 0.8);\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
     $("." + this.bubble_type).css({
@@ -84,6 +88,8 @@ this.control_drag_zone_ = (function() {
           $related_target = $(event.relatedTarget);
           block_name = $related_target.attr("name");
           _this.block = window["block_" + block_name];
+          _this.filled = true;
+          _this.block_name = block_name;
           if ($related_target.hasClass('drag-wrap')) {
             $clone = $related_target.detach();
             $clone.removeClass('drag-wrap');
@@ -106,13 +112,12 @@ this.control_drag_zone_ = (function() {
             $clone.attr('data-x', x);
             $clone.attr('data-y', y);
             $target.css({
-              opacity: '0'
+              opacity: 0
             });
             items = $(".drag-wrap");
             onScroll();
             _this.section.revert($clone);
-            _this.section.toggle_bank();
-            return window.control.expand(block_name);
+            return _this.section.toggle_bank();
           }
         };
       })(this),
@@ -148,6 +153,18 @@ this.control_drag_zone_ = (function() {
 
   control_drag_zone_.prototype.get_id = function() {
     return this.counter_id;
+  };
+
+  control_drag_zone_.prototype.is_filled = function() {
+    return this.filled;
+  };
+
+  control_drag_zone_.prototype.get_name = function() {
+    var return_value;
+    return return_value = {
+      block_name: this.block_name,
+      block: this.block
+    };
   };
 
   return control_drag_zone_;

@@ -4,6 +4,7 @@ class @block_taylorswift_
 		@taylor_swift =
 			name: "taylor swift"
 			instagram_id: 11830955
+		@id = 11830955
 
 		css = """
 		#instafeed {
@@ -20,11 +21,11 @@ class @block_taylorswift_
 		$('<style type="text/css"></style>').html(css).appendTo "head"
 
 		$("""
-		<div class="drag-wrap draggable celeb" name="taylorswift">
+		<div class="drag-wrap draggable celeb Who" name="taylorswift">
 			<img id="taylor-image" src="img/taylorswift.jpg">
 			<div id="instafeed"></div>
 		</div>
 		""").appendTo ".drag-zone"
 
 	run: ()=>
-		@taylor_swift
+		@id

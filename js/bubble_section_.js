@@ -15,6 +15,7 @@ this.bubble_section_ = (function() {
     this.left = left;
     this.top = top;
     this.diameter = diameter;
+    this.block_name = bind(this.block_name, this);
     this.revert = bind(this.revert, this);
     this.expand_section = bind(this.expand_section, this);
     this.toggle_bank = bind(this.toggle_bank, this);
@@ -23,6 +24,7 @@ this.bubble_section_ = (function() {
     }
     this.counter = ++window.bubble_counter;
     this.bank_visible = false;
+    this.block = null;
     this.type = "what";
     if (this.counter === 0) {
       this.type = 'Who';
@@ -39,7 +41,7 @@ this.bubble_section_ = (function() {
     if (this.counter === 4) {
       this.type = 'Why';
     }
-    css = ".bubble-section-" + this.counter + " {\n	position: absolute;\n	top: " + this.top + "px;\n	left: " + this.left + "px;\n	width: " + this.diameter + "px;\n	height: " + this.diameter + "px;\n	border: 1px black solid;\n	background: rgba(255, 255, 255,0.8);\n}";
+    css = ".bubble-section-" + this.counter + " {\n	position: absolute;\n	top: " + this.top + "px;\n	left: " + this.left + "px;\n	width: " + this.diameter + "px;\n	height: " + this.diameter + "px;\n	border: 1px black solid;\n	background: rgba(255, 255, 255,0.8);\n	overflow: hidden;\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
     $("<div class='steps bubble-sections bubble-section-" + this.counter + " " + this.type + "' role='bubble_section' type='" + bubble_type + "'>\n	<div id='bubble-text-" + this.counter + "'>" + bubble_type + "</div>\n</div>").appendTo(".drop-zone");
     this.drag_zone = new control_drag_zone_(12, 20, 350, 'source', this);
@@ -96,7 +98,23 @@ this.bubble_section_ = (function() {
   };
 
   bubble_section_.prototype.expand_section = function() {
+    var i, items, pos, results, s2;
+    this.inner_text = $(".bubble-section-" + this.counter).text();
+    $("#expand-navigation").velocity({
+      left: 5
+    }, {
+      duration: 1000
+    });
+    $("#expand-navigation").bind("tap click", (function(_this) {
+      return function() {
+        _this.revert(true);
+        return _this.toggle_bank();
+      };
+    })(this));
     $(".bubble-sections:not(.bubble-section-" + this.counter + ")").velocity("fadeOut", {
+      duration: 1000
+    });
+    $("#build_button").velocity("fadeOut", {
       duration: 1000
     });
     $(".bubble-section-" + this.counter).velocity({
@@ -108,14 +126,15 @@ this.bubble_section_ = (function() {
       duration: 1000,
       complete: (function(_this) {
         return function() {
-          $(".bubble-section-" + _this.counter).css({
-            visibility: 'hidden'
-          });
-          return _this.drag_zone.show();
+          if (!_this.drag_zone.is_filled()) {
+            $(".bubble-section-" + _this.counter).css({
+              visibility: 'hidden'
+            });
+            return _this.drag_zone.show();
+          }
         };
       })(this)
     });
-    console.log($("#bubble-text-" + this.counter)[0]);
     $("#bubble-text-" + this.counter).velocity("fadeOut", {
       duration: 500,
       complete: (function(_this) {
@@ -127,16 +146,56 @@ this.bubble_section_ = (function() {
         };
       })(this)
     });
-    return $(".draggable:not(." + this.type + ")").css({
+    $(".draggable:not(." + this.type + ")").css({
       display: "none"
     });
+    items = $("." + this.type + ".draggable");
+    i = 0;
+    results = [];
+    while (i < items.length) {
+      pos = items[i].getBoundingClientRect();
+      s2 = (pos.left + pos.width / 2 - (window.innerWidth / 2)) / (window.innerWidth / 1.2);
+      s2 = 1 - Math.abs(s2);
+      $(items[i]).css({
+        '-webkit-transform': "scale(" + s2 + ")"
+      });
+      results.push(++i);
+    }
+    return results;
   };
 
-  bubble_section_.prototype.revert = function() {
+  bubble_section_.prototype.revert = function(back_button) {
+    var i, img_value, items, pos, results, s2, size_value;
     this.drag_zone.hide();
     console.log("Going back");
-    $(".bubble-section-" + this.counter).html($(".dragged-block-" + (this.drag_zone.get_id())).html());
-    console.log($(".dragged-block-" + (this.drag_zone.get_id())).html());
+    $("#expand-navigation").unbind();
+    $("#expand-navigation").velocity({
+      left: -110
+    }, {
+      duration: 500
+    });
+    if (this.drag_zone.is_filled()) {
+      $(".bubble-section-" + this.counter).html($(".dragged-block-" + (this.drag_zone.get_id())).html());
+      console.log($(".dragged-block-" + (this.drag_zone.get_id())).html());
+      img_value = $(".dragged-block-" + (this.drag_zone.get_id())).css("background-image");
+      size_value = $(".dragged-block-" + (this.drag_zone.get_id())).css("background-size");
+      $(".bubble-section-" + this.counter).css({
+        'background-image': img_value,
+        'background-size': size_value
+      });
+    } else {
+      $("#bubble-text-" + this.counter).velocity("fadeOut", {
+        duration: 500,
+        complete: (function(_this) {
+          return function() {
+            $("#bubble-text-" + _this.counter).text(_this.inner_text);
+            return $("#bubble-text-" + _this.counter).velocity("fadeIn", {
+              duration: 500
+            });
+          };
+        })(this)
+      });
+    }
     $(".dragged-block-" + (this.drag_zone.get_id())).css({
       display: 'none'
     });
@@ -151,9 +210,29 @@ this.bubble_section_ = (function() {
     }, {
       duration: 1000
     });
-    return $(".bubble-sections:not(.bubble-section-" + this.counter + ")").velocity("fadeIn", {
+    $(".bubble-sections:not(.bubble-section-" + this.counter + ")").velocity("fadeIn", {
       duration: 1000
     });
+    $("#build_button").velocity("fadeIn", {
+      duration: 1000
+    });
+    items = $(".draggable");
+    i = 0;
+    results = [];
+    while (i < items.length) {
+      pos = items[i].getBoundingClientRect();
+      s2 = (pos.left + pos.width / 2 - (window.innerWidth / 2)) / (window.innerWidth / 1.2);
+      s2 = 1 - Math.abs(s2);
+      $(items[i]).css({
+        '-webkit-transform': "scale(" + s2 + ")"
+      });
+      results.push(++i);
+    }
+    return results;
+  };
+
+  bubble_section_.prototype.block_name = function() {
+    return this.drag_zone.get_name();
   };
 
   return bubble_section_;

@@ -13,6 +13,9 @@ class @bubble_section_
 		@bank_visible = false #this means that the bubble bank is not visible
 		# @toggle_bank()
 
+		# This is for the block name in the bubble
+		@block = null
+
 		# Filters blocks
 		@type = "what"
 		if @counter is 0 then @type = 'Who'
@@ -30,6 +33,7 @@ class @bubble_section_
 				height: #{@diameter}px;
 				border: 1px black solid;
 				background: rgba(255, 255, 255,0.8);
+				overflow: hidden;
 			}
 		"""
 
@@ -92,13 +96,22 @@ class @bubble_section_
 		@bank_visible = not @bank_visible
 
 	expand_section: () =>
-		# $("body").on 'click', =>
-		# 	alert "yeah"
+		@inner_text = $(".bubble-section-#{@counter}").text()
+
+		$("#expand-navigation").velocity
+			left: 5
+		,
+			duration: 1000
+
+		$("#expand-navigation").bind "tap click", =>
+			@revert(true)
+			@toggle_bank()
+
 		$(".bubble-sections:not(.bubble-section-#{@counter})").velocity "fadeOut",
 			duration: 1000
-			# complete: =>
-			# 	$(".bubble-sections").velocity "fadeIn",
-			# 		duration: 5000
+		$("#build_button").velocity "fadeOut",
+			duration: 1000
+
 		$(".bubble-section-#{@counter}").velocity
 			width: 350
 			height: 350
@@ -107,11 +120,11 @@ class @bubble_section_
 		,
 			duration: 1000
 			complete: =>
-				$(".bubble-section-#{@counter}").css
-					visibility: 'hidden'
-				@drag_zone.show()
+				if not @drag_zone.is_filled()
+					$(".bubble-section-#{@counter}").css
+						visibility: 'hidden'
+					@drag_zone.show()
 
-		console.log $("#bubble-text-#{@counter}")[0]
 		$("#bubble-text-#{@counter}").velocity "fadeOut",
 			duration: 500
 			complete: =>
@@ -121,8 +134,10 @@ class @bubble_section_
 
 		$(".draggable:not(.#{@type})").css
 			display: "none"
-		
+
 		items = $(".#{@type}.draggable") 
+		# @find_closest_to_left $(".#{@type}.draggable") 
+
 		i=0
 		while i < items.length
 			pos = items[i].getBoundingClientRect()
@@ -133,14 +148,37 @@ class @bubble_section_
 				'-webkit-transform': "scale(#{s2})"
 			++i
 
-	revert: () =>
+
+	revert: (back_button) =>
 		@drag_zone.hide()
 		console.log "Going back"
+		$("#expand-navigation").unbind()
+		$("#expand-navigation").velocity
+			left: -110
+		,
+			duration: 500
 		# console.log $(".dragged-block-#{@drag_zone.get_id()}").html()
 
 		# $(".bubble-section-#{@counter}")[0].outerHTML = $(".dragged-block-#{@drag_zone.get_id()}")[0].outerHTML
-		$(".bubble-section-#{@counter}").html $(".dragged-block-#{@drag_zone.get_id()}").html()
-		console.log $(".dragged-block-#{@drag_zone.get_id()}").html()
+		if @drag_zone.is_filled()
+			$(".bubble-section-#{@counter}").html $(".dragged-block-#{@drag_zone.get_id()}").html()
+			console.log $(".dragged-block-#{@drag_zone.get_id()}").html()
+
+			img_value = $(".dragged-block-#{@drag_zone.get_id()}").css("background-image")
+			size_value = $(".dragged-block-#{@drag_zone.get_id()}").css("background-size")
+
+			$(".bubble-section-#{@counter}").css
+				'background-image': img_value
+				'background-size': size_value
+
+		else
+			# $(".bubble-section-#{@counter}").text @inner_text
+			$("#bubble-text-#{@counter}").velocity "fadeOut",
+			duration: 500
+			complete: =>
+				$("#bubble-text-#{@counter}").text @inner_text
+				$("#bubble-text-#{@counter}").velocity "fadeIn",
+					duration: 500
 
 		$(".dragged-block-#{@drag_zone.get_id()}").css
 			display: 'none'
@@ -155,20 +193,22 @@ class @bubble_section_
 			duration: 1000
 		$(".bubble-sections:not(.bubble-section-#{@counter})").velocity "fadeIn",
 			duration: 1000
-		
+		$("#build_button").velocity "fadeIn",
+			duration: 1000
+
 		items = $(".draggable") 
+		
 		i=0
 		while i < items.length
 			pos = items[i].getBoundingClientRect()
 			s2 = (pos.left + pos.width / 2 - (window.innerWidth / 2)) / (window.innerWidth/1.2)
 			s2 = 1 - Math.abs(s2)
 
-			$(items[i]).css
-				'-webkit-transform': "scale(#{s2})"
+			$(items[i]).css '-webkit-transform': "scale(#{s2})"
 			++i
 
-		# $(".draggable").css
-		# 	display: "block"
+	# THIS IS CALLED IN CONTROL_AREA TO GET THE NAME OF
+	# THE BLOCKS
+	block_name: () =>
+		@drag_zone.get_name()
 
-		# $("[name=photos]").css
-		# 	display: "block"

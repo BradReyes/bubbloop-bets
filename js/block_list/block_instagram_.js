@@ -55,7 +55,7 @@ this.block_instagram_ = (function() {
             _this.all_posts.push(cur);
           }
           $("#progress-animation").text(_this.uploaded_count + " PICTURES LOADED");
-          return setTimeout(_this.loop_done, 0, cb);
+          return cb(_this.all_posts);
         };
       })(this)
     });

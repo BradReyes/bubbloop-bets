@@ -6,8 +6,8 @@ class @block_my_location_
 		$('<style type="text/css"></style>').html(css).appendTo "head"
 
 		$("""
-		<div class="drag-wrap draggable source" name="my_location">
-			MY LOCATION
+		<div class="drag-wrap draggable source Who" name="my_location">
+			Me
 		</div>
 		""").appendTo ".drag-zone"
 

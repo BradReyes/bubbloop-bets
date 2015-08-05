@@ -56,8 +56,8 @@ class @block_instagram_
 					@uploaded_count++
 					@all_posts.push cur
 				$("#progress-animation").text "#{@uploaded_count} PICTURES LOADED"
-				setTimeout @loop_done, 0, cb
-				# cb @all_posts
+				#setTimeout @loop_done, 0, cb
+				cb @all_posts
 
 		@feed.run()
 

@@ -15,12 +15,16 @@ $ ->
 	window.block_picture = new block_picture_()
 	window.block_geocaching = new block_geocaching_()
 	window.block_instagram_competition = new block_instagram_competition_()
+	window.block_my_location = new block_my_location_()
+	window.block_ding = new block_ding_()
+	window.block_taylorswift = new block_taylorswift_()
 
 	# # Step 2 - Source
 	window.block_hoovertower = new block_hoovertower_()
-	window.block_my_location = new block_my_location_()
-	window.block_photos = new block_photos_()
+	#window.block_my_location = new block_my_location_()
+	# window.block_photos = new block_photos_()
 	window.block_likes = new block_likes_()
+	window.block_display_image = new block_display_image_()
 	# window.block_map = new block_map_()
 	# window.block_source = new block_source_()
 	# window.block_instagram = new block_instagram_()

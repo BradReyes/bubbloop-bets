@@ -7,7 +7,7 @@ this.block_display_image_ = (function() {
     var css;
     css = "		";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable action\" name=\"display_image\">\n	DISPLAY IMAGE\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable action Why\" name=\"display_image\">\n	DISPLAY IMAGE\n</div>").appendTo(".drag-zone");
   }
 
   block_display_image_.prototype.run = function(obj, cb) {

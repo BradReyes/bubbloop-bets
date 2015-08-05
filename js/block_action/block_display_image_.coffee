@@ -6,7 +6,7 @@ class @block_display_image_
 		$('<style type="text/css"></style>').html(css).appendTo "head"
 
 		$("""
-		<div class="drag-wrap draggable action" name="display_image">
+		<div class="drag-wrap draggable action Why" name="display_image">
 			DISPLAY IMAGE
 		</div>
 		""").appendTo ".drag-zone"

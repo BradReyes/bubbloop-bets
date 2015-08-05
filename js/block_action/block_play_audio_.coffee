@@ -1,4 +1,4 @@
-class @block_play_audio_
+class @block_ding_
 
 	constructor: ()->
 		css = """
@@ -6,15 +6,19 @@ class @block_play_audio_
 		$('<style type="text/css"></style>').html(css).appendTo "head"
 
 		$("""
-		<div class="drag-wrap draggable action" name="play_audio">
-			PLAY AUDIO
+		<div class="drag-wrap draggable action Why" name="ding">
+			DING
 		</div>
 		""").appendTo ".drag-zone"
 
+		@audio = null
+
 	run: (obj, cb) =>
-		audio = new Audio()
-		audio.src = obj.preview_url
-		$(audio).bind 'ended', ->
-			cb()
-		audio.play()
+		if @audio is null
+			@audio = new Audio("./sound/Ding.mp3")
+		# audio.src = obj.preview_url
+		# $(audio).bind 'ended', ->
+		# 	cb()
+		@audio.pause()
+		@audio.play()
 

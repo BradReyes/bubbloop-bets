@@ -8,6 +8,8 @@ class @control_drag_zone_
 		@diameter = diameter
 		@bubble_type = bubble_type
 		@section = section
+		@filled = false
+		@block_name = null
 
 		css = """
 			.droppable-#{@counter_id} {
@@ -96,13 +98,15 @@ class @control_drag_zone_
 
 				# This encapsulates the logic
 				block_name = $related_target.attr "name"
+				# gets from DOM so that we can use the block
 				@block = window["block_#{block_name}"]
-
+				@filled = true
+				@block_name = block_name
 
 				# CLONE LOGIC
 				if $related_target.hasClass('drag-wrap')
 					# clone and append to drop zone
-					$clone = $related_target.detach()
+					$clone = $related_target.detach() #block
 					$clone.removeClass 'drag-wrap'
 					$clone.removeClass 'getting--dragged'
 					$clone.removeClass 'draggable'
@@ -131,7 +135,7 @@ class @control_drag_zone_
 
 					# original dropzone disappear
 					$target.css
-						opacity: '0'
+						opacity: 0
 
 					# remove all bubbles of current type
 					# $(".#{@bubble_type}").remove()
@@ -141,7 +145,7 @@ class @control_drag_zone_
 					onScroll()
 					@section.revert($clone)
 					@section.toggle_bank()
-					window.control.expand(block_name)
+					#window.control.expand(block_name)
 
 			ondropdeactivate: (event) ->
 				$target = $ event.target
@@ -164,3 +168,11 @@ class @control_drag_zone_
 
 	get_id: () =>
 		@counter_id
+
+	is_filled: () =>
+		@filled
+
+	get_name: () =>
+		return_value = 
+			block_name: @block_name
+			block: @block

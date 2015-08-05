@@ -7,7 +7,7 @@ this.block_my_location_ = (function() {
     var css;
     css = "		";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable source\" name=\"my_location\">\n	MY LOCATION\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable source Who\" name=\"my_location\">\n	Me\n</div>").appendTo(".drag-zone");
   }
 
   block_my_location_.prototype.run = function(cb) {
