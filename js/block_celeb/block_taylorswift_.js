@@ -7,15 +7,16 @@ this.block_taylorswift_ = (function() {
     var css;
     this.taylor_swift = {
       name: "taylor swift",
-      instagram_id: 11830955
+      instagram_id: 11830955,
+      vid_id: "QcIy9NiNbmo"
     };
-    css = "#instafeed {\n	display: none;\n}\n\n#taylor-image {\n	height:130%;\n	position: relative;\n	left: -65px;\n	top:0px;\n}";
+    css = "#instafeed {\n	display: none;\n}\n\n.taylor-image {\n	height:130%;\n	position: relative;\n	left: -65px;\n	top:0px;\n}";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable celeb Who\" name=\"taylorswift\">\n	<img id=\"taylor-image\" src=\"img/taylorswift.jpg\">\n	<div id=\"instafeed\"></div>\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable celeb Who\" name=\"taylorswift\">\n	<img class=\"taylor-image\" src=\"img/taylorswift.jpg\">\n	<div id=\"instafeed\"></div>\n</div>").appendTo(".drag-zone");
   }
 
   block_taylorswift_.prototype.run = function() {
-    return this.taylor_swift.instagram_id;
+    return this.taylor_swift;
   };
 
   return block_taylorswift_;

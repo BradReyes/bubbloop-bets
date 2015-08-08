@@ -10,5 +10,45 @@ class @block_instagram_competition_
 		</div>
 		""").appendTo ".drag-zone"
 
-	run: ()=>
-		"instagram_competition"
+	get_type: () =>
+		"action"
+
+	run: (who, where, action, helpers)=>
+		# ignore the where in this case
+		if ($.inArray("me", who) isnt -1)
+			alert "We don't have your instagram account"
+			return
+		
+		# gets all posts from the who array
+		@combined_posts = []
+		async.forEachOfSeries who, (element, i, cb) =>
+			cur_id = element.instagram_id
+			@get_images (list) =>
+				for item in list
+					@combined_posts.push item
+				cb()
+			, cur_id
+			
+		, (err) =>
+			action @combined_posts
+
+
+	get_images: (cb, user_id) =>
+		# get the feed for instagram
+		given_id = user_id
+		all_posts = []
+		feed = new Instafeed
+			get: 'user'
+			userId: given_id
+			accessToken: '2072221807.1677ed0.cfc898e6c7124300bb90d836f3e14e9d'
+			clientId: 'f41df43206564056b252ae8a5cb4019e'
+			limit: 60
+			error: ()->
+				alert "instagram error"
+			success: (json)=>
+				list = json.data
+				for cur in list
+					all_posts.push cur
+				cb all_posts
+
+		feed.run()

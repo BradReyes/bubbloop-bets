@@ -3,19 +3,9 @@ var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); 
 
 this.control_drop_area_ = (function() {
   function control_drop_area_() {
-    this.coord_action = bind(this.coord_action, this);
-    this.destination = bind(this.destination, this);
-    this.my_location = bind(this.my_location, this);
-    this.geocaching_app = bind(this.geocaching_app, this);
-    this.get_images = bind(this.get_images, this);
-    this.filter_action = bind(this.filter_action, this);
-    this.filter = bind(this.filter, this);
-    this.filtering_app = bind(this.filtering_app, this);
     this.show_winner = bind(this.show_winner, this);
     this.begin_competition = bind(this.begin_competition, this);
-    this.begin_animation = bind(this.begin_animation, this);
-    this.split_zones = bind(this.split_zones, this);
-    this.step_animation = bind(this.step_animation, this);
+    this.run = bind(this.run, this);
     this.add_center_button = bind(this.add_center_button, this);
     this.add_bubble_sections = bind(this.add_bubble_sections, this);
     var css;
@@ -51,89 +41,18 @@ this.control_drop_area_ = (function() {
     })(this));
   };
 
-  control_drop_area_.prototype.step_animation = function(new_text) {
-    var $next, duration;
-    duration = 200;
-    $next = $(".step-by-step");
-    return $next.velocity({
-      left: '-400'
-    }, {
-      duration: duration,
-      complete: (function(_this) {
-        return function() {
-          $next.text(new_text);
-          return $next.velocity({
-            left: '5'
-          }, {
-            duration: duration
-          });
-        };
-      })(this)
-    });
-  };
-
-  control_drop_area_.prototype.split_zones = function(original_drag_zone, new_drag_zone) {};
-
-  control_drop_area_.prototype.expand = function(block_name) {};
-
-  control_drop_area_.prototype.create_button = function() {
-    var $blacken, $new_div;
-    $blacken = $("<div id='blackened-background-button'></div>").css({
-      'z-index': '500',
-      'opacity': '0.5',
-      'background-color': 'black',
-      width: '100%',
-      height: '100%',
-      position: 'absolute',
-      left: '0px',
-      top: '0px'
-    });
-    $("body").prepend($blacken);
-    $new_div = $("<div id=\"new-button\">\n	<p style='position:absolute;font-size: 25px;left:17px;top:5px;' >RUN!</p>\n</div>");
-    $new_div.css({
-      borderRadius: 100,
-      width: 90,
-      height: 90,
-      position: 'absolute',
-      top: 140,
-      left: 140,
-      zIndex: 1000,
-      backgroundColor: 'white'
-    });
-    $("body").prepend($new_div);
-    $new_div.addClass('can--drop');
-    return $new_div.bind('tap click', (function(_this) {
+  control_drop_area_.prototype.run = function() {
+    return this.when.run((function(_this) {
       return function() {
-        return _this.run();
+        return _this.what.run(_this.who.run(), _this.where.run(), _this.why.run);
       };
     })(this));
   };
 
-  control_drop_area_.prototype.begin_animation = function() {
-    $("#new-button").remove();
-    $("#blackened-background-button").remove();
-    $(".drop-zone").remove();
-    $("<div id='white-background-geocaching'></div>").prependTo($("body"));
-    $("#white-background-geocaching").css({
-      width: '100%',
-      height: '100%',
-      'z-index': '1500',
-      'background-image': 'url("img/earth.gif")',
-      'background-size': '70% auto',
-      'background-repeat': 'no-repeat',
-      'background-position': 'center 30%'
-    });
-    $("<h4 id='geocaching-message-coordinate'>##</h4>").prependTo($("body"));
-    $("</br><h1 id='geocaching-message'>Your Coordinates</h1>").prependTo($("body"));
-    $("#geocaching-message").css({
-      'text-align': 'center',
-      'color': 'white'
-    });
-    return $("#geocaching-message-coordinate").css({
-      'text-align': 'center',
-      'color': 'white'
-    });
-  };
+
+  /*
+  	Ignore the following for now, will need later
+   */
 
   control_drop_area_.prototype.begin_competition = function(competitors) {
     var css;
@@ -226,212 +145,6 @@ this.control_drop_area_ = (function() {
         left: 70
       });
     }
-  };
-
-  control_drop_area_.prototype.run = function() {
-    var what_name;
-    what_name = this.what.block_name().block_name;
-    if (what_name === "instagram_competition") {
-      return this.filtering_app();
-    } else if (what_name === "geocaching") {
-      return this.geocaching_app();
-    } else {
-      return alert("Please specify a what");
-    }
-  };
-
-  control_drop_area_.prototype.filtering_app = function() {
-    console.log(this.who.block_name().block_name);
-    if ((this.who.block_name().block_name === null) || (this.who.block_name().block_name === "my_location")) {
-      alert("Specify a correct who");
-      return;
-    }
-    if ((this.why.block_name().block_name === null) || (this.why.block_name().block_name !== "display_image")) {
-      alert("Not a correct why block");
-      return;
-    }
-    $(".step-by-step").remove();
-    $("#build_button").remove();
-    return this.get_images((function(_this) {
-      return function(images) {
-        return async.forEachOfSeries(images, function(element, i, cb) {
-          if (_this.filter(element)) {
-            _this.filter_action(element, cb);
-          } else {
-            cb();
-          }
-        }, function(err) {
-          if (typeof outer_cb !== "undefined" && outer_cb !== null) {
-            return outer_cb();
-          } else {
-            return console.log("LOOP ENDED W/O OUTER_CB");
-          }
-        });
-      };
-    })(this));
-  };
-
-  control_drop_area_.prototype.filter = function(image) {
-    var num_likes;
-    num_likes = image.likes.count;
-    if (num_likes > 100) {
-      return true;
-    }
-    return false;
-  };
-
-  control_drop_area_.prototype.filter_action = function(obj, cb_done) {
-    var url;
-    url = obj.images.standard_resolution.url;
-    $('<div id="white-background"></div><div id="image-div"></div><img class="new_image" src=' + url + ' />').appendTo("body");
-    $('#white-background').css({
-      backgroundColor: 'white',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      position: 'fixed',
-      margin: 0,
-      top: 0,
-      bottom: 0,
-      right: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      zIndex: 10000000
-    });
-    $('#image-div').css({
-      backgroundImage: "url(" + url + ")",
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      position: 'fixed',
-      margin: 0,
-      top: '-50%',
-      bottom: 0,
-      right: 0,
-      left: '-50%',
-      width: '200%',
-      height: '200%',
-      zIndex: 10000001,
-      opacity: 0.35,
-      transform: 'rotate(15deg)'
-    });
-    $('.new_image').css({
-      maxWidth: '120%',
-      maxHeight: '100%',
-      bottom: 0,
-      left: 0,
-      margin: 'auto',
-      overflow: 'auto',
-      position: 'fixed',
-      right: 0,
-      top: 0,
-      zIndex: 10000002
-    });
-    return setTimeout(cb_done, 2000);
-  };
-
-  control_drop_area_.prototype.get_images = function(cb) {
-    var all_posts, feed, given_id;
-    given_id = this.who.block_name().block.run();
-    all_posts = [];
-    feed = new Instafeed({
-      get: 'user',
-      userId: given_id,
-      accessToken: '2072221807.1677ed0.cfc898e6c7124300bb90d836f3e14e9d',
-      clientId: 'f41df43206564056b252ae8a5cb4019e',
-      limit: 60,
-      error: function() {
-        return console.log("instagram error");
-      },
-      success: (function(_this) {
-        return function(json) {
-          var cur, j, len, list;
-          list = json.data;
-          for (j = 0, len = list.length; j < len; j++) {
-            cur = list[j];
-            all_posts.push(cur);
-          }
-          return cb(all_posts);
-        };
-      })(this)
-    });
-    return feed.run();
-  };
-
-  control_drop_area_.prototype.geocaching_app = function() {
-    var geocaching;
-    console.log(this.who.block_name().block_name);
-    if ((this.who.block_name().block_name === null) || (this.who.block_name().block_name !== "my_location")) {
-      alert("Specify a correct who");
-      return;
-    }
-    if (this.where.block_name().block_name === null) {
-      alert("Not a correct where block");
-      return;
-    }
-    if ((this.why.block_name().block_name === null) || ((this.why.block_name().block_name !== "ding") && (this.why.block_name().block_name !== "pizza"))) {
-      alert("Not a correct why block");
-      return;
-    }
-    $(".step-by-step").remove();
-    $("#build_button").remove();
-    this.begin_animation();
-    geocaching = (function(_this) {
-      return function() {
-        return _this.my_location(function(latLng) {
-          var cur_lat, cur_lng;
-          cur_lat = latLng.lat();
-          cur_lng = latLng.lng();
-          $("#geocaching-message-coordinate").text(cur_lat + ", " + cur_lng);
-          return _this.where.block_name().block.run(latLng, function(is_true) {
-            if (is_true) {
-              return _this.coord_action();
-            }
-          });
-        });
-      };
-    })(this);
-    geocaching();
-    return setInterval(geocaching, 7000);
-  };
-
-
-  /* These are for the components of the geocaching app, logic still separated */
-
-  control_drop_area_.prototype.my_location = function(cb) {
-    return navigator.geolocation.getCurrentPosition((function(_this) {
-      return function(position) {
-        var my_lat, my_lat_lng, my_lng;
-        my_lat = position.coords.latitude;
-        my_lng = position.coords.longitude;
-        my_lat_lng = new google.maps.LatLng(my_lat, my_lng);
-        return cb(my_lat_lng);
-      };
-    })(this));
-  };
-
-  control_drop_area_.prototype.destination = function(latlng, cb) {
-    var northEastLat, northEastLng, northWestLat, northWestLng, polygon_area, rectangle, southEastLat, southEastLng, southWestLat, southWestLng;
-    southWestLat = 37.428289997495774;
-    southWestLng = -122.167537441803;
-    northWestLat = 37.42743800008019;
-    northWestLng = -122.16646455819705;
-    northEastLat = 37.428289997495774;
-    northEastLng = -122.16646455819705;
-    southEastLat = 37.428289997495774;
-    southEastLng = -122.167537441803;
-    rectangle = [new google.maps.LatLng(southWestLat, southWestLng), new google.maps.LatLng(northWestLat, northWestLng), new google.maps.LatLng(northEastLat, northEastLng), new google.maps.LatLng(southEastLat, southEastLng)];
-    polygon_area = new google.maps.Polygon({
-      paths: rectangle
-    });
-    if (google.maps.geometry.poly.containsLocation(latlng, polygon_area)) {
-      return cb(true);
-    } else {
-      return cb(false);
-    }
-  };
-
-  control_drop_area_.prototype.coord_action = function() {
-    return this.why.block_name().block.run();
   };
 
   return control_drop_area_;

@@ -4,13 +4,14 @@ class @block_taylorswift_
 		@taylor_swift =
 			name: "taylor swift"
 			instagram_id: 11830955
+			vid_id: "QcIy9NiNbmo"
 
 		css = """
 		#instafeed {
 			display: none;
 		}
 
-		#taylor-image {
+		.taylor-image {
 			height:130%;
 			position: relative;
 			left: -65px;
@@ -21,10 +22,10 @@ class @block_taylorswift_
 
 		$("""
 		<div class="drag-wrap draggable celeb Who" name="taylorswift">
-			<img id="taylor-image" src="img/taylorswift.jpg">
+			<img class="taylor-image" src="img/taylorswift.jpg">
 			<div id="instafeed"></div>
 		</div>
 		""").appendTo ".drag-zone"
 
 	run: ()=>
-		@taylor_swift.instagram_id
+		@taylor_swift

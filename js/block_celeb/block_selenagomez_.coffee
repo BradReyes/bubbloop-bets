@@ -5,11 +5,14 @@ class @block_selenagomez_
 		@selena_gomez =
 			name: "selena gomez"
 			instagram_id: 460563723
+			vid_id: "1TsVjvEkc4s"
+
+
 		css = """
 		#instafeed {
 			display: none;
 		}
-		#selena-image {
+		.selena-image {
 			height:110%;
 			position: relative;
 			left: -60px;
@@ -20,7 +23,7 @@ class @block_selenagomez_
 
 		$("""
 		<div class="drag-wrap draggable Who" name="selenagomez">
-			<img id="selena-image" src="img/selenagomez.jpg">
+			<img class="selena-image" src="img/selenagomez.jpg">
 			<div id="instafeed"></div>
 		</div>
 		""").appendTo ".drag-zone"
@@ -40,4 +43,4 @@ class @block_selenagomez_
 		feed.run()
 
 	run: ()=>
-		@selena_gomez.instagram_id
+		@selena_gomez

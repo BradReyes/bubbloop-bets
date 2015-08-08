@@ -32,19 +32,13 @@ class @block_yogurtland_
 		</div>
 		""").appendTo ".drag-zone"
 
-		rectangle = [
+		@rectangle = [
 			new google.maps.LatLng southWestLat, southWestLng
 			new google.maps.LatLng northWestLat, northWestLng
 			new google.maps.LatLng northEastLat, northEastLng
 			new google.maps.LatLng southEastLat, southEastLng
 		]
 
-		@polygon_area = new google.maps.Polygon
-			paths: rectangle
 
-
-	run: (latlng, cb) =>
-		if google.maps.geometry.poly.containsLocation latlng, @polygon_area
-			cb true
-		else
-			cb false
+	run: () =>
+		@rectangle

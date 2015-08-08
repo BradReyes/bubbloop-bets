@@ -2,77 +2,177 @@
 var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
 this.bubble_section_ = (function() {
-
-  /*
-  	Parameters:
-  		left
-  		top
-  		diameter
-  		bubble_type
-   */
-  function bubble_section_(left, top, diameter, bubble_type) {
-    var css;
-    this.left = left;
-    this.top = top;
-    this.diameter = diameter;
-    this.block_name = bind(this.block_name, this);
+  function bubble_section_(left, top, diameter, bubble_type, section) {
+    this.run_what = bind(this.run_what, this);
+    this.run_why = bind(this.run_why, this);
+    this.run_where = bind(this.run_where, this);
+    this.run_when = bind(this.run_when, this);
+    this.run_who = bind(this.run_who, this);
+    this.run = bind(this.run, this);
+    this.bubble_is_empty = bind(this.bubble_is_empty, this);
     this.revert = bind(this.revert, this);
     this.expand_section = bind(this.expand_section, this);
     this.toggle_bank = bind(this.toggle_bank, this);
-    if (window.bubble_counter == null) {
-      window.bubble_counter = -1;
-    }
-    this.counter = ++window.bubble_counter;
+    this.add_dropzone = bind(this.add_dropzone, this);
+    var css, half_height_text, half_width_bubble, half_width_text, x_pos_text, y_pos_text;
+    this.counter_id = ++window.counter;
+    this.left = left;
+    this.top = top;
+    this.diameter = diameter;
+    this.bubble_type = bubble_type;
+    this.filled = false;
+    this.block_name = null;
     this.bank_visible = false;
-    this.block = null;
+    this.block_list = [];
     this.type = "what";
-    if (this.counter === 0) {
+    if (this.counter_id === 0) {
       this.type = 'Who';
     }
-    if (this.counter === 1) {
+    if (this.counter_id === 1) {
       this.type = 'What';
     }
-    if (this.counter === 2) {
+    if (this.counter_id === 2) {
       this.type = 'When';
     }
-    if (this.counter === 3) {
+    if (this.counter_id === 3) {
       this.type = 'Where';
     }
-    if (this.counter === 4) {
+    if (this.counter_id === 4) {
       this.type = 'Why';
     }
-    css = ".bubble-section-" + this.counter + " {\n	position: absolute;\n	top: " + this.top + "px;\n	left: " + this.left + "px;\n	width: " + this.diameter + "px;\n	height: " + this.diameter + "px;\n	border: 1px black solid;\n	background: rgba(255, 255, 255,0.8);\n	overflow: hidden;\n}";
+    css = ".droppable-" + this.counter_id + " {\n	position: absolute;\n	top: " + top + "px;\n	left: " + left + "px;\n	width: " + diameter + "px;\n	height: " + diameter + "px;\n	border: 1px black solid;\n	background: rgba(255, 255, 255, 0.8);\n	\n}\n\n.droppable-inner-" + this.counter_id + " {\n	width: 100%;\n	height: 100%;\n	border-radius: 100px;\n	/*visibility: hidden;*/\n	position: relative;\n	\n}\n\n.text-middle-" + this.counter_id + " {\n	color: black;\n	position: absolute;\n\n}\n		";
     $("<style type='text/css'></style>").html(css).appendTo("head");
-    $("<div class='steps bubble-sections bubble-section-" + this.counter + " " + this.type + "' role='bubble_section' type='" + bubble_type + "'>\n	<div id='bubble-text-" + this.counter + "'>" + bubble_type + "</div>\n</div>").appendTo(".drop-zone");
-    this.drag_zone = new control_drag_zone_(12, 20, 350, 'source', this);
-    this.drag_zone.hide();
-    $(".bubble-section-" + this.counter).on('tap click', (function(_this) {
-      return function() {
+    $("<div class='drag-zones droppable steps droppable-" + this.counter_id + "' role='condition'>\n	<!--Drag Here-->\n	<p class='text-middle-" + this.counter_id + "'>" + bubble_type + "</p>\n	<div class='droppable-inner-" + this.counter_id + "'>\n	</div>\n</div>").appendTo(".drop-zone");
+    half_width_text = $(".text-middle-" + this.counter_id).width() / 2;
+    half_width_bubble = diameter / 2;
+    x_pos_text = half_width_bubble - half_width_text;
+    half_height_text = $(".text-middle-" + this.counter_id).height() / 2;
+    y_pos_text = half_width_bubble - half_height_text - 30;
+    this.text_x = x_pos_text;
+    this.text_y = y_pos_text;
+    $(".text-middle-" + this.counter_id).css({
+      left: this.text_x,
+      top: this.text_y
+    });
+    interact(".droppable-" + this.counter_id).on('tap', (function(_this) {
+      return function(event) {
         _this.toggle_bank();
-
-        /*
-        			bubble section will expand and become a drop zone
-        			don't worry about animations yet
-         */
         return _this.expand_section();
       };
     })(this));
+    this.add_dropzone();
   }
+
+  bubble_section_.prototype.add_dropzone = function() {
+    var items, onScroll;
+    items = $(".drag-wrap");
+    onScroll = (function(_this) {
+      return function() {
+        var i, pos, s2;
+        i = 0;
+        while (i < items.length) {
+          pos = items[i].getBoundingClientRect();
+          s2 = (pos.left + pos.width / 2 - (window.innerWidth / 2)) / (window.innerWidth / 1.2);
+          s2 = 1 - Math.abs(s2);
+          $(items[i]).css({
+            '-webkit-transform': "scale(" + s2 + ")"
+          });
+          ++i;
+        }
+      };
+    })(this);
+    return interact(".droppable-" + this.counter_id).dropzone({
+      accept: '.draggable',
+      overlap: .1,
+      ondropactivate: function(event) {
+        var $target;
+        $target = $(event.target);
+        return $target.addClass('can--drop');
+      },
+      ondragenter: function(event) {
+        var $draggableElement, dropCenter, dropRect, dropzoneElement;
+        $draggableElement = $(event.relatedTarget);
+        dropzoneElement = event.target;
+        dropRect = interact.getElementRect(dropzoneElement);
+        dropCenter = {
+          x: dropRect.left + dropRect.width / 2,
+          y: dropRect.top + dropRect.height / 2
+        };
+        dropzoneElement.classList.add('can--catch');
+        return $draggableElement.addClass('drop--me');
+      },
+      ondragleave: function(event) {
+        var $relatedTarget, $target;
+        $target = $(event.target);
+        $relatedTarget = $(event.relatedTarget);
+        $target.removeClass('can--catch');
+        $relatedTarget.removeClass('caught--it');
+        return $relatedTarget.removeClass('drop--me');
+      },
+      ondrop: (function(_this) {
+        return function(event) {
+          var $clone, $related_target, $target, block_name, block_offset, real_diameter, relative_left, relative_top, x, y, zone_offset;
+          $target = $(event.target);
+          $related_target = $(event.relatedTarget);
+          $target.css({
+            position: 'absolute'
+          });
+          block_name = $related_target.attr("name");
+          _this.block = window["block_" + block_name];
+          _this.block_list.push(_this.block);
+          _this.filled = true;
+          _this.block_name = block_name;
+          $target.removeClass('can--catch');
+          block_offset = $related_target.offset();
+          zone_offset = $target.offset();
+          if ($related_target.hasClass('drag-wrap')) {
+            real_diameter = $related_target.width();
+            $clone = $related_target.detach();
+            $clone.removeClass('drag-wrap');
+            $clone.removeClass('getting--dragged');
+            $clone.removeClass('draggable');
+            $clone.addClass('not-draggable');
+            $clone.removeClass(_this.bubble_type);
+            relative_left = block_offset.left - zone_offset.left;
+            relative_top = block_offset.top - zone_offset.top;
+            x = relative_left + 10;
+            y = relative_top + 10;
+            $clone.css({
+              '-webkit-transform': "translate(" + x + "px, " + y + "px)",
+              position: 'absolute',
+              opacity: 1,
+              width: "" + real_diameter,
+              height: "" + real_diameter,
+              'z-index': 5000
+            });
+            $clone.prependTo($(".droppable-inner-" + _this.counter_id));
+            $clone.attr('data-x', x);
+            $clone.attr('data-y', y);
+            items = $(".drag-wrap");
+            return onScroll();
+          }
+        };
+      })(this),
+      ondropdeactivate: function(event) {
+        var $target;
+        $target = $(event.target);
+        return $target.removeClass('can--drop', 'can--catch');
+      }
+    });
+  };
 
   bubble_section_.prototype.toggle_bank = function() {
     var $bank, real_height, w_height;
     $bank = $(".drag-selector");
-    console.log("Called");
     if (this.bank_visible) {
+      this.bank_visible = !this.bank_visible;
       w_height = window.innerHeight;
-      console.log(w_height);
-      $bank.velocity({
+      return $bank.velocity({
         top: w_height + 50
       }, {
         duration: 1000,
         complete: (function(_this) {
           return function() {
-            console.log("Got em");
             $(".draggable").css({
               display: "block"
             });
@@ -83,23 +183,29 @@ this.bubble_section_ = (function() {
         })(this)
       });
     } else {
+      this.bank_visible = !this.bank_visible;
       w_height = window.innerHeight;
       real_height = w_height - 160;
       $bank.css({
         display: 'block'
       });
-      $bank.velocity({
+      return $bank.velocity({
         top: real_height
       }, {
         duration: 1000
       });
     }
-    return this.bank_visible = !this.bank_visible;
   };
 
   bubble_section_.prototype.expand_section = function() {
-    var i, items, pos, results, s2;
-    this.inner_text = $(".bubble-section-" + this.counter).text();
+    var i, items, pos, s2;
+    setTimeout((function(_this) {
+      return function() {
+        return $(".droppable-" + _this.counter_id).css({
+          overflow: 'visible'
+        });
+      };
+    })(this), 100);
     $("#expand-navigation").velocity({
       left: 5
     }, {
@@ -111,29 +217,19 @@ this.bubble_section_ = (function() {
         return _this.toggle_bank();
       };
     })(this));
-    $(".bubble-sections:not(.bubble-section-" + this.counter + ")").velocity("fadeOut", {
+    $(".drag-zones:not(.droppable-" + this.counter_id + ")").velocity("fadeOut", {
       duration: 1000
     });
     $("#build_button").velocity("fadeOut", {
       duration: 1000
     });
-    $(".bubble-section-" + this.counter).velocity({
+    $(".droppable-" + this.counter_id).velocity({
       width: 350,
       height: 350,
       top: 20,
       left: 12
     }, {
-      duration: 1000,
-      complete: (function(_this) {
-        return function() {
-          if (!_this.drag_zone.is_filled()) {
-            $(".bubble-section-" + _this.counter).css({
-              visibility: 'hidden'
-            });
-            return _this.drag_zone.show();
-          }
-        };
-      })(this)
+      duration: 1000
     });
     $("#bubble-text-" + this.counter).velocity("fadeOut", {
       duration: 500,
@@ -149,9 +245,30 @@ this.bubble_section_ = (function() {
     $(".draggable:not(." + this.type + ")").css({
       display: "none"
     });
+    $(".droppable-inner-" + this.counter_id).children().each(function(index) {
+      var $cur_child, x_coord, y_coord;
+      $cur_child = $(this);
+      x_coord = $cur_child.attr("data-x");
+      y_coord = $cur_child.attr("data-y");
+      return $(this).velocity({
+        top: y_coord,
+        left: x_coord,
+        opacity: 1
+      }, {
+        duration: 1000
+      });
+    });
+    $(".text-middle-" + this.counter_id).velocity({
+      left: 150,
+      opacity: 0
+    }, {
+      duration: 1000,
+      complete: (function(_this) {
+        return function() {};
+      })(this)
+    });
     items = $("." + this.type + ".draggable");
     i = 0;
-    results = [];
     while (i < items.length) {
       pos = items[i].getBoundingClientRect();
       s2 = (pos.left + pos.width / 2 - (window.innerWidth / 2)) / (window.innerWidth / 1.2);
@@ -159,54 +276,33 @@ this.bubble_section_ = (function() {
       $(items[i]).css({
         '-webkit-transform': "scale(" + s2 + ")"
       });
-      results.push(++i);
+      ++i;
     }
-    return results;
+    interact(".droppable-" + this.counter_id).unset();
+    return this.add_dropzone();
   };
 
-  bubble_section_.prototype.revert = function(back_button) {
-    var i, img_value, items, pos, position_value, repeat_value, results, s2, size_value;
-    this.drag_zone.hide();
-    console.log("Going back");
+  bubble_section_.prototype.revert = function() {
+    var child_counter, diameter, i, items, left, pos, s2, size, top;
+    this.add_dropzone();
+    $(".text-middle-" + this.counter_id).css({
+      top: this.text_y,
+      left: this.text_x
+    });
     $("#expand-navigation").unbind();
     $("#expand-navigation").velocity({
       left: -110
     }, {
       duration: 500
     });
-    if (this.drag_zone.is_filled()) {
-      $(".bubble-section-" + this.counter).html($(".dragged-block-" + (this.drag_zone.get_id())).html());
-      console.log($(".dragged-block-" + (this.drag_zone.get_id())).html());
-      img_value = $(".dragged-block-" + (this.drag_zone.get_id())).css("background-image");
-      size_value = $(".dragged-block-" + (this.drag_zone.get_id())).css("background-size");
-      repeat_value = $(".dragged-block-" + (this.drag_zone.get_id())).css("background-repeat");
-      position_value = $(".dragged-block-" + (this.drag_zone.get_id())).css("background-position");
-      $(".bubble-section-" + this.counter).css({
-        'background-image': img_value,
-        'background-size': size_value,
-        'background-position': position_value,
-        'background-repeat': repeat_value
-      });
-    } else {
-      $("#bubble-text-" + this.counter).velocity("fadeOut", {
-        duration: 500,
-        complete: (function(_this) {
-          return function() {
-            $("#bubble-text-" + _this.counter).text(_this.inner_text);
-            return $("#bubble-text-" + _this.counter).velocity("fadeIn", {
-              duration: 500
-            });
-          };
-        })(this)
-      });
-    }
-    $(".dragged-block-" + (this.drag_zone.get_id())).css({
-      display: 'none'
-    });
-    $(".bubble-section-" + this.counter).css({
-      visibility: 'visible'
-    });
-    $(".bubble-section-" + this.counter).velocity({
+    setTimeout((function(_this) {
+      return function() {
+        return $(".droppable-" + _this.counter_id).css({
+          overflow: 'hidden'
+        });
+      };
+    })(this), 800);
+    $(".droppable-" + this.counter_id).velocity({
       width: this.diameter,
       height: this.diameter,
       top: this.top,
@@ -214,15 +310,19 @@ this.bubble_section_ = (function() {
     }, {
       duration: 1000
     });
-    $(".bubble-sections:not(.bubble-section-" + this.counter + ")").velocity("fadeIn", {
+    $(".drag-zones:not(.droppable-" + this.counter_id).velocity("fadeIn", {
       duration: 1000
     });
     $("#build_button").velocity("fadeIn", {
       duration: 1000
     });
+    $(".text-middle-" + this.counter_id).velocity({
+      opacity: 1
+    }, {
+      duration: 1000
+    });
     items = $(".draggable");
     i = 0;
-    results = [];
     while (i < items.length) {
       pos = items[i].getBoundingClientRect();
       s2 = (pos.left + pos.width / 2 - (window.innerWidth / 2)) / (window.innerWidth / 1.2);
@@ -230,13 +330,153 @@ this.bubble_section_ = (function() {
       $(items[i]).css({
         '-webkit-transform': "scale(" + s2 + ")"
       });
-      results.push(++i);
+      ++i;
+    }
+    diameter = this.diameter;
+    top = this.top;
+    left = this.left;
+    child_counter = 0;
+    size = $(".droppable-inner-" + this.counter_id).children().size();
+    $(".droppable-inner-" + this.counter_id).children().each(function(index) {
+      return $(this).velocity({
+        top: 0,
+        left: 0,
+        opacity: 0.2
+      }, {
+        duration: 1000
+      });
+    });
+    return interact(".droppable-" + this.counter_id).on('tap', (function(_this) {
+      return function(event) {
+        _this.toggle_bank();
+        return _this.expand_section();
+      };
+    })(this));
+  };
+
+  bubble_section_.prototype.bubble_is_empty = function() {
+    return (this.block_list.length <= 0) || (this.block_list === null) || (this.block_list === void 0);
+  };
+
+
+  /*
+  	Run: 
+  		changes functionality depending 
+  		on what type of bubbles section this is
+  		that's why params are so general and undescriptive
+   */
+
+  bubble_section_.prototype.run = function(param1, param2, param3) {
+    switch (this.type) {
+      case 'What':
+        return this.run_what(param1, param2, param3);
+      case 'When':
+        return this.run_when(param1);
+      case 'Where':
+        return this.run_where();
+      case 'Why':
+        return this.run_why(param1, param2, param3);
+      case 'Who':
+        return this.run_who();
+    }
+  };
+
+
+  /*
+  	The following runs the specific instances for the
+  	blocks
+   */
+
+  bubble_section_.prototype.run_who = function() {
+    var block, j, len, lists, ref;
+    lists = [];
+    ref = this.block_list;
+    for (j = 0, len = ref.length; j < len; j++) {
+      block = ref[j];
+      lists.push(block.run());
+    }
+    return lists;
+  };
+
+  bubble_section_.prototype.run_when = function(cb) {
+    var block, j, len, ref, start_block;
+    if (this.bubble_is_empty()) {
+      cb();
+      return;
+    }
+    start_block = false;
+    ref = this.block_list;
+    for (j = 0, len = ref.length; j < len; j++) {
+      block = ref[j];
+      if (block.get_type() === "start") {
+        start_block = true;
+      }
+      block.run(cb);
+    }
+    if (start_block === false) {
+      return cb();
+    }
+  };
+
+  bubble_section_.prototype.run_where = function() {
+    var block, j, len, locations, ref;
+    locations = [];
+    ref = this.block_list;
+    for (j = 0, len = ref.length; j < len; j++) {
+      block = ref[j];
+      locations.push(block.run());
+    }
+    return locations;
+  };
+
+  bubble_section_.prototype.run_why = function(info) {
+    var block, j, len, ref, results;
+    ref = this.block_list;
+    results = [];
+    for (j = 0, len = ref.length; j < len; j++) {
+      block = ref[j];
+      results.push(block.run(info));
     }
     return results;
   };
 
-  bubble_section_.prototype.block_name = function() {
-    return this.drag_zone.get_name();
+
+  /*
+  	run_what can have action object and helper ones
+   */
+
+  bubble_section_.prototype.run_what = function(who_list, locations, action) {
+    var block, block_type, counter, j, len, main_block, store_main_block, what_blocks;
+    if (this.bubble_is_empty()) {
+      console.log("Skipping what");
+      action(who_list, locations);
+      return;
+    }
+    main_block = false;
+    store_main_block = null;
+    counter = 0;
+    what_blocks = this.block_list;
+    for (j = 0, len = what_blocks.length; j < len; j++) {
+      block = what_blocks[j];
+      block_type = block.get_type();
+      if (block_type === "action") {
+        if (main_block === true) {
+          alert("What blocks don't match up correctly");
+          return;
+        }
+        main_block = true;
+        store_main_block = block;
+        what_blocks.splice(counter, 1);
+      }
+      counter++;
+    }
+    if (store_main_block === null) {
+      alert("What blocks don't include a main action");
+      return;
+    }
+    $(".step-by-step").remove();
+    $("#build_button").remove();
+    return store_main_block.run(who_list, locations, action, what_blocks);
   };
 
   return bubble_section_;

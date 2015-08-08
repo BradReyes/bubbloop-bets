@@ -31,7 +31,7 @@ this.control_drag_zone_ = (function() {
     } else {
       append_to_this = '.drop-zone';
     }
-    $("<div id='celeb-drop-zone' class='droppable steps droppable-" + this.counter_id + "' role='condition'>\n	Drag Here\n</div>").appendTo(".drop-zone");
+    $("<div id='celeb-drop-zone' class='droppable steps droppable-" + this.counter_id + "' role='condition'>\n	<!--Drag Here-->\n</div>").appendTo(".drop-zone");
     items = $(".drag-wrap");
     onScroll = (function(_this) {
       return function() {
@@ -57,21 +57,20 @@ this.control_drag_zone_ = (function() {
         return $target.addClass('can--drop');
       },
       ondragenter: function(event) {
-        var $draggableElement, dropCenter, dropRect, dropzoneElement;
+        var $draggableElement, $dropzoneElement, dropCenter, dropRect, dropzoneElement;
         $draggableElement = $(event.relatedTarget);
         dropzoneElement = event.target;
+        $dropzoneElement = $(event.target);
         dropRect = interact.getElementRect(dropzoneElement);
         dropCenter = {
           x: dropRect.left + dropRect.width / 2,
           y: dropRect.top + dropRect.height / 2
         };
-        event.draggable.draggable({
-          snap: {
-            targets: [dropCenter]
-          }
-        });
         dropzoneElement.classList.add('can--catch');
-        return $draggableElement.addClass('drop--me');
+        $draggableElement.addClass('drop--me');
+        return $dropzoneElement.css({
+          overflow: 'hidden'
+        });
       },
       ondragleave: function(event) {
         var $relatedTarget, $target;
@@ -83,31 +82,58 @@ this.control_drag_zone_ = (function() {
       },
       ondrop: (function(_this) {
         return function(event) {
-          var $clone, $related_target, $target, block_name, x, y;
+          var $clone, $related_target, $target, block_name, block_offset, real_diameter, relative_left, relative_top, x, y, zone_offset;
           $target = $(event.target);
           $related_target = $(event.relatedTarget);
+          $target.css({
+            position: 'relative'
+          });
           block_name = $related_target.attr("name");
           _this.block = window["block_" + block_name];
           _this.filled = true;
           _this.block_name = block_name;
+          $target.removeClass('can--catch');
+          block_offset = $related_target.offset();
+          zone_offset = $target.offset();
           if ($related_target.hasClass('drag-wrap')) {
+            x = $related_target.offset().left;
+            y = $related_target.offset().top;
+            real_diameter = $related_target.width();
             $clone = $related_target.detach();
             $clone.removeClass('drag-wrap');
             $clone.removeClass('getting--dragged');
             $clone.removeClass('draggable');
             $clone.addClass('not-draggable');
-            $clone.appendTo('.drop-zone');
             $clone.removeClass(_this.bubble_type);
+            console.log(zone_offset);
+            console.log(block_offset);
+            relative_left = block_offset.left - zone_offset.left;
+            relative_top = block_offset.top - zone_offset.top;
+            console.log("Left: " + relative_left + "\nTop: " + relative_top);
+            x = relative_left;
+            y = relative_top;
+            $clone.css({
+              '-webkit-transform': "translate(" + x + "px, " + y + "px)",
+              position: 'absolute',
+              opacity: 1,
+              width: "" + real_diameter,
+              height: "" + real_diameter,
+              'z-index': 5000
+            });
+            $clone.appendTo($target);
+
+            /*
+            					We need to append the cloned object to 
+            					the drop zone, not the dropzone in general.
+            					Then we can copy the innerHTML from the drop zone and 
+            					paste that to the bubble_section object it's associated with
+             */
             $clone.addClass("dragged-block-" + _this.counter_id);
             console.log("dragged-block-" + _this.counter_id);
-            x = $target.position().left + 10;
-            y = $target.position().top + 10;
             $clone.attr('data-x', x);
             $clone.attr('data-y', y);
             items = $(".drag-wrap");
-            onScroll();
-            _this.section.revert($clone);
-            return _this.section.toggle_bank();
+            return onScroll();
           }
         };
       })(this),

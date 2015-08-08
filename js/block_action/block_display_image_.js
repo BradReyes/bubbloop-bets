@@ -3,6 +3,7 @@ var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); 
 
 this.block_display_image_ = (function() {
   function block_display_image_() {
+    this.display_individual_image = bind(this.display_individual_image, this);
     this.run = bind(this.run, this);
     var css;
     css = "		";
@@ -10,7 +11,17 @@ this.block_display_image_ = (function() {
     $("<div class=\"drag-wrap draggable action Why\" name=\"display_image\">\n	DISPLAY IMAGE\n</div>").appendTo(".drag-zone");
   }
 
-  block_display_image_.prototype.run = function(obj, cb) {
+  block_display_image_.prototype.run = function(list) {
+    return async.forEachOfSeries(list, (function(_this) {
+      return function(element, i, cb) {
+        return _this.display_individual_image(element, cb);
+      };
+    })(this), function(err) {
+      return alert("all done");
+    });
+  };
+
+  block_display_image_.prototype.display_individual_image = function(obj, cb) {
     var url;
     url = obj.images.standard_resolution.url;
     $('<div id="white-background"></div><div id="image-div"></div><img class="new_image" src=' + url + ' />').appendTo("body");

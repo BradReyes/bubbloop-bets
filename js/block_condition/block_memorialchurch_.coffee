@@ -20,7 +20,7 @@ class @block_memorialchurch_
 		southEastLng = -122.167537441803
 
 		css = """
-			#memorialchurch {
+			.memorialchurch {
 				background-image: url(http://events.stanford.edu/events/453/45341/Memchu_small.jpg);
 				background-size: cover;
 			}
@@ -28,23 +28,17 @@ class @block_memorialchurch_
 		$("<style type='text/css'></style>").html(css).appendTo "head"
 
 		$("""
-		<div id="memorialchurch" class="drag-wrap draggable filter Where" name="memorialchurch">
+		<div class="memorialchurch drag-wrap draggable filter Where" name="memorialchurch">
 		</div>
 		""").appendTo ".drag-zone"
 
-		rectangle = [
+		@rectangle = [
 			new google.maps.LatLng southWestLat, southWestLng
 			new google.maps.LatLng northWestLat, northWestLng
 			new google.maps.LatLng northEastLat, northEastLng
 			new google.maps.LatLng southEastLat, southEastLng
 		]
 
-		@polygon_area = new google.maps.Polygon
-			paths: rectangle
 
-
-	run: (latlng, cb) =>
-		if google.maps.geometry.poly.containsLocation latlng, @polygon_area
-			cb true
-		else
-			cb false
+	run: () =>
+		@rectangle

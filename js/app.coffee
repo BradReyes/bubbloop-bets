@@ -2,7 +2,7 @@ $ ->
 	
 
 
-	window.counter = 0 # this is to separate logic between conditions
+	window.counter = -1 # this is to separate logic between conditions
 
 	# -----------------------------
 	# BLOCKS (bank layout 9-8-9)
@@ -37,6 +37,8 @@ $ ->
 	window.block_likes = new block_likes_()
 	window.block_display_image = new block_display_image_()
 	window.block_time = new block_time_()
+	window.block_time_end = new block_time_end_()
+	window.block_youtube = new block_youtube_()
 	# window.block_map = new block_map_()
 	# window.block_source = new block_source_()
 	# window.block_instagram = new block_instagram_()
@@ -132,14 +134,14 @@ $ ->
 					bottom: 1
 					right: 1
 			axis: 'xy'
-		snap:
-			targets: [ startPos ]
-			relativePoints: [ {
-				x: 0.5
-				y: 0.5
-			} ]
-			range: 100
-			endOnly: true
+		# snap:
+		# 	targets: [ startPos ]
+		# 	relativePoints: [ {
+		# 		x: 0.5
+		# 		y: 0.5
+		# 	} ]
+		# 	range: 100
+		# 	endOnly: true
 
 		onstart: (event) ->
 			rect = interact.getElementRect event.target
@@ -147,10 +149,10 @@ $ ->
 			startPos =
 				x: rect.left + rect.width / 2
 				y: rect.top + rect.height / 2
-			event.interactable.draggable
-				snap:
-					targets: [ startPos ]
-					range: 200
+			# event.interactable.draggable
+			# 	snap:
+			# 		targets: [ startPos ]
+			# 		range: 200
 
 		onmove: (event) ->
 			$target = $ event.target

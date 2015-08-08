@@ -4,7 +4,7 @@ var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); 
 this.block_yogurtland_ = (function() {
   function block_yogurtland_() {
     this.run = bind(this.run, this);
-    var css, northEastLat, northEastLng, northWestLat, northWestLng, rectangle, southEastLat, southEastLng, southWestLat, southWestLng;
+    var css, northEastLat, northEastLng, northWestLat, northWestLng, southEastLat, southEastLng, southWestLat, southWestLng;
     southWestLat = 37.428289997495774;
     southWestLng = -122.167537441803;
     northWestLat = 37.42743800008019;
@@ -16,18 +16,11 @@ this.block_yogurtland_ = (function() {
     css = "#yogurtland {\n	background-image: url(http://api.ning.com/files/fOx4UMMDlAl-5LS2ubi2b5YI9wdZrJt0xWoMPKpNtfrAw1KnxmFk*Gzb0v9EbtmbTn8499zdCaXXtX0JMSrIp-tbPIE83gkC/yogurtland.jpg);\n	background-size: cover;\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
     $("<div id=\"yogurtland\" class=\"drag-wrap draggable filter Where\" name=\"yogurtland\">\n</div>").appendTo(".drag-zone");
-    rectangle = [new google.maps.LatLng(southWestLat, southWestLng), new google.maps.LatLng(northWestLat, northWestLng), new google.maps.LatLng(northEastLat, northEastLng), new google.maps.LatLng(southEastLat, southEastLng)];
-    this.polygon_area = new google.maps.Polygon({
-      paths: rectangle
-    });
+    this.rectangle = [new google.maps.LatLng(southWestLat, southWestLng), new google.maps.LatLng(northWestLat, northWestLng), new google.maps.LatLng(northEastLat, northEastLng), new google.maps.LatLng(southEastLat, southEastLng)];
   }
 
-  block_yogurtland_.prototype.run = function(latlng, cb) {
-    if (google.maps.geometry.poly.containsLocation(latlng, this.polygon_area)) {
-      return cb(true);
-    } else {
-      return cb(false);
-    }
+  block_yogurtland_.prototype.run = function() {
+    return this.rectangle;
   };
 
   return block_yogurtland_;

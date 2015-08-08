@@ -4,7 +4,7 @@ var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); 
 this.block_gates_ = (function() {
   function block_gates_() {
     this.run = bind(this.run, this);
-    var css, northEastLat, northEastLng, northWestLat, northWestLng, rectangle, southEastLat, southEastLng, southWestLat, southWestLng;
+    var css, northEastLat, northEastLng, northWestLat, northWestLng, southEastLat, southEastLng, southWestLat, southWestLng;
     southWestLat = 37.43002367;
     southWestLng = -122.17403859;
     northWestLat = 37.43057319;
@@ -13,21 +13,14 @@ this.block_gates_ = (function() {
     northEastLng = -122.1729067;
     southEastLat = 37.4297766;
     southEastLng = -122.17311054;
-    css = "#gates {\n	background-image: url(http://gaspull.geeksaresexytech.netdna-cdn.com/wp-content/uploads/2009/09/cs2.jpg);\n	background-size: cover;\n}";
+    css = ".gates {\n	background-image: url(http://gaspull.geeksaresexytech.netdna-cdn.com/wp-content/uploads/2009/09/cs2.jpg);\n	background-size: cover;\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
-    $("<div id=\"gates\" class=\"drag-wrap draggable filter Where\" name=\"gates\">\n</div>").appendTo(".drag-zone");
-    rectangle = [new google.maps.LatLng(southWestLat, southWestLng), new google.maps.LatLng(northWestLat, northWestLng), new google.maps.LatLng(northEastLat, northEastLng), new google.maps.LatLng(southEastLat, southEastLng)];
-    this.polygon_area = new google.maps.Polygon({
-      paths: rectangle
-    });
+    $("<div class=\"gates drag-wrap draggable filter Where\" name=\"gates\">\n</div>").appendTo(".drag-zone");
+    this.rectangle = [new google.maps.LatLng(southWestLat, southWestLng), new google.maps.LatLng(northWestLat, northWestLng), new google.maps.LatLng(northEastLat, northEastLng), new google.maps.LatLng(southEastLat, southEastLng)];
   }
 
-  block_gates_.prototype.run = function(latlng, cb) {
-    if (google.maps.geometry.poly.containsLocation(latlng, this.polygon_area)) {
-      return cb(true);
-    } else {
-      return cb(false);
-    }
+  block_gates_.prototype.run = function() {
+    return this.rectangle;
   };
 
   return block_gates_;

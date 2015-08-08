@@ -20,7 +20,7 @@ class @block_garden_
 		southEastLng = -122.16988552
 
 		css = """
-			#garden {
+			.garden {
 				background-image: url(http://pamiatkyamesta.pise.sk/obrazky/pamiatkyamesta.pise.sk/rodin-sculpture-garden-0184e910a96ebc05f5cc392addbd573afc714cbe.jpg);
 				background-size: cover;
 			}
@@ -28,23 +28,17 @@ class @block_garden_
 		$("<style type='text/css'></style>").html(css).appendTo "head"
 
 		$("""
-		<div id="garden" class="drag-wrap draggable filter Where" name="garden">
+		<div class="garden drag-wrap draggable filter Where" name="garden">
 		</div>
 		""").appendTo ".drag-zone"
 
-		rectangle = [
+		@rectangle = [
 			new google.maps.LatLng southWestLat, southWestLng
 			new google.maps.LatLng northWestLat, northWestLng
 			new google.maps.LatLng northEastLat, northEastLng
 			new google.maps.LatLng southEastLat, southEastLng
 		]
 
-		@polygon_area = new google.maps.Polygon
-			paths: rectangle
 
-
-	run: (latlng, cb) =>
-		if google.maps.geometry.poly.containsLocation latlng, @polygon_area
-			cb true
-		else
-			cb false
+	run: () =>
+		@rectangle

@@ -2,7 +2,7 @@ class @block_pizza_
 
 	constructor: ()->
 		css = """
-			#pizza {
+			.pizza {
 				background-image: url(img/pizza.jpeg);
 				background-size: cover;
 			}
@@ -10,7 +10,7 @@ class @block_pizza_
 		$("<style type='text/css'></style>").html(css).appendTo "head"
 
 		$("""
-		<div id="pizza" class="drag-wrap draggable action Why" name="pizza">
+		<div class="drag-wrap draggable action Why pizza" name="pizza">
 		</div>
 		""").appendTo ".drag-zone"
 

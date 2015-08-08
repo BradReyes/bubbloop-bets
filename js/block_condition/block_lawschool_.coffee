@@ -20,7 +20,7 @@ class @block_lawschool_
 		southEastLng = -122.167537441803
 
 		css = """
-			#lawschool {
+			.lawschool {
 				background-image: url(http://chronicle.com/blogs/buildings/files/2011/05/stanfordlaw.jpg);
 				background-size: cover;
 			}
@@ -28,23 +28,16 @@ class @block_lawschool_
 		$("<style type='text/css'></style>").html(css).appendTo "head"
 
 		$("""
-		<div id="lawschool" class="drag-wrap draggable filter Where" name="lawschool">
+		<div class="lawschool drag-wrap draggable filter Where" name="lawschool">
 		</div>
 		""").appendTo ".drag-zone"
 
-		rectangle = [
+		@rectangle = [
 			new google.maps.LatLng southWestLat, southWestLng
 			new google.maps.LatLng northWestLat, northWestLng
 			new google.maps.LatLng northEastLat, northEastLng
 			new google.maps.LatLng southEastLat, southEastLng
 		]
 
-		@polygon_area = new google.maps.Polygon
-			paths: rectangle
-
-
-	run: (latlng, cb) =>
-		if google.maps.geometry.poly.containsLocation latlng, @polygon_area
-			cb true
-		else
-			cb false
+	run: () =>
+		@rectangle

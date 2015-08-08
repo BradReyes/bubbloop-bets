@@ -5,9 +5,9 @@ this.block_pizza_ = (function() {
   function block_pizza_() {
     this.run = bind(this.run, this);
     var css;
-    css = "#pizza {\n	background-image: url(img/pizza.jpeg);\n	background-size: cover;\n}";
+    css = ".pizza {\n	background-image: url(img/pizza.jpeg);\n	background-size: cover;\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
-    $("<div id=\"pizza\" class=\"drag-wrap draggable action Why\" name=\"pizza\">\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable action Why pizza\" name=\"pizza\">\n</div>").appendTo(".drag-zone");
   }
 
   block_pizza_.prototype.run = function() {

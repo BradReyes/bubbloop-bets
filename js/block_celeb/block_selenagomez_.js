@@ -7,11 +7,12 @@ this.block_selenagomez_ = (function() {
     var css, feed, selenagomez;
     this.selena_gomez = {
       name: "selena gomez",
-      instagram_id: 460563723
+      instagram_id: 460563723,
+      vid_id: "1TsVjvEkc4s"
     };
-    css = "#instafeed {\n	display: none;\n}\n#selena-image {\n	height:110%;\n	position: relative;\n	left: -60px;\n	bottom:0;\n}";
+    css = "#instafeed {\n	display: none;\n}\n.selena-image {\n	height:110%;\n	position: relative;\n	left: -60px;\n	bottom:0;\n}";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable Who\" name=\"selenagomez\">\n	<img id=\"selena-image\" src=\"img/selenagomez.jpg\">\n	<div id=\"instafeed\"></div>\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable Who\" name=\"selenagomez\">\n	<img class=\"selena-image\" src=\"img/selenagomez.jpg\">\n	<div id=\"instafeed\"></div>\n</div>").appendTo(".drag-zone");
     selenagomez = 460563723;
     feed = new Instafeed({
       get: 'user',
@@ -31,7 +32,7 @@ this.block_selenagomez_ = (function() {
   }
 
   block_selenagomez_.prototype.run = function() {
-    return this.selena_gomez.instagram_id;
+    return this.selena_gomez;
   };
 
   return block_selenagomez_;

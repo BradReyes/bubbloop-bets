@@ -3,15 +3,94 @@ var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); 
 
 this.block_geocaching_ = (function() {
   function block_geocaching_() {
+    this.begin_animation = bind(this.begin_animation, this);
+    this.my_location = bind(this.my_location, this);
     this.run = bind(this.run, this);
+    this.get_type = bind(this.get_type, this);
     var css;
-    css = "/*#geocaching_block_ {\n	background-image: url(http://images.clipartpanda.com/map-clip-art-treasure-map4.png);\n	background-size: 110px 110px;\n	background-position: center;\n	background-repeat: no-repeat;\n}*/";
+    css = "/*.geocaching_block_ {\n	background-image: url(http://images.clipartpanda.com/map-clip-art-treasure-map4.png);\n	background-size: 110px 110px;\n	background-position: center;\n	background-repeat: no-repeat;\n}*/";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div id='geocaching_block_' class=\"drag-wrap draggable celeb What\" name=\"geocaching\">\n	<img style='width:80%;height:80%;position:absolute;top:11%;left:11%;' src='http://images.clipartpanda.com/map-clip-art-treasure-map4.png'>\n</div>").appendTo(".drag-zone");
+    $("<div class=\"geocaching_block_ drag-wrap draggable celeb What\" name=\"geocaching\">\n	<img style='width:80%;height:80%;position:absolute;top:11%;left:11%;' src='http://images.clipartpanda.com/map-clip-art-treasure-map4.png'>\n</div>").appendTo(".drag-zone");
   }
 
-  block_geocaching_.prototype.run = function() {
-    return "geocaching";
+  block_geocaching_.prototype.get_type = function() {
+    return "action";
+  };
+
+  block_geocaching_.prototype.run = function(who, where, action, helpers) {
+    var geocaching;
+    console.log(typeof who);
+    console.log(where);
+    console.log(action);
+    this.begin_animation();
+    geocaching = (function(_this) {
+      return function() {
+        if (($.inArray("me", who) === -1) || (who.length !== 1)) {
+          alert("Wrong who for this");
+          return;
+        }
+        return _this.my_location(function(latLng) {
+          var cur_lat, cur_lng, i, len, location, polygon_area, results;
+          cur_lat = latLng.lat();
+          cur_lng = latLng.lng();
+          $("#geocaching-message-coordinate").text(cur_lat + ", " + cur_lng);
+          console.log(where);
+          results = [];
+          for (i = 0, len = where.length; i < len; i++) {
+            location = where[i];
+            polygon_area = new google.maps.Polygon({
+              paths: location
+            });
+            if (google.maps.geometry.poly.containsLocation(latLng, polygon_area)) {
+              results.push(action());
+            } else {
+              results.push(void 0);
+            }
+          }
+          return results;
+        });
+      };
+    })(this);
+    geocaching();
+    return setInterval(geocaching, 7000);
+  };
+
+  block_geocaching_.prototype.my_location = function(cb) {
+    return navigator.geolocation.getCurrentPosition((function(_this) {
+      return function(position) {
+        var my_lat, my_lat_lng, my_lng;
+        my_lat = position.coords.latitude;
+        my_lng = position.coords.longitude;
+        my_lat_lng = new google.maps.LatLng(my_lat, my_lng);
+        return cb(my_lat_lng);
+      };
+    })(this));
+  };
+
+  block_geocaching_.prototype.begin_animation = function() {
+    $("#new-button").remove();
+    $("#blackened-background-button").remove();
+    $(".drop-zone").remove();
+    $("<div id='white-background-geocaching'></div>").prependTo($("body"));
+    $("#white-background-geocaching").css({
+      width: '100%',
+      height: '100%',
+      'z-index': '1500',
+      'background-image': 'url("img/earth.gif")',
+      'background-size': '70% auto',
+      'background-repeat': 'no-repeat',
+      'background-position': 'center 30%'
+    });
+    $("<h4 id='geocaching-message-coordinate'>##</h4>").prependTo($("body"));
+    $("</br><h1 id='geocaching-message'>Your Coordinates</h1>").prependTo($("body"));
+    $("#geocaching-message").css({
+      'text-align': 'center',
+      'color': 'white'
+    });
+    return $("#geocaching-message-coordinate").css({
+      'text-align': 'center',
+      'color': 'white'
+    });
   };
 
   return block_geocaching_;

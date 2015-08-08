@@ -4,7 +4,7 @@ var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); 
 this.block_garden_ = (function() {
   function block_garden_() {
     this.run = bind(this.run, this);
-    var css, northEastLat, northEastLng, northWestLat, northWestLng, rectangle, southEastLat, southEastLng, southWestLat, southWestLng;
+    var css, northEastLat, northEastLng, northWestLat, northWestLng, southEastLat, southEastLng, southWestLat, southWestLng;
     southWestLat = 37.42800553;
     southWestLng = -122.16996532;
     northWestLat = 37.42796879;
@@ -13,21 +13,14 @@ this.block_garden_ = (function() {
     northEastLng = -122.16988888;
     southEastLat = 37.42802098;
     southEastLng = -122.16988552;
-    css = "#garden {\n	background-image: url(http://pamiatkyamesta.pise.sk/obrazky/pamiatkyamesta.pise.sk/rodin-sculpture-garden-0184e910a96ebc05f5cc392addbd573afc714cbe.jpg);\n	background-size: cover;\n}";
+    css = ".garden {\n	background-image: url(http://pamiatkyamesta.pise.sk/obrazky/pamiatkyamesta.pise.sk/rodin-sculpture-garden-0184e910a96ebc05f5cc392addbd573afc714cbe.jpg);\n	background-size: cover;\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
-    $("<div id=\"garden\" class=\"drag-wrap draggable filter Where\" name=\"garden\">\n</div>").appendTo(".drag-zone");
-    rectangle = [new google.maps.LatLng(southWestLat, southWestLng), new google.maps.LatLng(northWestLat, northWestLng), new google.maps.LatLng(northEastLat, northEastLng), new google.maps.LatLng(southEastLat, southEastLng)];
-    this.polygon_area = new google.maps.Polygon({
-      paths: rectangle
-    });
+    $("<div class=\"garden drag-wrap draggable filter Where\" name=\"garden\">\n</div>").appendTo(".drag-zone");
+    this.rectangle = [new google.maps.LatLng(southWestLat, southWestLng), new google.maps.LatLng(northWestLat, northWestLng), new google.maps.LatLng(northEastLat, northEastLng), new google.maps.LatLng(southEastLat, southEastLng)];
   }
 
-  block_garden_.prototype.run = function(latlng, cb) {
-    if (google.maps.geometry.poly.containsLocation(latlng, this.polygon_area)) {
-      return cb(true);
-    } else {
-      return cb(false);
-    }
+  block_garden_.prototype.run = function() {
+    return this.rectangle;
   };
 
   return block_garden_;

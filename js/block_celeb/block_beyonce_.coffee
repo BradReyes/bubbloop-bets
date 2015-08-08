@@ -4,13 +4,14 @@ class @block_beyonce_
 		@beyonce =
 			name: "beyonce"
 			instagram_id: 247944034
+			vid_id: "k4YRWT_Aldo"
 
 		css = """
 		#instafeed {
 			display: none;
 		}
 
-		#beyonce-image {
+		.beyonce-image {
 			height:100%;
 			position: relative;
 			left: -40px;
@@ -21,10 +22,10 @@ class @block_beyonce_
 
 		$("""
 		<div class="drag-wrap draggable celeb Who" name="beyonce">
-			<img id="beyonce-image" src="img/beyonce.jpg">
+			<img class='beyonce-image' src="img/beyonce.jpg">
 		<div id="instafeed"></div>
 		</div>
 		""").appendTo ".drag-zone"
 
 	run: ()=>
-		@beyonce.instagram_id
+		@beyonce

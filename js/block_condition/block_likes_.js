@@ -7,14 +7,14 @@ this.block_likes_ = (function() {
     this.expand = bind(this.expand, this);
     this.blacken_background = bind(this.blacken_background, this);
     var css;
-    css = "#likes-input{\n	position: absolute;\n	top: 55%;\n	width: 80%;\n	left: 6%;\n	text-align: center;\n	font-size: 12px;\n}\n\ninput[type='text'],\ninput[type='number'],\ntextarea {\n	font-size: 16px;\n}";
+    css = ".likes-input{\n	position: absolute;\n	top: 55%;\n	width: 80%;\n	left: 6%;\n	text-align: center;\n	font-size: 12px;\n}\n\ninput[type='text'],\ninput[type='number'],\ntextarea {\n	font-size: 16px;\n}";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable filter What\" name=\"likes\">\n	LIKES\n	<input id=\"likes-input\" type=\"text\" value=\"\">\n</div>").appendTo(".drag-zone");
-    interact("#likes-input").on('tap', (function(_this) {
+    $("<div class=\"drag-wrap draggable filter What\" name=\"likes\">\n	LIKES\n	<input class=\"likes-input\" type=\"text\" value=\"\">\n</div>").appendTo(".drag-zone");
+    interact(".likes-input").on('tap', (function(_this) {
       return function(event) {
         event.preventDefault();
-        $("#likes-input").focus();
-        return _this.expand("#likes-input");
+        $(".likes-input").focus();
+        return _this.expand(".likes-input");
       };
     })(this));
   }
@@ -93,8 +93,8 @@ this.block_likes_ = (function() {
   block_likes_.prototype.run = function(competitors, cb) {
     var player1, player1_likes, player2, player2_likes;
     if (this.num_likes == null) {
-      console.log($("#likes-input").val());
-      this.num_likes = parseInt($("#likes-input").val());
+      console.log($(".likes-input").val());
+      this.num_likes = parseInt($(".likes-input").val());
     }
     console.log(this.num_likes);
     player1 = competitors.first_val;

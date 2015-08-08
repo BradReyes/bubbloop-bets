@@ -7,11 +7,12 @@ this.block_rihanna_ = (function() {
     var css, feed, rihanna;
     this.rihanna = {
       name: "rihanna",
-      instagram_id: 25945306
+      instagram_id: 25945306,
+      vid_id: "B3eAMGXFw1o"
     };
-    css = "#instafeed {\n	display: none;\n}\n#rihanna-image {\n	width:130%;\n	position: relative;\n	left: -10px;\n	bottom:0;\n}";
+    css = "#instafeed {\n	display: none;\n}\n.rihanna-image {\n	width:130%;\n	position: relative;\n	left: -10px;\n	bottom:0;\n}";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable Who\" name=\"rihanna\">\n	<img id=\"rihanna-image\" src=\"img/rihanna.jpg\">\n	<div id=\"instafeed\"></div>\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable Who\" name=\"rihanna\">\n	<img class=\"rihanna-image\" src=\"img/rihanna.jpg\">\n	<div id=\"instafeed\"></div>\n</div>").appendTo(".drag-zone");
     rihanna = 25945306;
     feed = new Instafeed({
       get: 'user',
@@ -31,7 +32,7 @@ this.block_rihanna_ = (function() {
   }
 
   block_rihanna_.prototype.run = function() {
-    return this.rihanna.instagram_id;
+    return this.rihanna;
   };
 
   return block_rihanna_;

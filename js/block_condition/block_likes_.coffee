@@ -2,7 +2,7 @@ class @block_likes_
 
 	constructor: ()->
 		css = """
-			#likes-input{
+			.likes-input{
 				position: absolute;
 				top: 55%;
 				width: 80%;
@@ -22,15 +22,15 @@ class @block_likes_
 		$("""
 		<div class="drag-wrap draggable filter What" name="likes">
 			LIKES
-			<input id="likes-input" type="text" value="">
+			<input class="likes-input" type="text" value="">
 		</div>
 		""").appendTo ".drag-zone"
 
-		interact("#likes-input")
+		interact(".likes-input")
 		.on 'tap', (event) =>
 			event.preventDefault()
-			$("#likes-input").focus()
-			@expand("#likes-input")
+			$(".likes-input").focus()
+			@expand(".likes-input")
 
 	blacken_background: () =>
 		$blacken = $ "<div id='blacken-input'>"
@@ -112,8 +112,8 @@ class @block_likes_
 	# cb takes in a winner, if no winner, call it anyway with no parameter
 	run: (competitors, cb)=>
 		if not @num_likes?
-			console.log $("#likes-input").val()
-			@num_likes = parseInt($("#likes-input").val())
+			console.log $(".likes-input").val()
+			@num_likes = parseInt($(".likes-input").val())
 		console.log @num_likes
 		player1 = competitors.first_val
 		player2 = competitors.second_val

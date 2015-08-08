@@ -3,15 +3,71 @@ var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); 
 
 this.block_instagram_competition_ = (function() {
   function block_instagram_competition_() {
+    this.get_images = bind(this.get_images, this);
     this.run = bind(this.run, this);
+    this.get_type = bind(this.get_type, this);
     var css;
     css = "		";
     $('<style type="text/css"></style>').html(css).appendTo("head");
     $("<div class=\"drag-wrap draggable celeb What\" name=\"instagram_competition\">\n	<img style='width:100%;height:auto;position:absolute;top:16%;left:0%;' src='http://d13zeczpqm2715.cloudfront.net/wp-content/uploads/2015/06/instagram-logo-vector-image.png'>\n</div>").appendTo(".drag-zone");
   }
 
-  block_instagram_competition_.prototype.run = function() {
-    return "instagram_competition";
+  block_instagram_competition_.prototype.get_type = function() {
+    return "action";
+  };
+
+  block_instagram_competition_.prototype.run = function(who, where, action, helpers) {
+    if ($.inArray("me", who) !== -1) {
+      alert("We don't have your instagram account");
+      return;
+    }
+    this.combined_posts = [];
+    return async.forEachOfSeries(who, (function(_this) {
+      return function(element, i, cb) {
+        var cur_id;
+        cur_id = element.instagram_id;
+        return _this.get_images(function(list) {
+          var item, j, len;
+          for (j = 0, len = list.length; j < len; j++) {
+            item = list[j];
+            _this.combined_posts.push(item);
+          }
+          return cb();
+        }, cur_id);
+      };
+    })(this), (function(_this) {
+      return function(err) {
+        return action(_this.combined_posts);
+      };
+    })(this));
+  };
+
+  block_instagram_competition_.prototype.get_images = function(cb, user_id) {
+    var all_posts, feed, given_id;
+    given_id = user_id;
+    all_posts = [];
+    feed = new Instafeed({
+      get: 'user',
+      userId: given_id,
+      accessToken: '2072221807.1677ed0.cfc898e6c7124300bb90d836f3e14e9d',
+      clientId: 'f41df43206564056b252ae8a5cb4019e',
+      limit: 60,
+      error: function() {
+        return alert("instagram error");
+      },
+      success: (function(_this) {
+        return function(json) {
+          var cur, j, len, list;
+          list = json.data;
+          for (j = 0, len = list.length; j < len; j++) {
+            cur = list[j];
+            all_posts.push(cur);
+          }
+          return cb(all_posts);
+        };
+      })(this)
+    });
+    return feed.run();
   };
 
   return block_instagram_competition_;

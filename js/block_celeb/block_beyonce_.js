@@ -7,15 +7,16 @@ this.block_beyonce_ = (function() {
     var css;
     this.beyonce = {
       name: "beyonce",
-      instagram_id: 247944034
+      instagram_id: 247944034,
+      vid_id: "k4YRWT_Aldo"
     };
-    css = "#instafeed {\n	display: none;\n}\n\n#beyonce-image {\n	height:100%;\n	position: relative;\n	left: -40px;\n	bottom:0;\n}";
+    css = "#instafeed {\n	display: none;\n}\n\n.beyonce-image {\n	height:100%;\n	position: relative;\n	left: -40px;\n	bottom:0;\n}";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable celeb Who\" name=\"beyonce\">\n	<img id=\"beyonce-image\" src=\"img/beyonce.jpg\">\n<div id=\"instafeed\"></div>\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable celeb Who\" name=\"beyonce\">\n	<img class='beyonce-image' src=\"img/beyonce.jpg\">\n<div id=\"instafeed\"></div>\n</div>").appendTo(".drag-zone");
   }
 
   block_beyonce_.prototype.run = function() {
-    return this.beyonce.instagram_id;
+    return this.beyonce;
   };
 
   return block_beyonce_;

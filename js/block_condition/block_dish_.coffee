@@ -20,7 +20,7 @@ class @block_dish_
 		southEastLng = -122.17938758
 
 		css = """
-			#dish {
+			.dish {
 				background-image: url(http://farm3.static.flickr.com/2045/3532400496_cf122cd481.jpg);
 				background-size: cover;
 			}
@@ -28,23 +28,21 @@ class @block_dish_
 		$("<style type='text/css'></style>").html(css).appendTo "head"
 
 		$("""
-		<div id="dish" class="drag-wrap draggable filter Where" name="dish">
+		<div class="dish drag-wrap draggable filter Where" name="dish">
 		</div>
 		""").appendTo ".drag-zone"
 
-		rectangle = [
+		@rectangle = [
 			new google.maps.LatLng southWestLat, southWestLng
 			new google.maps.LatLng northWestLat, northWestLng
 			new google.maps.LatLng northEastLat, northEastLng
 			new google.maps.LatLng southEastLat, southEastLng
 		]
 
-		@polygon_area = new google.maps.Polygon
-			paths: rectangle
 
-
-	run: (latlng, cb) =>
-		if google.maps.geometry.poly.containsLocation latlng, @polygon_area
-			cb true
-		else
-			cb false
+	run: () =>
+		# if google.maps.geometry.poly.containsLocation latlng, @polygon_area
+		# 	cb true
+		# else
+		# 	cb false
+		@rectangle

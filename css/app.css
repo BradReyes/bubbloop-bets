@@ -60,6 +60,14 @@ body {
   -webkit-animation: glow 1.5s ease infinite;
 }
 
+.getting--dragged:not(.drop--me) {
+  border: 2px yellow solid;
+}
+
+.drop--me {
+  border: 2px green solid;
+}
+
 @-webkit-keyframes glow {
   50% {
     background: rgba(255,255,255,.6);
@@ -86,6 +94,7 @@ body {
   border-radius: 50%;
 }
 
+/* This is the animation for pulsing */
 .can--catch:before {
   -webkit-animation: grow .75s ease infinite;
 }
@@ -169,6 +178,8 @@ body {
   cursor: -webkit-grab;
   cursor:    -moz-grab;
   cursor:         grab;
+  border: 2px black solid;
+  opacity: 0.4;
 }
 
 

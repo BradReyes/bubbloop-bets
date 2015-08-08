@@ -11,7 +11,13 @@ class @block_display_image_
 		</div>
 		""").appendTo ".drag-zone"
 
-	run: (obj, cb) =>
+	run: (list) =>
+		async.forEachOfSeries list, (element, i, cb) =>
+			@display_individual_image element, cb
+		, (err) ->
+			alert "all done"
+
+	display_individual_image: (obj, cb) =>
 		url = obj.images.standard_resolution.url
 		$('<div id="white-background"></div><div id="image-div"></div><img class="new_image" src='+url+' />').appendTo "body"
 

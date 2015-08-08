@@ -11,15 +11,7 @@ this.block_my_location_ = (function() {
   }
 
   block_my_location_.prototype.run = function(cb) {
-    return navigator.geolocation.getCurrentPosition((function(_this) {
-      return function(position) {
-        var my_lat, my_lat_lng, my_lng;
-        my_lat = position.coords.latitude;
-        my_lng = position.coords.longitude;
-        my_lat_lng = new google.maps.LatLng(my_lat, my_lng);
-        return cb(my_lat_lng);
-      };
-    })(this));
+    return "me";
   };
 
   return block_my_location_;

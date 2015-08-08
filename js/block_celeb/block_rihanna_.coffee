@@ -5,12 +5,13 @@ class @block_rihanna_
 		@rihanna = 
 			name: "rihanna"
 			instagram_id: 25945306
+			vid_id: "B3eAMGXFw1o"
 
 		css = """
 		#instafeed {
 			display: none;
 		}
-		#rihanna-image {
+		.rihanna-image {
 			width:130%;
 			position: relative;
 			left: -10px;
@@ -21,7 +22,7 @@ class @block_rihanna_
 
 		$("""
 		<div class="drag-wrap draggable Who" name="rihanna">
-			<img id="rihanna-image" src="img/rihanna.jpg">
+			<img class="rihanna-image" src="img/rihanna.jpg">
 			<div id="instafeed"></div>
 		</div>
 		""").appendTo ".drag-zone"
@@ -41,4 +42,4 @@ class @block_rihanna_
 		feed.run()
 
 	run: ()=>
-		@rihanna.instagram_id
+		@rihanna

@@ -4,7 +4,7 @@ var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); 
 this.block_mausoleum_ = (function() {
   function block_mausoleum_() {
     this.run = bind(this.run, this);
-    var css, northEastLat, northEastLng, northWestLat, northWestLng, rectangle, southEastLat, southEastLng, southWestLat, southWestLng;
+    var css, northEastLat, northEastLng, northWestLat, northWestLng, southEastLat, southEastLng, southWestLat, southWestLng;
     southWestLat = 37.428289997495774;
     southWestLng = -122.167537441803;
     northWestLat = 37.42743800008019;
@@ -13,21 +13,14 @@ this.block_mausoleum_ = (function() {
     northEastLng = -122.16646455819705;
     southEastLat = 37.428289997495774;
     southEastLng = -122.167537441803;
-    css = "#mausoleum {\n	background-image: url(http://qph.is.quoracdn.net/main-qimg-418a23ccfb9ef83493f5f78104b68f50?convert_to_webp=true);\n	background-size: cover;\n}";
+    css = ".mausoleum {\n	background-image: url(http://qph.is.quoracdn.net/main-qimg-418a23ccfb9ef83493f5f78104b68f50?convert_to_webp=true);\n	background-size: cover;\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
-    $("<div id=\"mausoleum\" class=\"drag-wrap draggable filter Where\" name=\"mausoleum\">\n</div>").appendTo(".drag-zone");
-    rectangle = [new google.maps.LatLng(southWestLat, southWestLng), new google.maps.LatLng(northWestLat, northWestLng), new google.maps.LatLng(northEastLat, northEastLng), new google.maps.LatLng(southEastLat, southEastLng)];
-    this.polygon_area = new google.maps.Polygon({
-      paths: rectangle
-    });
+    $("<div class=\"mausoleum drag-wrap draggable filter Where\" name=\"mausoleum\">\n</div>").appendTo(".drag-zone");
+    this.rectangle = [new google.maps.LatLng(southWestLat, southWestLng), new google.maps.LatLng(northWestLat, northWestLng), new google.maps.LatLng(northEastLat, northEastLng), new google.maps.LatLng(southEastLat, southEastLng)];
   }
 
-  block_mausoleum_.prototype.run = function(latlng, cb) {
-    if (google.maps.geometry.poly.containsLocation(latlng, this.polygon_area)) {
-      return cb(true);
-    } else {
-      return cb(false);
-    }
+  block_mausoleum_.prototype.run = function() {
+    return this.rectangle;
   };
 
   return block_mausoleum_;

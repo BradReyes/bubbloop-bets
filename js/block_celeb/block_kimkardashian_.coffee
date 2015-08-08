@@ -5,12 +5,13 @@ class @block_kimkardashian_
 		@kim_kardashian = 
 			name: "kim kardashian"
 			instagram_id: 18428658
+			vid_id: "GT3KMalt8Bk"
 
 		css = """
 		#instafeed {
 			display: none;
 		}
-		#kim-image {
+		.kim-image {
 			width:120%;
 			position: relative;
 			left: -15px;
@@ -21,7 +22,7 @@ class @block_kimkardashian_
 
 		$("""
 		<div class="drag-wrap draggable Who" name="kimkardashian">
-			<img id="kim-image" src="img/kimkardashian.jpg">
+			<img class="kim-image" src="img/kimkardashian.jpg">
 			<div id="instafeed"></div>
 		</div>
 		""").appendTo ".drag-zone"
@@ -41,4 +42,4 @@ class @block_kimkardashian_
 		feed.run()
 
 	run: ()=>
-		@kim_kardashian.instagram_id
+		@kim_kardashian

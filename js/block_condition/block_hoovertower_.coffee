@@ -20,7 +20,7 @@ class @block_hoovertower_
 		southEastLng = -122.167537441803
 
 		css = """
-			#hoover {
+			.hoover {
 				background-image: url(img/hoover.jpg);
 				background-size: cover;
 			}
@@ -28,25 +28,17 @@ class @block_hoovertower_
 		$("<style type='text/css'></style>").html(css).appendTo "head"
 
 		$("""
-		<div id="hoover" class="drag-wrap draggable filter Where" name="hoovertower">
+		<div class="hoover drag-wrap draggable filter Where" name="hoovertower">
 		</div>
 		""").appendTo ".drag-zone"
 
-		rectangle = [
+		@rectangle = [
 			new google.maps.LatLng southWestLat, southWestLng
 			new google.maps.LatLng northWestLat, northWestLng
 			new google.maps.LatLng northEastLat, northEastLng
 			new google.maps.LatLng southEastLat, southEastLng
 		]
 
-		@polygon_area = new google.maps.Polygon
-			paths: rectangle
 
-
-	run: (latlng, cb) =>
-		if google.maps.geometry.poly.containsLocation latlng, @polygon_area
-			cb true
-		else
-			cb false
-		# window.open "http://order.dominos.com/en/pages/order/#/locations/search/"
-		# cb()
+	run: () =>
+		@rectangle

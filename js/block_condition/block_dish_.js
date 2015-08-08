@@ -4,7 +4,7 @@ var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); 
 this.block_dish_ = (function() {
   function block_dish_() {
     this.run = bind(this.run, this);
-    var css, northEastLat, northEastLng, northWestLat, northWestLng, rectangle, southEastLat, southEastLng, southWestLat, southWestLng;
+    var css, northEastLat, northEastLng, northWestLat, northWestLng, southEastLat, southEastLng, southWestLat, southWestLng;
     southWestLat = 37.40845181;
     southWestLng = -122.1797698;
     northWestLat = 37.40872984;
@@ -13,21 +13,14 @@ this.block_dish_ = (function() {
     northEastLng = -122.17942916;
     southEastLat = 37.40846672;
     southEastLng = -122.17938758;
-    css = "#dish {\n	background-image: url(http://farm3.static.flickr.com/2045/3532400496_cf122cd481.jpg);\n	background-size: cover;\n}";
+    css = ".dish {\n	background-image: url(http://farm3.static.flickr.com/2045/3532400496_cf122cd481.jpg);\n	background-size: cover;\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
-    $("<div id=\"dish\" class=\"drag-wrap draggable filter Where\" name=\"dish\">\n</div>").appendTo(".drag-zone");
-    rectangle = [new google.maps.LatLng(southWestLat, southWestLng), new google.maps.LatLng(northWestLat, northWestLng), new google.maps.LatLng(northEastLat, northEastLng), new google.maps.LatLng(southEastLat, southEastLng)];
-    this.polygon_area = new google.maps.Polygon({
-      paths: rectangle
-    });
+    $("<div class=\"dish drag-wrap draggable filter Where\" name=\"dish\">\n</div>").appendTo(".drag-zone");
+    this.rectangle = [new google.maps.LatLng(southWestLat, southWestLng), new google.maps.LatLng(northWestLat, northWestLng), new google.maps.LatLng(northEastLat, northEastLng), new google.maps.LatLng(southEastLat, southEastLng)];
   }
 
-  block_dish_.prototype.run = function(latlng, cb) {
-    if (google.maps.geometry.poly.containsLocation(latlng, this.polygon_area)) {
-      return cb(true);
-    } else {
-      return cb(false);
-    }
+  block_dish_.prototype.run = function() {
+    return this.rectangle;
   };
 
   return block_dish_;
