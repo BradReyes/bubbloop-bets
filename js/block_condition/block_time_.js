@@ -97,6 +97,7 @@ this.block_time_ = (function() {
   };
 
   block_time_.prototype.run = function(cb) {
+    this.check_time(cb);
     return this.interval_id = setInterval(this.check_time, 7000, cb);
   };
 
@@ -105,11 +106,20 @@ this.block_time_ = (function() {
     clock_hours = $("#hours").text();
     clock_minutes = $("#minutes").text();
     clock_time = $("#time").text();
-    if (clock_time === "PM") {
+    console.log(clock_hours);
+    console.log(clock_time);
+    if (clock_hours === "12" && clock_time === "AM") {
+      clock_hours = 0;
+    } else if (clock_hours === "12" && clock_time === "PM") {
+      clock_hours = 12;
+    } else if (clock_time === "PM") {
       clock_hours = parseInt(clock_hours) + 12;
     }
     time_clock = clock_hours + ":" + clock_minutes;
     time_now = moment().format('HH:mm');
+    console.log("Checked time");
+    console.log(time_now);
+    console.log(time_clock);
     if (time_now === time_clock) {
       clearInterval(this.interval_id);
       return cb();

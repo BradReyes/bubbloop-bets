@@ -13,7 +13,7 @@ this.block_garden_ = (function() {
     northEastLng = -122.16988888;
     southEastLat = 37.42802098;
     southEastLng = -122.16988552;
-    css = ".garden {\n	background-image: url(http://pamiatkyamesta.pise.sk/obrazky/pamiatkyamesta.pise.sk/rodin-sculpture-garden-0184e910a96ebc05f5cc392addbd573afc714cbe.jpg);\n	background-size: cover;\n}";
+    css = ".garden {\n	background-image: url(\"img/sculpturegarden.jpg\");\n	background-size: cover;\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
     $("<div class=\"garden drag-wrap draggable filter Where\" name=\"garden\">\n</div>").appendTo(".drag-zone");
     this.rectangle = [new google.maps.LatLng(southWestLat, southWestLng), new google.maps.LatLng(northWestLat, northWestLng), new google.maps.LatLng(northEastLat, northEastLng), new google.maps.LatLng(southEastLat, southEastLng)];

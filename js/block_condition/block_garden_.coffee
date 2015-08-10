@@ -21,7 +21,7 @@ class @block_garden_
 
 		css = """
 			.garden {
-				background-image: url(http://pamiatkyamesta.pise.sk/obrazky/pamiatkyamesta.pise.sk/rodin-sculpture-garden-0184e910a96ebc05f5cc392addbd573afc714cbe.jpg);
+				background-image: url("img/sculpturegarden.jpg");
 				background-size: cover;
 			}
 		"""

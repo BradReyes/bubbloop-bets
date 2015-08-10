@@ -2,12 +2,27 @@ class @block_display_image_
 
 	constructor: ()->
 		css = """
+			.display-image-text {
+				position: absolute;
+				top: 6px;
+				left: 4px;
+				color: blue;
+				font-weight: bold;
+			}
+
+			.display-image-icon {
+				position: absolute;
+				top: 25px;
+				left: 20px;
+				color: grey;
+			}
 		"""
 		$('<style type="text/css"></style>').html(css).appendTo "head"
 
 		$("""
-		<div class="drag-wrap draggable action Why" name="display_image">
-			DISPLAY IMAGE
+		<div style='overflow: visible' class="drag-wrap draggable action Why" name="display_image">
+			<i class="fa fa-picture-o fa-5x display-image-icon"></i>
+			<p class='display-image-text'>DISPLAY IMAGE</p>
 		</div>
 		""").appendTo ".drag-zone"
 

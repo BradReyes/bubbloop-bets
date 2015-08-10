@@ -154,6 +154,7 @@ class @block_time_
 		"start"
 
 	run: (cb)=>
+		@check_time cb
 		@interval_id = setInterval @check_time, 7000, cb
 		
 
@@ -161,11 +162,22 @@ class @block_time_
 		clock_hours = $("#hours").text()
 		clock_minutes = $("#minutes").text()
 		clock_time = $("#time").text()
-		if clock_time is "PM"
+		console.log clock_hours
+		console.log clock_time
+
+		if clock_hours is "12" and clock_time is "AM"
+			clock_hours = 0
+		else if clock_hours is "12" and clock_time is "PM"
+			clock_hours = 12
+		else if clock_time is "PM"
 			clock_hours = parseInt(clock_hours) + 12
+
 
 		time_clock = "#{clock_hours}:#{clock_minutes}"
 		time_now = moment().format 'HH:mm'
+		console.log "Checked time"
+		console.log time_now
+		console.log time_clock
 
 		if time_now == time_clock
 			clearInterval @interval_id

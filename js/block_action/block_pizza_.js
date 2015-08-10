@@ -11,7 +11,8 @@ this.block_pizza_ = (function() {
   }
 
   block_pizza_.prototype.run = function() {
-    return window.open("http://order.dominos.com/en/pages/order/#/locations/search/");
+    console.log("Ordered a pizza");
+    return alert("Ordered a pizza!");
   };
 
   return block_pizza_;

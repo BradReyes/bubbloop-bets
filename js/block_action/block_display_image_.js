@@ -6,9 +6,9 @@ this.block_display_image_ = (function() {
     this.display_individual_image = bind(this.display_individual_image, this);
     this.run = bind(this.run, this);
     var css;
-    css = "		";
+    css = ".display-image-text {\n	position: absolute;\n	top: 6px;\n	left: 4px;\n	color: blue;\n	font-weight: bold;\n}\n\n.display-image-icon {\n	position: absolute;\n	top: 25px;\n	left: 20px;\n	color: grey;\n}";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable action Why\" name=\"display_image\">\n	DISPLAY IMAGE\n</div>").appendTo(".drag-zone");
+    $("<div style='overflow: visible' class=\"drag-wrap draggable action Why\" name=\"display_image\">\n	<i class=\"fa fa-picture-o fa-5x display-image-icon\"></i>\n	<p class='display-image-text'>DISPLAY IMAGE</p>\n</div>").appendTo(".drag-zone");
   }
 
   block_display_image_.prototype.run = function(list) {

@@ -6,13 +6,13 @@ $(function() {
   window.block_geocaching = new block_geocaching_();
   window.block_instagram_competition = new block_instagram_competition_();
   window.block_my_location = new block_my_location_();
-  window.block_ding = new block_ding_();
   window.block_taylorswift = new block_taylorswift_();
   window.block_beyonce = new block_beyonce_();
   window.block_drake = new block_drake_();
   window.block_rihanna = new block_rihanna_();
   window.block_selenagomez = new block_selenagomez_();
   window.block_kimkardashian = new block_kimkardashian_();
+  window.block_pizza = new block_pizza_();
   window.block_hoovertower = new block_hoovertower_();
   window.block_dish = new block_dish_();
   window.block_garden = new block_garden_();
@@ -27,7 +27,7 @@ $(function() {
   window.block_time = new block_time_();
   window.block_time_end = new block_time_end_();
   window.block_youtube = new block_youtube_();
-  window.block_pizza = new block_pizza_();
+  window.block_ding = new block_ding_();
   window.control = new control_drop_area_(function() {
     return console.log("DONE");
   });

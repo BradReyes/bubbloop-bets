@@ -3,8 +3,7 @@ var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); 
 
 this.block_youtube_ = (function() {
   function block_youtube_() {
-    this.create_player = bind(this.create_player, this);
-    this.youtube_app = bind(this.youtube_app, this);
+    this.search = bind(this.search, this);
     this.run = bind(this.run, this);
     var css;
     css = "#youtube_pic{\n	position: absolute;\n	left: 20px;\n	top: 25px;\n	width: 100px;\n	height: 100px;\n}\n\n#youtube_player {\n	position: absolute;\n	top: 0px;\n	left: -144px;\n}\n";
@@ -13,39 +12,42 @@ this.block_youtube_ = (function() {
   }
 
   block_youtube_.prototype.run = function(people) {
+    var celeb, complete_query, i, len, results;
     console.log("Got in youtube");
     console.log(people);
-    return this.youtube_app(people);
+    complete_query = "";
+    results = [];
+    for (i = 0, len = people.length; i < len; i++) {
+      celeb = people[i];
+      results.push(complete_query += celeb.name + " ");
+    }
+    return results;
   };
 
-  block_youtube_.prototype.youtube_app = function(people) {
-    return this.create_player(people);
-  };
-
-  block_youtube_.prototype.create_player = function(people) {
-    var firstScriptTag, tag;
-    tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/player_api";
-    firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    return window.onYouTubeIframeAPIReady = (function(_this) {
-      return function() {
-        var player;
-        return player = new YT.Player('youtube_player', {
-          height: '352',
-          videoId: people[0].vid_id,
-          events: {
-            onReady: function(e) {
-              console.log("youtube onReady");
-              return e.target.playVideo();
-            },
-            onStateChange: function(e) {
-              return console.log("youtube onStateChange");
-            }
-          }
+  block_youtube_.prototype.search = function(query, cb) {
+    var YT_API_KEY, YT_EMBED_URL, YT_URL, getURL;
+    YT_URL = 'https://www.googleapis.com/youtube/v3/search';
+    YT_API_KEY = 'AIzaSyDDP01Gnj3-wfoqM59xQz6pryJQhmYWCt8';
+    YT_EMBED_URL = 'http://www.youtube.com/embed/';
+    getURL = YT_URL + "?key=" + YT_API_KEY + "&q=" + query + "&part=snippet&type=value";
+    return $.ajax({
+      method: "GET",
+      url: getURL
+    }).done((function(_this) {
+      return function(body, response, error) {
+        var video_objects, videos;
+        videos = body.items;
+        console.log(videos);
+        video_objects = [];
+        videos.forEach(function(cur) {
+          return video_objects.push({
+            'title': cur.snippet.title,
+            'source': YT_EMBED_URL + cur.id.videoId
+          });
         });
+        return cb(video_objects);
       };
-    })(this);
+    })(this));
   };
 
   return block_youtube_;

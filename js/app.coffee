@@ -1,8 +1,11 @@
 $ ->
-	
-
 
 	window.counter = -1 # this is to separate logic between conditions
+
+	# $('html').on "click", (e)=>
+	# 	console.log "yo"
+	# 	console.log e.target
+	# 	console.log e
 
 	# -----------------------------
 	# BLOCKS (bank layout 9-8-9)
@@ -14,7 +17,6 @@ $ ->
 	window.block_geocaching = new block_geocaching_()
 	window.block_instagram_competition = new block_instagram_competition_()
 	window.block_my_location = new block_my_location_()
-	window.block_ding = new block_ding_()
 	window.block_taylorswift = new block_taylorswift_()
 	window.block_beyonce = new block_beyonce_()
 	window.block_drake = new block_drake_()
@@ -23,6 +25,7 @@ $ ->
 	window.block_kimkardashian = new block_kimkardashian_()
 
 	# # Step 2 - Source
+	window.block_pizza = new block_pizza_()
 	window.block_hoovertower = new block_hoovertower_()
 	window.block_dish = new block_dish_()
 	window.block_garden = new block_garden_()
@@ -39,6 +42,7 @@ $ ->
 	window.block_time = new block_time_()
 	window.block_time_end = new block_time_end_()
 	window.block_youtube = new block_youtube_()
+	window.block_ding = new block_ding_()
 	# window.block_map = new block_map_()
 	# window.block_source = new block_source_()
 	# window.block_instagram = new block_instagram_()
@@ -55,12 +59,41 @@ $ ->
 	# window.block_display_image_fade = new block_display_image_fade_()
 	# window.block_display_image = new block_display_image_()
 	# window.block_tinder = new block_tinder_()
-	window.block_pizza = new block_pizza_()
 	# window.block_play_audio = new block_play_audio_()
 
 	# Control statements
 	window.control = new control_drop_area_ ()->
 		console.log "DONE"
+
+	# YT_URL = 'https://www.googleapis.com/youtube/v3/search'
+	# YT_API_KEY = 'AIzaSyDDP01Gnj3-wfoqM59xQz6pryJQhmYWCt8'
+	# # YT_API_KEY = 'AIzaSyDIBsEcwPfptc_THmUtO5OhU5BV6KLqFs'
+	# YT_EMBED_URL = 'http://www.youtube.com/embed/'
+
+	# # Test for the youtube api
+	# search = (query, cb) =>
+	# 	getURL = YT_URL + "?key=" + YT_API_KEY + "&q=" + query + "&part=snippet&type=value"
+
+	# 	$.ajax
+	# 		method: "GET"
+	# 		url: getURL
+	# 	.done (body, response, error)=>
+	# 		# videos = JSON.parse(body).items
+	# 		videos = body.items
+	# 		console.log videos
+	# 		video_objects = []
+	# 		videos.forEach (cur)=>
+	# 			video_objects.push
+	# 				'title': cur.snippet.title,
+	# 				'source': YT_EMBED_URL + cur.id.videoId
+	# 		cb video_objects
+
+	# search "too many cooks", (videos) =>
+	# 	console.log videos
+
+	# 'title': cur.snippet.title,
+	# 'source': YT_EMBED_URL + cur.id.videoId
+
 
 	# ---------------------------
 	# APPLE WATCH UI BLOCK BANK

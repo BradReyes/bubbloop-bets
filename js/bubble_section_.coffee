@@ -130,8 +130,8 @@ class @bubble_section_
 			ondrop: (event) =>
 				$target = $ event.target
 				$related_target = $ event.relatedTarget
-				$target.css
-					position: 'absolute'
+				# $target.css
+				# 	position: 'relative'
 				block_name = $related_target.attr "name"
 
 				# gets from DOM so that we can use the block
@@ -154,12 +154,21 @@ class @bubble_section_
 					$clone.addClass 'not-draggable'
 					$clone.removeClass @bubble_type
 
+
 					relative_left = block_offset.left - zone_offset.left
 					relative_top = block_offset.top - zone_offset.top
 					x = relative_left + 10
 					y = relative_top + 10
+					# x = relative_left
+					# y = relative_top
+					console.log "block_offset: #{block_offset.left}"
+					console.log "zone_offset: #{zone_offset.left}"
+					console.log "x: #{x}"
+
 					$clone.css
-						'-webkit-transform': "translate(#{x}px, #{y}px)"
+						'-webkit-transform': "translate(#{0}px, #{0}px)"
+						top: "#{parseInt(y)}px"
+						left: "#{parseInt(x)}px"
 						position: 'absolute'
 						opacity: 1
 						width: "#{real_diameter}"
@@ -170,6 +179,17 @@ class @bubble_section_
 
 					$clone.attr 'data-x', x
 					$clone.attr 'data-y', y
+
+					# $test = $("""
+					# 	<div>HELLO</div>
+					# """)
+
+					# $test.css
+					# 	position: 'absolute'
+					# 	top: x
+					# 	left: y
+					# $test.prependTo $(".droppable-inner-#{@counter_id}")
+
 
 					# update bank
 					items = $ ".drag-wrap"
@@ -284,7 +304,7 @@ class @bubble_section_
 
 	# shrink dragzone back down
 	revert: () =>
-		@add_dropzone()
+		# @add_dropzone()
 		$(".text-middle-#{@counter_id}").css
 			top: @text_y
 			left: @text_x
@@ -299,6 +319,11 @@ class @bubble_section_
 				overflow: 'hidden'
 		, 800
 
+
+		console.log "top: #{@top}"
+		console.log "left: #{@left}"
+
+		# shrinks
 		$(".droppable-#{@counter_id}").velocity
 			width: @diameter
 			height: @diameter
@@ -329,18 +354,21 @@ class @bubble_section_
 
 		# animation for the elemetns inside a spcific 
 		# dropzone
-		diameter = @diameter
+		# diameter = @diameter
 		top = @top
 		left = @left
 		child_counter = 0
 		size = $(".droppable-inner-#{@counter_id}").children().size()
 		$(".droppable-inner-#{@counter_id}").children().each (index) ->
+			# console.log 
 			$(this).velocity
-				top: 0
 				left: 0
+				top: 0
 				opacity: 0.2
 			,
 				duration: 1000
+
+
 
 		# re-adds click event to expand
 		interact(".droppable-#{@counter_id}")

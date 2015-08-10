@@ -15,4 +15,6 @@ class @block_pizza_
 		""").appendTo ".drag-zone"
 
 	run: ()=>
-		window.open "http://order.dominos.com/en/pages/order/#/locations/search/"
+		console.log "Ordered a pizza"
+		alert "Ordered a pizza!"
+		# window.open "http://order.dominos.com/en/pages/order/#/locations/search/"

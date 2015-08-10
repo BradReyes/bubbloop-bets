@@ -114,9 +114,6 @@ this.bubble_section_ = (function() {
           var $clone, $related_target, $target, block_name, block_offset, real_diameter, relative_left, relative_top, x, y, zone_offset;
           $target = $(event.target);
           $related_target = $(event.relatedTarget);
-          $target.css({
-            position: 'absolute'
-          });
           block_name = $related_target.attr("name");
           _this.block = window["block_" + block_name];
           _this.block_list.push(_this.block);
@@ -137,8 +134,13 @@ this.bubble_section_ = (function() {
             relative_top = block_offset.top - zone_offset.top;
             x = relative_left + 10;
             y = relative_top + 10;
+            console.log("block_offset: " + block_offset.left);
+            console.log("zone_offset: " + zone_offset.left);
+            console.log("x: " + x);
             $clone.css({
-              '-webkit-transform': "translate(" + x + "px, " + y + "px)",
+              '-webkit-transform': "translate(" + 0. + "px, " + 0. + "px)",
+              top: (parseInt(y)) + "px",
+              left: (parseInt(x)) + "px",
               position: 'absolute',
               opacity: 1,
               width: "" + real_diameter,
@@ -283,8 +285,7 @@ this.bubble_section_ = (function() {
   };
 
   bubble_section_.prototype.revert = function() {
-    var child_counter, diameter, i, items, left, pos, s2, size, top;
-    this.add_dropzone();
+    var child_counter, i, items, left, pos, s2, size, top;
     $(".text-middle-" + this.counter_id).css({
       top: this.text_y,
       left: this.text_x
@@ -302,6 +303,8 @@ this.bubble_section_ = (function() {
         });
       };
     })(this), 800);
+    console.log("top: " + this.top);
+    console.log("left: " + this.left);
     $(".droppable-" + this.counter_id).velocity({
       width: this.diameter,
       height: this.diameter,
@@ -332,15 +335,14 @@ this.bubble_section_ = (function() {
       });
       ++i;
     }
-    diameter = this.diameter;
     top = this.top;
     left = this.left;
     child_counter = 0;
     size = $(".droppable-inner-" + this.counter_id).children().size();
     $(".droppable-inner-" + this.counter_id).children().each(function(index) {
       return $(this).velocity({
-        top: 0,
         left: 0,
+        top: 0,
         opacity: 0.2
       }, {
         duration: 1000
