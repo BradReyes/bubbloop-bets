@@ -15,6 +15,8 @@ class @block_instagram_competition_
 
 	run: (who, where, action, helpers)=>
 		# ignore the where in this case
+		# helpers is an array with block and their own run function
+		# passes back true or false for this case
 		if ($.inArray("me", who) isnt -1)
 			alert "We don't have your instagram account"
 			return
@@ -25,12 +27,20 @@ class @block_instagram_competition_
 			cur_id = element.instagram_id
 			@get_images (list) =>
 				for item in list
-					@combined_posts.push item
+					if @check_filters helpers, item
+						@combined_posts.push item
 				cb()
 			, cur_id
 			
 		, (err) =>
 			action @combined_posts
+
+	check_filters: (helpers, item) =>
+		if helpers.length is 0
+			return true
+		for helper in helpers
+			return true if helper.run(item) is true
+		return false
 
 
 	get_images: (cb, user_id) =>

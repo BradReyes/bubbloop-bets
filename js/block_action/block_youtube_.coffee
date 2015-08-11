@@ -36,7 +36,9 @@ class @block_youtube_
 		complete_query = ""
 		for celeb in people
 			complete_query += "#{celeb.name} "
-		# search encodeURIComponent complete_query
+		search encodeURIComponent complete_query, (videos) =>
+			#what to do with the videos now
+
 
 
 

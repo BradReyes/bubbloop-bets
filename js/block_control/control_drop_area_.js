@@ -42,11 +42,7 @@ this.control_drop_area_ = (function() {
   };
 
   control_drop_area_.prototype.run = function() {
-    return this.when.run((function(_this) {
-      return function() {
-        return _this.what.run(_this.who.run(), _this.where.run(), _this.why.run);
-      };
-    })(this));
+    return this.what.run(this.who.run(), this.where.run(), this.why.run);
   };
 
 

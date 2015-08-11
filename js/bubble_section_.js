@@ -448,7 +448,7 @@ this.bubble_section_ = (function() {
    */
 
   bubble_section_.prototype.run_what = function(who_list, locations, action) {
-    var block, block_type, counter, j, len, main_block, store_main_block, what_blocks;
+    var block, block_type, counter, j, len, main_block, ref, store_main_block, what_blocks;
     if (this.bubble_is_empty()) {
       console.log("Skipping what");
       action(who_list, locations);
@@ -457,9 +457,13 @@ this.bubble_section_ = (function() {
     main_block = false;
     store_main_block = null;
     counter = 0;
-    what_blocks = this.block_list;
-    for (j = 0, len = what_blocks.length; j < len; j++) {
-      block = what_blocks[j];
+    what_blocks = [];
+    console.log(what_blocks[1]);
+    ref = this.block_list;
+    for (j = 0, len = ref.length; j < len; j++) {
+      block = ref[j];
+      console.log(what_blocks);
+      console.log(block);
       block_type = block.get_type();
       if (block_type === "action") {
         if (main_block === true) {
@@ -468,7 +472,8 @@ this.bubble_section_ = (function() {
         }
         main_block = true;
         store_main_block = block;
-        what_blocks.splice(counter, 1);
+      } else {
+        what_blocks.push(block);
       }
       counter++;
     }
@@ -478,6 +483,7 @@ this.bubble_section_ = (function() {
     }
     $(".step-by-step").remove();
     $("#build_button").remove();
+    console.log(what_blocks);
     return store_main_block.run(who_list, locations, action, what_blocks);
   };
 

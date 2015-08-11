@@ -454,8 +454,11 @@ class @bubble_section_
 		main_block = false
 		store_main_block = null
 		counter = 0
-		what_blocks = @block_list
-		for block in what_blocks
+		what_blocks = []
+		console.log what_blocks[1]
+		for block in @block_list
+			console.log what_blocks
+			console.log block
 			block_type = block.get_type()
 			if block_type is "action"
 				if main_block is true
@@ -463,7 +466,7 @@ class @bubble_section_
 					return
 				main_block = true
 				store_main_block = block
-				what_blocks.splice counter, 1 # removes this action from array
+			else what_blocks.push block
 
 			counter++
 		if store_main_block is null
@@ -472,4 +475,5 @@ class @bubble_section_
 		# perhaps move elsewhere
 		$(".step-by-step").remove()
 		$("#build_button").remove()
+		console.log what_blocks
 		store_main_block.run who_list, locations, action, what_blocks

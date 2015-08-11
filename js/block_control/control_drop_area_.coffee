@@ -86,8 +86,10 @@ class @control_drop_area_
 	# why.run (notice it's not called) will be called from what
 	# what is were the rest of the logic happens
 	run: ()=>
-		@when.run =>
-			@what.run @who.run(), @where.run(), @why.run
+		# @when.run =>
+		# 	@what.run @who.run(), @where.run(), @why.run
+
+		@what.run @who.run(), @where.run(), @why.run
 
 
 

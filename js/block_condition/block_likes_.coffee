@@ -16,13 +16,21 @@ class @block_likes_
 			textarea {
 				font-size: 16px;
 			}
+
+			.likes-filter-text {
+				position: absolute;
+				top: -25px;
+				left: 20px;
+				font-size: 150%;
+				font-weight: bold;
+			}
 		"""
 		$('<style type="text/css"></style>').html(css).appendTo "head"
 
 		$("""
 		<div class="drag-wrap draggable filter What" name="likes">
-			LIKES
-			<input class="likes-input" type="text" value="">
+			<p class='likes-filter-text'>> LIKES</p>
+			<input class="likes-input" type="text" value="0">
 		</div>
 		""").appendTo ".drag-zone"
 
@@ -109,24 +117,30 @@ class @block_likes_
 			$("#popup-input").remove()
 
 
+	get_type: () =>
+		"helper"
+
 	# cb takes in a winner, if no winner, call it anyway with no parameter
-	run: (competitors, cb)=>
+	run: (item)=>
 		if not @num_likes?
 			console.log $(".likes-input").val()
 			@num_likes = parseInt($(".likes-input").val())
-		console.log @num_likes
-		player1 = competitors.first_val
-		player2 = competitors.second_val
+		# console.log @num_likes
+		# player1 = competitors.first_val
+		# player2 = competitors.second_val
 		# players are array with [0] = the id and [1] is the actual pic
-		player1_likes = player1[1].likes.count
-		player2_likes = player2[1].likes.count
-		$("#instagram-matchup-counter-1").text "LIKES: #{player1_likes}"
-		$("#instagram-matchup-counter-2").text "LIKES: #{player2_likes}"
-		$("#put-goal-here").text @num_likes
+		# player1_likes = player1[1].likes.count
+		# player2_likes = player2[1].likes.count
+		# $("#instagram-matchup-counter-1").text "LIKES: #{player1_likes}"
+		# $("#instagram-matchup-counter-2").text "LIKES: #{player2_likes}"
+		# $("#put-goal-here").text @num_likes
+		console.log "    "
+		likes = item.likes.count
+		console.log "Likes: #{likes}"
+		console.log @num_likes
 
-		if player1_likes >= @num_likes
-			cb competitors.first_val[1], true
-		else if player2_likes >= @num_likes
-			cb competitors.second_val[1], false
-		else
-			cb()
+		if likes >= @num_likes
+			console.log "Put in"
+			return true
+		console.log "skipped"
+		return false

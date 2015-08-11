@@ -4,12 +4,13 @@ var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); 
 this.block_likes_ = (function() {
   function block_likes_() {
     this.run = bind(this.run, this);
+    this.get_type = bind(this.get_type, this);
     this.expand = bind(this.expand, this);
     this.blacken_background = bind(this.blacken_background, this);
     var css;
-    css = ".likes-input{\n	position: absolute;\n	top: 55%;\n	width: 80%;\n	left: 6%;\n	text-align: center;\n	font-size: 12px;\n}\n\ninput[type='text'],\ninput[type='number'],\ntextarea {\n	font-size: 16px;\n}";
+    css = ".likes-input{\n	position: absolute;\n	top: 55%;\n	width: 80%;\n	left: 6%;\n	text-align: center;\n	font-size: 12px;\n}\n\ninput[type='text'],\ninput[type='number'],\ntextarea {\n	font-size: 16px;\n}\n\n.likes-filter-text {\n	position: absolute;\n	top: -25px;\n	left: 20px;\n	font-size: 150%;\n	font-weight: bold;\n}";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable filter What\" name=\"likes\">\n	LIKES\n	<input class=\"likes-input\" type=\"text\" value=\"\">\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable filter What\" name=\"likes\">\n	<p class='likes-filter-text'>> LIKES</p>\n	<input class=\"likes-input\" type=\"text\" value=\"0\">\n</div>").appendTo(".drag-zone");
     interact(".likes-input").on('tap', (function(_this) {
       return function(event) {
         event.preventDefault();
@@ -90,27 +91,26 @@ this.block_likes_ = (function() {
     })(this));
   };
 
-  block_likes_.prototype.run = function(competitors, cb) {
-    var player1, player1_likes, player2, player2_likes;
+  block_likes_.prototype.get_type = function() {
+    return "helper";
+  };
+
+  block_likes_.prototype.run = function(item) {
+    var likes;
     if (this.num_likes == null) {
       console.log($(".likes-input").val());
       this.num_likes = parseInt($(".likes-input").val());
     }
+    console.log("    ");
+    likes = item.likes.count;
+    console.log("Likes: " + likes);
     console.log(this.num_likes);
-    player1 = competitors.first_val;
-    player2 = competitors.second_val;
-    player1_likes = player1[1].likes.count;
-    player2_likes = player2[1].likes.count;
-    $("#instagram-matchup-counter-1").text("LIKES: " + player1_likes);
-    $("#instagram-matchup-counter-2").text("LIKES: " + player2_likes);
-    $("#put-goal-here").text(this.num_likes);
-    if (player1_likes >= this.num_likes) {
-      return cb(competitors.first_val[1], true);
-    } else if (player2_likes >= this.num_likes) {
-      return cb(competitors.second_val[1], false);
-    } else {
-      return cb();
+    if (likes >= this.num_likes) {
+      console.log("Put in");
+      return true;
     }
+    console.log("skipped");
+    return false;
   };
 
   return block_likes_;

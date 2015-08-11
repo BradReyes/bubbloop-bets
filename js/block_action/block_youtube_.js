@@ -12,16 +12,17 @@ this.block_youtube_ = (function() {
   }
 
   block_youtube_.prototype.run = function(people) {
-    var celeb, complete_query, i, len, results;
+    var celeb, complete_query, i, len;
     console.log("Got in youtube");
     console.log(people);
     complete_query = "";
-    results = [];
     for (i = 0, len = people.length; i < len; i++) {
       celeb = people[i];
-      results.push(complete_query += celeb.name + " ");
+      complete_query += celeb.name + " ";
     }
-    return results;
+    return search(encodeURIComponent(complete_query, (function(_this) {
+      return function(videos) {};
+    })(this)));
   };
 
   block_youtube_.prototype.search = function(query, cb) {

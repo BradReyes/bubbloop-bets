@@ -14,7 +14,7 @@ $ ->
 	# ic = new instagram_competition_ "dr.bradass", "emsandy2", 2
 
 	window.block_picture = new block_picture_()
-	window.block_geocaching = new block_geocaching_()
+	# window.block_geocaching = new block_geocaching_()
 	window.block_instagram_competition = new block_instagram_competition_()
 	window.block_my_location = new block_my_location_()
 	window.block_taylorswift = new block_taylorswift_()
@@ -43,6 +43,7 @@ $ ->
 	window.block_time_end = new block_time_end_()
 	window.block_youtube = new block_youtube_()
 	window.block_ding = new block_ding_()
+	window.block_geocaching = new block_geocaching_()
 	# window.block_map = new block_map_()
 	# window.block_source = new block_source_()
 	# window.block_instagram = new block_instagram_()
