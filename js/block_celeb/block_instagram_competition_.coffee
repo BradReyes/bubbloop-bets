@@ -62,3 +62,32 @@ class @block_instagram_competition_
 				cb all_posts
 
 		feed.run()
+
+	filter_items: () => #obtains the list of who objects current available, removing those without instagram_id 
+		#console.log("filtering")
+		temp_list = $(".draggable.Who")
+		what_list = $(".draggable.What")
+		#console.log(temp_list)
+		i = 0 
+		while i < temp_list.length
+			name = $(temp_list[i]).attr "name"
+			temp_block = window["block_#{name}"]
+			#console.log(temp_block)
+			insta_id = temp_block.run()
+			insta_id = insta_id.instagram_id #instagram id is a variable part of the returned object from run()
+			
+			#a who with no instagram ID is incompatible with the instagram block, hence it gets removed
+			if insta_id is null
+				#console.log(temp_list.length)
+				temp_list[i].parentNode.removeChild temp_list[i]
+				#console.log(temp_list.length)
+			i++
+		j = 0 
+		while j < what_list.length
+			name = $(what_list[j]).attr "name"
+			what_block = window["block_#{name}"]
+			ret_type = what_block.get_type()
+			console.log(ret_type)
+			if (what_block.get_type() is "action") and (name isnt "instagram_competition")
+				what_list[j].parentNode.removeChild what_list[j]
+			j++

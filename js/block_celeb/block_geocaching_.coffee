@@ -20,6 +20,17 @@ class @block_geocaching_
 	get_type: () =>
 		"action"
 
+	filter_items: () =>
+		temp_list = $(".draggable.What")
+		i = 0
+		while i < temp_list.length
+			name = $(temp_list[i]).attr "name"
+			temp_block = window["block_#{name}"]
+			if temp_block.get_type() is "action"
+				temp_list[i].parentNode.removeChild temp_list[i]
+			i++
+
+
 	run: (who, where, action, helpers)=>
 		console.log typeof who
 		console.log where

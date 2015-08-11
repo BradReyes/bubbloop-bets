@@ -2,7 +2,6 @@
 $(function() {
   var c, cb, cr, h, items, onScroll, startPos, w, window_height;
   window.counter = -1;
-  window.block_picture = new block_picture_();
   window.block_instagram_competition = new block_instagram_competition_();
   window.block_my_location = new block_my_location_();
   window.block_taylorswift = new block_taylorswift_();

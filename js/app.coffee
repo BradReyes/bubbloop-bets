@@ -13,7 +13,7 @@ $ ->
 	# Step 1 - Celeb
 	# ic = new instagram_competition_ "dr.bradass", "emsandy2", 2
 
-	window.block_picture = new block_picture_()
+	# window.block_picture = new block_picture_()
 	# window.block_geocaching = new block_geocaching_()
 	window.block_instagram_competition = new block_instagram_competition_()
 	window.block_my_location = new block_my_location_()

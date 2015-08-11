@@ -5,15 +5,195 @@ class @control_drop_area_
 			.drop_area {
 				position: relative;
 			}
+			.random_button {
+				position: absolute;
+				color: black;
+				top: 400px;
+				left: 340px;
+				width: 50px;
+				height: 50px;
+				visiblity: visible;
+			}
+			.random_area{
+				position: absolute;
+				top: 395px;
+				left: 333px;
+				width: 30px;
+				height: 30px;
+				border: 1px black solid;
+				background: rgba(255, 255, 255, 0.8);
+				border-radius: 50%;
+			}
 		"""
 		$("<style type='text/css'></style>").html(css).appendTo "head"
 
 		$("""
+		<div class='random_area'></div>
+		<i class="random_button fa fa-random"></i>
+
 		<div id='current-step' class='text'></div>
 		<div class='drop_area' role='drop_area'></div>
 		""").appendTo $("body")
 		@add_bubble_sections()
 		@add_center_button()
+
+		interact(".random_button")
+		.on 'tap', (event) =>
+			@get_randoms()
+
+	get_randoms: () =>
+		selected_list = []		
+		#	console.log(selected_list)
+
+		who_list = $(".draggable.Who")
+		if who_list.length isnt 0
+			selected_who = Math.random() * who_list.length
+			selected_who = Math.floor selected_who
+			final_who = who_list[selected_who]
+			#console.log(final_who)
+			selected_list.push final_who
+		else 
+			selected_list.push null
+
+		what_list = $(".draggable.What")
+		if what_list.length isnt 0 
+			selected_what = Math.random() * what_list.length
+			selected_what = Math.floor selected_what
+			final_what = what_list[selected_what]
+			selected_list.push final_what
+		else 
+			selected_list.push null
+
+		when_list = $(".draggable.When")
+		if when_list.length isnt 0 
+			selected_when = Math.random() * when_list.length
+			selected_when = Math.floor selected_when
+			final_when = when_list[selected_when]
+			selected_list.push final_when
+		else 
+			selected_list.push null
+
+		where_list = $(".draggable.Where")
+		if where_list.length isnt 0 
+			selected_where = Math.random() * where_list.length
+			selected_where = Math.floor selected_where
+			final_where = where_list[selected_where]
+			selected_list.push final_where
+		else 
+			selected_list.push null
+
+		why_list = $(".draggable.Why")
+		if why_list.length isnt 0 
+			selected_why = Math.random() * why_list.length
+			selected_why = Math.floor selected_why
+			final_why = why_list[selected_why]
+			selected_list.push final_why
+		else 
+			selected_list.push null
+
+		all_null = selected_list[0] is null and selected_list[1] is null and selected_list[2] is null and selected_list[3] is null and selected_list[4] is null
+		if all_null isnt true
+			final_random = Math.random() * selected_list.length
+			final_random = Math.floor final_random
+			while (selected_list[final_random] is null)
+				final_random = Math.random() * selected_list.length
+				final_random = Math.floor final_random
+			@manual_drop selected_list[final_random], final_random
+
+	manual_drop: (to_drop, type_of_block) =>
+		#related target is now to_drop
+		#console.log("manual drop")
+		target = $(".droppable-#{type_of_block}") #zone thats dropped
+		#console.log(target)
+		#console.log(to_drop)
+		#console.log($(to_drop).attr "name")
+		target.css
+			position: 'absolute'
+		block_name = $(to_drop).attr "name"
+
+		# gets from DOM so that we can use the block
+		@block = window["block_#{block_name}"]
+		#filter attempt
+		
+		#console.log(@block)
+		if type_of_block is 0
+			@who.set_block @block
+		else if type_of_block is 1
+			@what.set_block @block
+		else if type_of_block is 2
+			@when.set_block @block
+		else if type_of_block is 3
+			@where.set_block @block
+		else if type_of_block is 4
+			@why.set_block @block
+
+		#filter items
+		if @block.filter_items
+			@block.filter_items()
+
+		#@block_list.push @block
+		#@filled = true
+		#@block_name = block_name
+		target.removeClass 'can--catch'
+		#$(to_drop).css 
+		#	position: 'relative'
+		#	top: 0
+		#	left: 0
+
+		block_offset = $(to_drop).offset()
+		zone_offset = target.offset()
+
+		# CLONE LOGIC
+		if $(to_drop).hasClass('drag-wrap')
+			real_diameter = $(to_drop).width()
+			$clone = $(to_drop).detach() #block
+			$clone.removeClass 'drag-wrap'
+			$clone.removeClass 'getting--dragged'
+			$clone.removeClass 'draggable'
+			$clone.addClass 'not-draggable'
+			$clone.removeClass @bubble_type
+
+
+			relative_left = block_offset.left - zone_offset.left
+			relative_top = block_offset.top - zone_offset.top
+			#console.log("block type")
+			#console.log(type_of_block)
+			#console.log(relative_left)
+			#console.log(relative_top)
+			size = $(".droppable-inner-#{type_of_block}").children().size()
+			x = -125 + 175 + 75 * (size % 3) 
+			y = -95 + 133 + 75 * Math.floor size/3 #((size + 1) % 2)
+			$clone.css
+				'-webkit-transform': "translate(#{0}px, #{0}px)"
+				position: 'absolute'
+				top: y
+				left: x
+				opacity: 1
+				width: "#{real_diameter}"
+				height: "#{real_diameter}"
+				'z-index': 5000
+
+			$clone.prependTo $(".droppable-inner-#{type_of_block}")
+
+			$clone.attr 'data-x', x
+			$clone.attr 'data-y', y
+
+			# update bank
+			items = $ ".drag-wrap"
+			#onScroll()
+
+			temp = 10
+			size = $(".droppable-inner-#{type_of_block}").children().size()
+			$(".droppable-inner-#{type_of_block}").children().each (index) ->
+				$(this).velocity
+					#position: 'relative'
+					top: 10
+					left: 10
+					height: 127
+					width: 127
+					opacity: 0.2
+				,
+					duration: 1000
 
 	add_bubble_sections: () =>
 		# left, top, diamater, bubble_type

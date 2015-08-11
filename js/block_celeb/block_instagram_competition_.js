@@ -3,6 +3,7 @@ var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); 
 
 this.block_instagram_competition_ = (function() {
   function block_instagram_competition_() {
+    this.filter_items = bind(this.filter_items, this);
     this.get_images = bind(this.get_images, this);
     this.check_filters = bind(this.check_filters, this);
     this.run = bind(this.run, this);
@@ -28,9 +29,9 @@ this.block_instagram_competition_ = (function() {
         var cur_id;
         cur_id = element.instagram_id;
         return _this.get_images(function(list) {
-          var item, j, len;
-          for (j = 0, len = list.length; j < len; j++) {
-            item = list[j];
+          var item, k, len;
+          for (k = 0, len = list.length; k < len; k++) {
+            item = list[k];
             if (_this.check_filters(helpers, item)) {
               _this.combined_posts.push(item);
             }
@@ -46,12 +47,12 @@ this.block_instagram_competition_ = (function() {
   };
 
   block_instagram_competition_.prototype.check_filters = function(helpers, item) {
-    var helper, j, len;
+    var helper, k, len;
     if (helpers.length === 0) {
       return true;
     }
-    for (j = 0, len = helpers.length; j < len; j++) {
-      helper = helpers[j];
+    for (k = 0, len = helpers.length; k < len; k++) {
+      helper = helpers[k];
       if (helper.run(item) === true) {
         return true;
       }
@@ -74,10 +75,10 @@ this.block_instagram_competition_ = (function() {
       },
       success: (function(_this) {
         return function(json) {
-          var cur, j, len, list;
+          var cur, k, len, list;
           list = json.data;
-          for (j = 0, len = list.length; j < len; j++) {
-            cur = list[j];
+          for (k = 0, len = list.length; k < len; k++) {
+            cur = list[k];
             all_posts.push(cur);
           }
           return cb(all_posts);
@@ -85,6 +86,36 @@ this.block_instagram_competition_ = (function() {
       })(this)
     });
     return feed.run();
+  };
+
+  block_instagram_competition_.prototype.filter_items = function() {
+    var i, insta_id, j, name, results, ret_type, temp_block, temp_list, what_block, what_list;
+    temp_list = $(".draggable.Who");
+    what_list = $(".draggable.What");
+    i = 0;
+    while (i < temp_list.length) {
+      name = $(temp_list[i]).attr("name");
+      temp_block = window["block_" + name];
+      insta_id = temp_block.run();
+      insta_id = insta_id.instagram_id;
+      if (insta_id === null) {
+        temp_list[i].parentNode.removeChild(temp_list[i]);
+      }
+      i++;
+    }
+    j = 0;
+    results = [];
+    while (j < what_list.length) {
+      name = $(what_list[j]).attr("name");
+      what_block = window["block_" + name];
+      ret_type = what_block.get_type();
+      console.log(ret_type);
+      if ((what_block.get_type() === "action") && (name !== "instagram_competition")) {
+        what_list[j].parentNode.removeChild(what_list[j]);
+      }
+      results.push(j++);
+    }
+    return results;
   };
 
   return block_instagram_competition_;

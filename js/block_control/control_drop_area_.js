@@ -8,13 +8,148 @@ this.control_drop_area_ = (function() {
     this.run = bind(this.run, this);
     this.add_center_button = bind(this.add_center_button, this);
     this.add_bubble_sections = bind(this.add_bubble_sections, this);
+    this.manual_drop = bind(this.manual_drop, this);
+    this.get_randoms = bind(this.get_randoms, this);
     var css;
-    css = ".drop_area {\n	position: relative;\n}";
+    css = ".drop_area {\n	position: relative;\n}\n.random_button {\n	position: absolute;\n	color: black;\n	top: 400px;\n	left: 340px;\n	width: 50px;\n	height: 50px;\n	visiblity: visible;\n}\n.random_area{\n	position: absolute;\n	top: 395px;\n	left: 333px;\n	width: 30px;\n	height: 30px;\n	border: 1px black solid;\n	background: rgba(255, 255, 255, 0.8);\n	border-radius: 50%;\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
-    $("<div id='current-step' class='text'></div>\n<div class='drop_area' role='drop_area'></div>").appendTo($("body"));
+    $("<div class='random_area'></div>\n<i class=\"random_button fa fa-random\"></i>\n\n<div id='current-step' class='text'></div>\n<div class='drop_area' role='drop_area'></div>").appendTo($("body"));
     this.add_bubble_sections();
     this.add_center_button();
+    interact(".random_button").on('tap', (function(_this) {
+      return function(event) {
+        return _this.get_randoms();
+      };
+    })(this));
   }
+
+  control_drop_area_.prototype.get_randoms = function() {
+    var all_null, final_random, final_what, final_when, final_where, final_who, final_why, selected_list, selected_what, selected_when, selected_where, selected_who, selected_why, what_list, when_list, where_list, who_list, why_list;
+    selected_list = [];
+    who_list = $(".draggable.Who");
+    if (who_list.length !== 0) {
+      selected_who = Math.random() * who_list.length;
+      selected_who = Math.floor(selected_who);
+      final_who = who_list[selected_who];
+      selected_list.push(final_who);
+    } else {
+      selected_list.push(null);
+    }
+    what_list = $(".draggable.What");
+    if (what_list.length !== 0) {
+      selected_what = Math.random() * what_list.length;
+      selected_what = Math.floor(selected_what);
+      final_what = what_list[selected_what];
+      selected_list.push(final_what);
+    } else {
+      selected_list.push(null);
+    }
+    when_list = $(".draggable.When");
+    if (when_list.length !== 0) {
+      selected_when = Math.random() * when_list.length;
+      selected_when = Math.floor(selected_when);
+      final_when = when_list[selected_when];
+      selected_list.push(final_when);
+    } else {
+      selected_list.push(null);
+    }
+    where_list = $(".draggable.Where");
+    if (where_list.length !== 0) {
+      selected_where = Math.random() * where_list.length;
+      selected_where = Math.floor(selected_where);
+      final_where = where_list[selected_where];
+      selected_list.push(final_where);
+    } else {
+      selected_list.push(null);
+    }
+    why_list = $(".draggable.Why");
+    if (why_list.length !== 0) {
+      selected_why = Math.random() * why_list.length;
+      selected_why = Math.floor(selected_why);
+      final_why = why_list[selected_why];
+      selected_list.push(final_why);
+    } else {
+      selected_list.push(null);
+    }
+    all_null = selected_list[0] === null && selected_list[1] === null && selected_list[2] === null && selected_list[3] === null && selected_list[4] === null;
+    if (all_null !== true) {
+      final_random = Math.random() * selected_list.length;
+      final_random = Math.floor(final_random);
+      while (selected_list[final_random] === null) {
+        final_random = Math.random() * selected_list.length;
+        final_random = Math.floor(final_random);
+      }
+      return this.manual_drop(selected_list[final_random], final_random);
+    }
+  };
+
+  control_drop_area_.prototype.manual_drop = function(to_drop, type_of_block) {
+    var $clone, block_name, block_offset, items, real_diameter, relative_left, relative_top, size, target, temp, x, y, zone_offset;
+    target = $(".droppable-" + type_of_block);
+    target.css({
+      position: 'absolute'
+    });
+    block_name = $(to_drop).attr("name");
+    this.block = window["block_" + block_name];
+    if (type_of_block === 0) {
+      this.who.set_block(this.block);
+    } else if (type_of_block === 1) {
+      this.what.set_block(this.block);
+    } else if (type_of_block === 2) {
+      this.when.set_block(this.block);
+    } else if (type_of_block === 3) {
+      this.where.set_block(this.block);
+    } else if (type_of_block === 4) {
+      this.why.set_block(this.block);
+    }
+    if (this.block.filter_items) {
+      this.block.filter_items();
+    }
+    target.removeClass('can--catch');
+    block_offset = $(to_drop).offset();
+    zone_offset = target.offset();
+    if ($(to_drop).hasClass('drag-wrap')) {
+      real_diameter = $(to_drop).width();
+      $clone = $(to_drop).detach();
+      $clone.removeClass('drag-wrap');
+      $clone.removeClass('getting--dragged');
+      $clone.removeClass('draggable');
+      $clone.addClass('not-draggable');
+      $clone.removeClass(this.bubble_type);
+      relative_left = block_offset.left - zone_offset.left;
+      relative_top = block_offset.top - zone_offset.top;
+      size = $(".droppable-inner-" + type_of_block).children().size();
+      x = -125 + 175 + 75 * (size % 3);
+      y = -95 + 133 + 75 * Math.floor(size / 3);
+      $clone.css({
+        '-webkit-transform': "translate(" + 0. + "px, " + 0. + "px)",
+        position: 'absolute',
+        top: y,
+        left: x,
+        opacity: 1,
+        width: "" + real_diameter,
+        height: "" + real_diameter,
+        'z-index': 5000
+      });
+      $clone.prependTo($(".droppable-inner-" + type_of_block));
+      $clone.attr('data-x', x);
+      $clone.attr('data-y', y);
+      items = $(".drag-wrap");
+      temp = 10;
+      size = $(".droppable-inner-" + type_of_block).children().size();
+      return $(".droppable-inner-" + type_of_block).children().each(function(index) {
+        return $(this).velocity({
+          top: 10,
+          left: 10,
+          height: 127,
+          width: 127,
+          opacity: 0.2
+        }, {
+          duration: 1000
+        });
+      });
+    }
+  };
 
   control_drop_area_.prototype.add_bubble_sections = function() {
     var bubble_size, height_adjustment;

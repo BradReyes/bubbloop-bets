@@ -14,6 +14,7 @@ this.bubble_section_ = (function() {
     this.expand_section = bind(this.expand_section, this);
     this.toggle_bank = bind(this.toggle_bank, this);
     this.add_dropzone = bind(this.add_dropzone, this);
+    this.set_block = bind(this.set_block, this);
     var css, half_height_text, half_width_bubble, half_width_text, x_pos_text, y_pos_text;
     this.counter_id = ++window.counter;
     this.left = left;
@@ -62,6 +63,10 @@ this.bubble_section_ = (function() {
     })(this));
     this.add_dropzone();
   }
+
+  bubble_section_.prototype.set_block = function(item) {
+    return this.block_list.push(item);
+  };
 
   bubble_section_.prototype.add_dropzone = function() {
     var items, onScroll;
@@ -117,7 +122,9 @@ this.bubble_section_ = (function() {
           block_name = $related_target.attr("name");
           _this.block = window["block_" + block_name];
           _this.block_list.push(_this.block);
-          _this.filled = true;
+          if (_this.block.filter_items) {
+            _this.block.filter_items();
+          }
           _this.block_name = block_name;
           $target.removeClass('can--catch');
           block_offset = $related_target.offset();
@@ -225,6 +232,12 @@ this.bubble_section_ = (function() {
     $("#build_button").velocity("fadeOut", {
       duration: 1000
     });
+    $(".random_button").velocity("fadeOut", {
+      duration: 1000
+    });
+    $(".random_area").velocity("fadeOut", {
+      duration: 1000
+    });
     $(".droppable-" + this.counter_id).velocity({
       width: 350,
       height: 350,
@@ -322,6 +335,12 @@ this.bubble_section_ = (function() {
     $(".text-middle-" + this.counter_id).velocity({
       opacity: 1
     }, {
+      duration: 1000
+    });
+    $(".random_button").velocity("fadeIn", {
+      duration: 1000
+    });
+    $(".random_area").velocity("fadeIn", {
       duration: 1000
     });
     items = $(".draggable");

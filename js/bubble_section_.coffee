@@ -84,6 +84,8 @@ class @bubble_section_
 		# add dropzone here
 		@add_dropzone()
 		
+	set_block: (item) =>
+		@block_list.push item
 
 	# adds the dropzone
 	add_dropzone: () =>
@@ -137,7 +139,10 @@ class @bubble_section_
 				# gets from DOM so that we can use the block
 				@block = window["block_#{block_name}"]
 				@block_list.push @block
-				@filled = true
+				
+				if @block.filter_items
+					@block.filter_items() 
+
 				@block_name = block_name
 				$target.removeClass 'can--catch'
 
@@ -179,17 +184,6 @@ class @bubble_section_
 
 					$clone.attr 'data-x', x
 					$clone.attr 'data-y', y
-
-					# $test = $("""
-					# 	<div>HELLO</div>
-					# """)
-
-					# $test.css
-					# 	position: 'absolute'
-					# 	top: x
-					# 	left: y
-					# $test.prependTo $(".droppable-inner-#{@counter_id}")
-
 
 					# update bank
 					items = $ ".drag-wrap"
@@ -245,6 +239,10 @@ class @bubble_section_
 		$(".drag-zones:not(.droppable-#{@counter_id})").velocity "fadeOut",
 			duration: 1000
 		$("#build_button").velocity "fadeOut",
+			duration: 1000
+		$(".random_button").velocity "fadeOut",
+			duration: 1000
+		$(".random_area").velocity "fadeOut",
 			duration: 1000
 
 		$(".droppable-#{@counter_id}").velocity
@@ -340,6 +338,11 @@ class @bubble_section_
 		,
 			duration: 1000
 
+		$(".random_button").velocity "fadeIn",
+			duration: 1000
+		$(".random_area").velocity "fadeIn",
+			duration: 1000
+
 		# fixes bank
 		items = $(".draggable") 
 		
@@ -367,6 +370,16 @@ class @bubble_section_
 				opacity: 0.2
 			,
 				duration: 1000
+
+		# $(".droppable-inner-#{@counter_id}").children().each (index) ->
+		# 	$(this).velocity
+		# 		top: 10
+		# 		left: 10
+		# 		height: 127
+		# 		width: 127
+		# 		opacity: 0.2
+		# 	,
+		# 		duration: 1000
 
 
 

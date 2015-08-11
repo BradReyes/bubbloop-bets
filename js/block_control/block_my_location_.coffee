@@ -1,6 +1,11 @@
 class @block_my_location_
 
 	constructor: ()->
+		@my_location =
+			name: "me"
+			instagram_id: null
+			vid_id: null
+
 		css = """
 		"""
 		$('<style type="text/css"></style>').html(css).appendTo "head"
@@ -20,4 +25,16 @@ class @block_my_location_
 		# 	my_lat_lng = new google.maps.LatLng my_lat, my_lng
 		# 	# alert "#{my_lat_lng.lat()}, #{my_lat_lng.lng()}"
 		# 	cb my_lat_lng
-		"me"
+		# "me"
+		@my_location
+
+	filter_items: () =>
+		#what_filter
+		temp_list = $(".draggable.What")
+		i = 0
+		while i < temp_list.length
+			name = $(temp_list[i]).attr "name"
+			if name is "instagram_competition"
+				temp_list[i].parentNode.removeChild temp_list[i]
+			i++
+
