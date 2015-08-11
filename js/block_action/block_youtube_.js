@@ -13,16 +13,24 @@ this.block_youtube_ = (function() {
 
   block_youtube_.prototype.run = function(people) {
     var celeb, complete_query, i, len;
-    console.log("Got in youtube");
-    console.log(people);
+    if (people.length <= 0) {
+      alert("Need someone to search");
+      return;
+    }
     complete_query = "";
     for (i = 0, len = people.length; i < len; i++) {
       celeb = people[i];
       complete_query += celeb.name + " ";
     }
-    return search(encodeURIComponent(complete_query, (function(_this) {
-      return function(videos) {};
-    })(this)));
+    return this.search(encodeURIComponent(complete_query), (function(_this) {
+      return function(videos) {
+        var $youtube, video;
+        video = videos[0];
+        $("body").html(" ");
+        $youtube = $("<iframe title='Youtube' width='100%' height='100%'\nsrc='" + video.source + "' frameborder='0' allowfullscreen>\n</iframe>");
+        return $youtube.appendTo($("body"));
+      };
+    })(this));
   };
 
   block_youtube_.prototype.search = function(query, cb) {
@@ -41,10 +49,12 @@ this.block_youtube_ = (function() {
         console.log(videos);
         video_objects = [];
         videos.forEach(function(cur) {
-          return video_objects.push({
-            'title': cur.snippet.title,
-            'source': YT_EMBED_URL + cur.id.videoId
-          });
+          if (cur.id.videoId != null) {
+            return video_objects.push({
+              'title': cur.snippet.title,
+              'source': YT_EMBED_URL + cur.id.videoId + "?autoplay=1"
+            });
+          }
         });
         return cb(video_objects);
       };

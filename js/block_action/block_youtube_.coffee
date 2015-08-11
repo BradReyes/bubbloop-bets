@@ -27,23 +27,28 @@ class @block_youtube_
 		</div>
 		""").appendTo ".drag-zone"
 
-
-
+	# takes in a list of people passed in
 	run: (people) =>
-		console.log "Got in youtube"
-		console.log people
-		# @youtube_app(people)
+		if people.length <= 0
+			alert "Need someone to search"
+			return
 		complete_query = ""
 		for celeb in people
 			complete_query += "#{celeb.name} "
-		search encodeURIComponent complete_query, (videos) =>
+		@search encodeURIComponent(complete_query), (videos) =>
 			#what to do with the videos now
+			video = videos[0] # takes the first video
+			$("body").html " "
+			$youtube = $("""
+				<iframe title='Youtube' width='100%' height='100%'
+				src='#{video.source}' frameborder='0' allowfullscreen>
+				</iframe>
+			""")
+			$youtube.appendTo $("body")
 
 
-
-
-
-	# Test for the youtube api
+	# Takes in a search query and a callback
+	# the callback takes in an array of video objects
 	search: (query, cb) =>
 		YT_URL = 'https://www.googleapis.com/youtube/v3/search'
 		YT_API_KEY = 'AIzaSyDDP01Gnj3-wfoqM59xQz6pryJQhmYWCt8'
@@ -60,36 +65,8 @@ class @block_youtube_
 			console.log videos
 			video_objects = []
 			videos.forEach (cur)=>
-				video_objects.push
-					'title': cur.snippet.title,
-					'source': YT_EMBED_URL + cur.id.videoId
+				if cur.id.videoId?
+					video_objects.push
+						'title': cur.snippet.title,
+						'source': YT_EMBED_URL + cur.id.videoId + "?autoplay=1"
 			cb video_objects
-
-		# youtube_app: (people) =>
-	# 	# if (@who.block_name().block_name is null) or (@who.block_name().block_name is "my_location")
-	# 	# 	alert "Specify a correct who"
-	# 	# 	return	
-	# 	# @what.expand_section()
-	# 	@create_player(people)
-
-	# create_player: (people) =>
-	# 	tag = document.createElement 'script'
-	# 	tag.src = "https://www.youtube.com/player_api"
-	# 	firstScriptTag = document.getElementsByTagName('script')[0]
-	# 	firstScriptTag.parentNode.insertBefore tag, firstScriptTag
-
-	# 	window.onYouTubeIframeAPIReady = ()=>
-			
-	# 		#console.log(@who.block_vid_id())
-
-	# 		player = new YT.Player 'youtube_player',
-	# 			# videoId: @youtube_id
-	# 			height: '352'
-	# 			videoId: people[0].vid_id
-
-	# 			events:	
-	# 				onReady: (e)->
-	# 					console.log "youtube onReady"
-	# 					e.target.playVideo()
-	# 				onStateChange: (e)->
-	# 					console.log "youtube onStateChange"
