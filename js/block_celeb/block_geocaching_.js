@@ -6,12 +6,13 @@ this.block_geocaching_ = (function() {
     this.begin_animation = bind(this.begin_animation, this);
     this.my_location = bind(this.my_location, this);
     this.run = bind(this.run, this);
+    this.check_me = bind(this.check_me, this);
     this.filter_items = bind(this.filter_items, this);
     this.get_type = bind(this.get_type, this);
     var css;
-    css = "/*.geocaching_block_ {\n	background-image: url(http://images.clipartpanda.com/map-clip-art-treasure-map4.png);\n	background-size: 110px 110px;\n	background-position: center;\n	background-repeat: no-repeat;\n}*/";
+    css = "		";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"geocaching_block_ drag-wrap draggable celeb What\" name=\"geocaching\">\n	<img style='width:80%;height:80%;position:absolute;top:11%;left:11%;' src='http://images.clipartpanda.com/map-clip-art-treasure-map4.png'>\n</div>").appendTo(".drag-zone");
+    $("<div class=\"geocaching_block_ drag-wrap draggable celeb What\" name=\"geocaching\">\n	<img style='width:80%;height:80%;position:absolute;top:11%;left:11%;'\n	src='http://images.clipartpanda.com/map-clip-art-treasure-map4.png'>\n</div>").appendTo(".drag-zone");
   }
 
   block_geocaching_.prototype.get_type = function() {
@@ -19,42 +20,74 @@ this.block_geocaching_ = (function() {
   };
 
   block_geocaching_.prototype.filter_items = function() {
-    var i, name, results, temp_block, temp_list;
+    var $cur, i, j, k, name, results, temp_block, temp_list, who_list, why_block, why_list;
     temp_list = $(".draggable.What");
+    who_list = $(".draggable.Who");
+    why_list = $(".draggable.Why");
     i = 0;
-    results = [];
     while (i < temp_list.length) {
       name = $(temp_list[i]).attr("name");
       temp_block = window["block_" + name];
-      if (temp_block.get_type() === "action") {
+      if (temp_block.get_type() === "action" && name !== "geocaching") {
+        temp_list[i].parentNode.removeChild(temp_list[i]);
+      } else if (name !== "geocaching") {
         temp_list[i].parentNode.removeChild(temp_list[i]);
       }
-      results.push(i++);
+      i++;
+    }
+    j = 0;
+    while (j < who_list.length) {
+      name = $(who_list[j]).attr("name");
+      $cur = $("div[name='" + name + "']");
+      if (name !== "my_location") {
+        $cur.remove();
+      }
+      j++;
+    }
+    k = 0;
+    results = [];
+    while (k < why_list.length) {
+      name = $(why_list[k]).attr("name");
+      why_block = window["block_" + name];
+      $cur = $("div[name='" + name + "']");
+      if (!($cur.hasClass("general_action"))) {
+        $cur.remove();
+      }
+      results.push(k++);
     }
     return results;
   };
 
+  block_geocaching_.prototype.check_me = function(who) {
+    var cur, l, len, name;
+    for (l = 0, len = who.length; l < len; l++) {
+      cur = who[l];
+      name = cur.name;
+      if (name === "me") {
+        return true;
+      }
+    }
+    return false;
+  };
+
   block_geocaching_.prototype.run = function(who, where, action, helpers) {
     var geocaching;
-    console.log(typeof who);
-    console.log(where);
-    console.log(action);
     this.begin_animation();
     geocaching = (function(_this) {
       return function() {
-        if (($.inArray("me", who) === -1) || (who.length !== 1)) {
+        if ((!_this.check_me(who)) || (who.length !== 1)) {
           alert("Wrong who for this");
           return;
         }
         return _this.my_location(function(latLng) {
-          var cur_lat, cur_lng, j, len, location, polygon_area, results;
+          var cur_lat, cur_lng, l, len, location, polygon_area, results;
           cur_lat = latLng.lat();
           cur_lng = latLng.lng();
           $("#geocaching-message-coordinate").text(cur_lat + ", " + cur_lng);
           console.log(where);
           results = [];
-          for (j = 0, len = where.length; j < len; j++) {
-            location = where[j];
+          for (l = 0, len = where.length; l < len; l++) {
+            location = where[l];
             polygon_area = new google.maps.Polygon({
               paths: location
             });

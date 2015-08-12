@@ -15,7 +15,7 @@ this.block_yogurtland_ = (function() {
     southEastLng = -122.167537441803;
     css = "#yogurtland {\n	background-image: url(http://api.ning.com/files/fOx4UMMDlAl-5LS2ubi2b5YI9wdZrJt0xWoMPKpNtfrAw1KnxmFk*Gzb0v9EbtmbTn8499zdCaXXtX0JMSrIp-tbPIE83gkC/yogurtland.jpg);\n	background-size: cover;\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
-    $("<div id=\"yogurtland\" class=\"drag-wrap draggable filter Where\" name=\"yogurtland\">\n</div>").appendTo(".drag-zone");
+    $("<div id=\"yogurtland\" class=\"drag-wrap draggable stanford_place filter Where\" name=\"yogurtland\">\n</div>").appendTo(".drag-zone");
     this.rectangle = [new google.maps.LatLng(southWestLat, southWestLng), new google.maps.LatLng(northWestLat, northWestLng), new google.maps.LatLng(northEastLat, northEastLng), new google.maps.LatLng(southEastLat, southEastLng)];
   }
 

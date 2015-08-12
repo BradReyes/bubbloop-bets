@@ -28,7 +28,7 @@ class @block_yogurtland_
 		$("<style type='text/css'></style>").html(css).appendTo "head"
 
 		$("""
-		<div id="yogurtland" class="drag-wrap draggable filter Where" name="yogurtland">
+		<div id="yogurtland" class="drag-wrap draggable stanford_place filter Where" name="yogurtland">
 		</div>
 		""").appendTo ".drag-zone"
 

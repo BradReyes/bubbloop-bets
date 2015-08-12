@@ -20,7 +20,7 @@ class @block_display_image_
 		$('<style type="text/css"></style>').html(css).appendTo "head"
 
 		$("""
-		<div style='overflow: visible' class="drag-wrap draggable action Why" name="display_image">
+		<div style='overflow: visible' class="drag-wrap draggable action Why block_display_image_" name="display_image">
 			<i class="fa fa-picture-o fa-5x display-image-icon"></i>
 			<p class='display-image-text'>DISPLAY IMAGE</p>
 		</div>
@@ -79,3 +79,14 @@ class @block_display_image_
 			zIndex: 10000002
 
 		setTimeout cb, 2000
+
+	filter_items: () => #obtains the list of who objects current available, removing those without instagram_id 
+		what_list = $(".draggable.What")
+
+		j = 0 
+		while j < what_list.length
+			name = $(what_list[j]).attr "name"
+			what_block = window["block_#{name}"]
+			if name is "instagram_competition"
+				what_block.filter_items()
+			j++

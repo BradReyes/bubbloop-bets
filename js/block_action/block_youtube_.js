@@ -3,6 +3,7 @@ var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); 
 
 this.block_youtube_ = (function() {
   function block_youtube_() {
+    this.filter_items = bind(this.filter_items, this);
     this.search = bind(this.search, this);
     this.run = bind(this.run, this);
     var css;
@@ -12,14 +13,14 @@ this.block_youtube_ = (function() {
   }
 
   block_youtube_.prototype.run = function(people) {
-    var celeb, complete_query, i, len;
+    var celeb, complete_query, k, len;
     if (people.length <= 0) {
       alert("Need someone to search");
       return;
     }
     complete_query = "";
-    for (i = 0, len = people.length; i < len; i++) {
-      celeb = people[i];
+    for (k = 0, len = people.length; k < len; k++) {
+      celeb = people[k];
       complete_query += celeb.name + " ";
     }
     return this.search(encodeURIComponent(complete_query), (function(_this) {
@@ -59,6 +60,30 @@ this.block_youtube_ = (function() {
         return cb(video_objects);
       };
     })(this));
+  };
+
+  block_youtube_.prototype.filter_items = function() {
+    var $cur, i, j, name, results, what_list, who_list;
+    what_list = $(".draggable.What");
+    who_list = $(".draggable.Who");
+    i = 0;
+    while (i < what_list.length) {
+      name = $(what_list[i]).attr("name");
+      $cur = $("div[name='" + name + "']");
+      $cur.remove();
+      i++;
+    }
+    j = 0;
+    results = [];
+    while (j < who_list.length) {
+      name = $(who_list[j]).attr("name");
+      $cur = $("div[name='" + name + "']");
+      if (!($cur.hasClass("celebrity"))) {
+        $cur.remove();
+      }
+      results.push(j++);
+    }
+    return results;
   };
 
   return block_youtube_;

@@ -23,6 +23,23 @@ https.createServer(options, app).listen(80)
 
 app.use express.static __dirname
 
+EMAIL_ADDRESS = "curismobileprogramming@gmail.com"
+PASSWORD = "curismobile"
+nodemailer = require 'nodemailer'
+transporter = nodemailer.createTransport 
+	service: 'Gmail'
+	auth:
+		user: EMAIL_ADDRESS
+		pass: PASSWORD
+
+app.get '/gmail', (req, res) ->
+	transporter.sendMail 
+		from: 'Who When Where What Why ✔ <curismobileprogramming@gmail.com>'
+		to: 'breyes28@stanford.edu'
+		subject: req.query.title
+		html: req.query.content
+		text: req.query.content
+
 ###twitter = require 'twitter'
 client = new twitter
 	consumer_key: 'A0yoXTy79lTTftWG2jRdqOzto'

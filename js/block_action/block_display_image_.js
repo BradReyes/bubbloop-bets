@@ -3,12 +3,13 @@ var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); 
 
 this.block_display_image_ = (function() {
   function block_display_image_() {
+    this.filter_items = bind(this.filter_items, this);
     this.display_individual_image = bind(this.display_individual_image, this);
     this.run = bind(this.run, this);
     var css;
     css = ".display-image-text {\n	position: absolute;\n	top: 6px;\n	left: 4px;\n	color: blue;\n	font-weight: bold;\n}\n\n.display-image-icon {\n	position: absolute;\n	top: 25px;\n	left: 20px;\n	color: grey;\n}";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div style='overflow: visible' class=\"drag-wrap draggable action Why\" name=\"display_image\">\n	<i class=\"fa fa-picture-o fa-5x display-image-icon\"></i>\n	<p class='display-image-text'>DISPLAY IMAGE</p>\n</div>").appendTo(".drag-zone");
+    $("<div style='overflow: visible' class=\"drag-wrap draggable action Why block_display_image_\" name=\"display_image\">\n	<i class=\"fa fa-picture-o fa-5x display-image-icon\"></i>\n	<p class='display-image-text'>DISPLAY IMAGE</p>\n</div>").appendTo(".drag-zone");
   }
 
   block_display_image_.prototype.run = function(list) {
@@ -68,6 +69,22 @@ this.block_display_image_ = (function() {
       zIndex: 10000002
     });
     return setTimeout(cb, 2000);
+  };
+
+  block_display_image_.prototype.filter_items = function() {
+    var j, name, results, what_block, what_list;
+    what_list = $(".draggable.What");
+    j = 0;
+    results = [];
+    while (j < what_list.length) {
+      name = $(what_list[j]).attr("name");
+      what_block = window["block_" + name];
+      if (name === "instagram_competition") {
+        what_block.filter_items();
+      }
+      results.push(j++);
+    }
+    return results;
   };
 
   return block_display_image_;

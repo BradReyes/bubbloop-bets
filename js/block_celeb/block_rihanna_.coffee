@@ -21,7 +21,7 @@ class @block_rihanna_
 		$('<style type="text/css"></style>').html(css).appendTo "head"
 
 		$("""
-		<div class="drag-wrap draggable Who" name="rihanna">
+		<div class="drag-wrap draggable celebrity Who" name="rihanna">
 			<img class="rihanna-image" src="img/rihanna.jpg">
 			<div id="instafeed"></div>
 		</div>
@@ -43,3 +43,15 @@ class @block_rihanna_
 
 	run: ()=>
 		@rihanna
+
+	filter_items: () =>
+		#what_filter
+		temp_list = $(".draggable.What")
+		i = 0
+		while i < temp_list.length
+			name = $(temp_list[i]).attr "name"
+			block = window["block_#{name}"]
+			if name is "instagram_competition"
+				# temp_list[i].parentNode.removeChild temp_list[i]
+				block.filter_items()
+			i++

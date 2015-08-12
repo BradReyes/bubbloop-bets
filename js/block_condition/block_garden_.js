@@ -15,7 +15,7 @@ this.block_garden_ = (function() {
     southEastLng = -122.16988552;
     css = ".garden {\n	background-image: url(\"img/sculpturegarden.jpg\");\n	background-size: cover;\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
-    $("<div class=\"garden drag-wrap draggable filter Where\" name=\"garden\">\n</div>").appendTo(".drag-zone");
+    $("<div class=\"garden drag-wrap draggable stanford_place filter Where\" name=\"garden\">\n</div>").appendTo(".drag-zone");
     this.rectangle = [new google.maps.LatLng(southWestLat, southWestLng), new google.maps.LatLng(northWestLat, northWestLng), new google.maps.LatLng(northEastLat, northEastLng), new google.maps.LatLng(southEastLat, southEastLng)];
   }
 

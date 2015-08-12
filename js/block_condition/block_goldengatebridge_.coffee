@@ -28,7 +28,7 @@ class @block_goldengatebridge_
 		$("<style type='text/css'></style>").html(css).appendTo "head"
 
 		$("""
-		<div class="ggb drag-wrap draggable filter Where" name="goldengatebridge">
+		<div class="ggb drag-wrap draggable stanford_place filter Where" name="goldengatebridge">
 		</div>
 		""").appendTo ".drag-zone"
 

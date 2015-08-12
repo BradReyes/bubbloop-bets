@@ -15,7 +15,7 @@ this.block_mausoleum_ = (function() {
     southEastLng = -122.167537441803;
     css = ".mausoleum {\n	background-image: url(http://qph.is.quoracdn.net/main-qimg-418a23ccfb9ef83493f5f78104b68f50?convert_to_webp=true);\n	background-size: cover;\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
-    $("<div class=\"mausoleum drag-wrap draggable filter Where\" name=\"mausoleum\">\n</div>").appendTo(".drag-zone");
+    $("<div class=\"mausoleum drag-wrap draggable stanford_place filter Where\" name=\"mausoleum\">\n</div>").appendTo(".drag-zone");
     this.rectangle = [new google.maps.LatLng(southWestLat, southWestLng), new google.maps.LatLng(northWestLat, northWestLng), new google.maps.LatLng(northEastLat, northEastLng), new google.maps.LatLng(southEastLat, southEastLng)];
   }
 

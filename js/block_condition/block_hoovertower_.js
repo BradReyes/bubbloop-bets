@@ -15,7 +15,7 @@ this.block_hoovertower_ = (function() {
     southEastLng = -122.167537441803;
     css = ".hoover {\n	background-image: url(img/hoover.jpg);\n	background-size: cover;\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
-    $("<div class=\"hoover drag-wrap draggable filter Where\" name=\"hoovertower\">\n</div>").appendTo(".drag-zone");
+    $("<div class=\"hoover drag-wrap draggable stanford_place filter Where\" name=\"hoovertower\">\n</div>").appendTo(".drag-zone");
     this.rectangle = [new google.maps.LatLng(southWestLat, southWestLng), new google.maps.LatLng(northWestLat, northWestLng), new google.maps.LatLng(northEastLat, northEastLng), new google.maps.LatLng(southEastLat, southEastLng)];
   }
 

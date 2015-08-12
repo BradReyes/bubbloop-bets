@@ -11,7 +11,7 @@ this.block_instagram_competition_ = (function() {
     var css;
     css = "		";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable celeb What\" name=\"instagram_competition\">\n	<img style='width:100%;height:auto;position:absolute;top:16%;left:0%;' src='http://d13zeczpqm2715.cloudfront.net/wp-content/uploads/2015/06/instagram-logo-vector-image.png'>\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable celeb What block_instagram_\" name=\"instagram_competition\">\n	<img style='width:100%;height:auto;position:absolute;top:16%;left:0%;' src='http://d13zeczpqm2715.cloudfront.net/wp-content/uploads/2015/06/instagram-logo-vector-image.png'>\n</div>").appendTo(".drag-zone");
   }
 
   block_instagram_competition_.prototype.get_type = function() {
@@ -29,9 +29,9 @@ this.block_instagram_competition_ = (function() {
         var cur_id;
         cur_id = element.instagram_id;
         return _this.get_images(function(list) {
-          var item, k, len;
-          for (k = 0, len = list.length; k < len; k++) {
-            item = list[k];
+          var item, l, len;
+          for (l = 0, len = list.length; l < len; l++) {
+            item = list[l];
             if (_this.check_filters(helpers, item)) {
               _this.combined_posts.push(item);
             }
@@ -47,12 +47,12 @@ this.block_instagram_competition_ = (function() {
   };
 
   block_instagram_competition_.prototype.check_filters = function(helpers, item) {
-    var helper, k, len;
+    var helper, l, len;
     if (helpers.length === 0) {
       return true;
     }
-    for (k = 0, len = helpers.length; k < len; k++) {
-      helper = helpers[k];
+    for (l = 0, len = helpers.length; l < len; l++) {
+      helper = helpers[l];
       if (helper.run(item) === true) {
         return true;
       }
@@ -75,10 +75,10 @@ this.block_instagram_competition_ = (function() {
       },
       success: (function(_this) {
         return function(json) {
-          var cur, k, len, list;
+          var cur, l, len, list;
           list = json.data;
-          for (k = 0, len = list.length; k < len; k++) {
-            cur = list[k];
+          for (l = 0, len = list.length; l < len; l++) {
+            cur = list[l];
             all_posts.push(cur);
           }
           return cb(all_posts);
@@ -89,9 +89,10 @@ this.block_instagram_competition_ = (function() {
   };
 
   block_instagram_competition_.prototype.filter_items = function() {
-    var i, insta_id, j, name, results, ret_type, temp_block, temp_list, what_block, what_list;
+    var i, insta_id, j, k, name, results, ret_type, temp_block, temp_list, what_block, what_list, why_block, why_list;
     temp_list = $(".draggable.Who");
     what_list = $(".draggable.What");
+    why_list = $(".draggable.Why");
     i = 0;
     while (i < temp_list.length) {
       name = $(temp_list[i]).attr("name");
@@ -104,7 +105,6 @@ this.block_instagram_competition_ = (function() {
       i++;
     }
     j = 0;
-    results = [];
     while (j < what_list.length) {
       name = $(what_list[j]).attr("name");
       what_block = window["block_" + name];
@@ -113,7 +113,20 @@ this.block_instagram_competition_ = (function() {
       if ((what_block.get_type() === "action") && (name !== "instagram_competition")) {
         what_list[j].parentNode.removeChild(what_list[j]);
       }
-      results.push(j++);
+      j++;
+    }
+    k = 0;
+    results = [];
+    while (k < why_list.length) {
+      name = $(why_list[k]).attr("name");
+      why_block = window["block_" + name];
+      if (!(name === "display_image" || name === "gmail")) {
+        console.log(why_list[k]);
+        console.log(why_list[k].parentNode);
+        console.log($(why_list[k]).children());
+        why_list[k].parentNode.removeChild(why_list[k]);
+      }
+      results.push(k++);
     }
     return results;
   };

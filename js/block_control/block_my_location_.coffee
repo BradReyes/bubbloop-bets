@@ -11,7 +11,7 @@ class @block_my_location_
 		$('<style type="text/css"></style>').html(css).appendTo "head"
 
 		$("""
-		<div class="drag-wrap draggable source Who" name="my_location">
+		<div class="drag-wrap draggable me_block Who" name="my_location">
 			Me
 		</div>
 		""").appendTo ".drag-zone"
@@ -34,7 +34,9 @@ class @block_my_location_
 		i = 0
 		while i < temp_list.length
 			name = $(temp_list[i]).attr "name"
-			if name is "instagram_competition"
-				temp_list[i].parentNode.removeChild temp_list[i]
+			block = window["block_#{name}"]
+			if name is "geocaching"
+				# temp_list[i].parentNode.removeChild temp_list[i]
+				block.filter_items()
 			i++
 

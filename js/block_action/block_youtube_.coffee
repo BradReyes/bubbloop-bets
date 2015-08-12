@@ -70,3 +70,24 @@ class @block_youtube_
 						'title': cur.snippet.title,
 						'source': YT_EMBED_URL + cur.id.videoId + "?autoplay=1"
 			cb video_objects
+
+	filter_items: () => #obtains the list of who objects current available, removing those without instagram_id 
+		what_list = $(".draggable.What")
+		who_list = $(".draggable.Who")
+
+		# get rid of every what block
+		i = 0 
+		while i < what_list.length
+			name = $(what_list[i]).attr "name"
+			$cur = $("div[name='#{name}']")
+			$cur.remove()
+			i++
+
+
+		j = 0 
+		while j < who_list.length
+			name = $(who_list[j]).attr "name"
+			$cur = $("div[name='#{name}']")
+			if not ($cur.hasClass "celebrity")
+				$cur.remove()
+			j++

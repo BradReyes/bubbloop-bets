@@ -7,7 +7,7 @@ this.block_ding_ = (function() {
     var css;
     css = "		";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable action Why\" name=\"ding\">\n	<img style='width:80%;height:80%;position:absolute;top:9%;left:9%;' src='img/tran_bell.png'>\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable action general_action Why\" name=\"ding\">\n	<img style='width:80%;height:80%;position:absolute;top:9%;left:9%;' src='img/tran_bell.png'>\n</div>").appendTo(".drag-zone");
     this.audio = null;
   }
 

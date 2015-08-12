@@ -15,7 +15,7 @@ this.block_goldengatebridge_ = (function() {
     southEastLng = -122.167537441803;
     css = ".ggb {\n	background-image: url(http://img.timeinc.net/time/photoessays/2008/intro_cuts_sf/intro_sf.jpg);\n	background-size: cover;\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
-    $("<div class=\"ggb drag-wrap draggable filter Where\" name=\"goldengatebridge\">\n</div>").appendTo(".drag-zone");
+    $("<div class=\"ggb drag-wrap draggable stanford_place filter Where\" name=\"goldengatebridge\">\n</div>").appendTo(".drag-zone");
     this.rectangle = [new google.maps.LatLng(southWestLat, southWestLng), new google.maps.LatLng(northWestLat, northWestLng), new google.maps.LatLng(northEastLat, northEastLng), new google.maps.LatLng(southEastLat, southEastLng)];
   }
 

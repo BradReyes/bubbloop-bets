@@ -3,6 +3,7 @@ var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); 
 
 this.block_drake_ = (function() {
   function block_drake_() {
+    this.filter_items = bind(this.filter_items, this);
     this.run = bind(this.run, this);
     var css;
     this.drake = {
@@ -12,11 +13,27 @@ this.block_drake_ = (function() {
     };
     css = "#instafeed {\n	display: none;\n}\n\n.drake-image {\n	height:100%;\n	position: relative;\n	left: -50px;\n	top: 0px;\n}";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable celeb Who\" name=\"drake\">\n	<img class=\"drake-image\" src=\"img/drake.jpg\">\n	<div id=\"instafeed\"></div>\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable celebrity celeb Who\" name=\"drake\">\n	<img class=\"drake-image\" src=\"img/drake.jpg\">\n	<div id=\"instafeed\"></div>\n</div>").appendTo(".drag-zone");
   }
 
   block_drake_.prototype.run = function() {
     return this.drake;
+  };
+
+  block_drake_.prototype.filter_items = function() {
+    var block, i, name, results, temp_list;
+    temp_list = $(".draggable.What");
+    i = 0;
+    results = [];
+    while (i < temp_list.length) {
+      name = $(temp_list[i]).attr("name");
+      block = window["block_" + name];
+      if (name === "instagram_competition") {
+        block.filter_items();
+      }
+      results.push(i++);
+    }
+    return results;
   };
 
   return block_drake_;

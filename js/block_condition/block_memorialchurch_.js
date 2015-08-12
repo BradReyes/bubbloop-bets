@@ -15,7 +15,7 @@ this.block_memorialchurch_ = (function() {
     southEastLng = -122.167537441803;
     css = ".memorialchurch {\n	background-image: url(http://events.stanford.edu/events/453/45341/Memchu_small.jpg);\n	background-size: cover;\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
-    $("<div class=\"memorialchurch drag-wrap draggable filter Where\" name=\"memorialchurch\">\n</div>").appendTo(".drag-zone");
+    $("<div class=\"memorialchurch drag-wrap draggable stanford_place filter Where\" name=\"memorialchurch\">\n</div>").appendTo(".drag-zone");
     this.rectangle = [new google.maps.LatLng(southWestLat, southWestLng), new google.maps.LatLng(northWestLat, northWestLng), new google.maps.LatLng(northEastLat, northEastLng), new google.maps.LatLng(southEastLat, southEastLng)];
   }
 

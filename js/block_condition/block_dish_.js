@@ -15,7 +15,7 @@ this.block_dish_ = (function() {
     southEastLng = -122.17938758;
     css = ".dish {\n	background-image: url(http://farm3.static.flickr.com/2045/3532400496_cf122cd481.jpg);\n	background-size: cover;\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
-    $("<div class=\"dish drag-wrap draggable filter Where\" name=\"dish\">\n</div>").appendTo(".drag-zone");
+    $("<div class=\"dish drag-wrap draggable stanford_place Where\" name=\"dish\">\n</div>").appendTo(".drag-zone");
     this.rectangle = [new google.maps.LatLng(southWestLat, southWestLng), new google.maps.LatLng(northWestLat, northWestLng), new google.maps.LatLng(northEastLat, northEastLng), new google.maps.LatLng(southEastLat, southEastLng)];
   }
 

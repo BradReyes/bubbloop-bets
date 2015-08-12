@@ -2,18 +2,13 @@ class @block_geocaching_
 
 	constructor: ()->
 		css = """
-			/*.geocaching_block_ {
-				background-image: url(http://images.clipartpanda.com/map-clip-art-treasure-map4.png);
-				background-size: 110px 110px;
-				background-position: center;
-				background-repeat: no-repeat;
-			}*/
 		"""
 		$('<style type="text/css"></style>').html(css).appendTo "head"
 
 		$("""
 		<div class="geocaching_block_ drag-wrap draggable celeb What" name="geocaching">
-			<img style='width:80%;height:80%;position:absolute;top:11%;left:11%;' src='http://images.clipartpanda.com/map-clip-art-treasure-map4.png'>
+			<img style='width:80%;height:80%;position:absolute;top:11%;left:11%;'
+			src='http://images.clipartpanda.com/map-clip-art-treasure-map4.png'>
 		</div>
 		""").appendTo ".drag-zone"
 
@@ -22,24 +17,48 @@ class @block_geocaching_
 
 	filter_items: () =>
 		temp_list = $(".draggable.What")
+		who_list = $(".draggable.Who")
+		why_list = $(".draggable.Why")
+
+		# fellow what blocks
 		i = 0
 		while i < temp_list.length
 			name = $(temp_list[i]).attr "name"
 			temp_block = window["block_#{name}"]
-			if temp_block.get_type() is "action"
+			if temp_block.get_type() is "action" and name isnt "geocaching"
+				temp_list[i].parentNode.removeChild temp_list[i]
+			else if name isnt "geocaching"
 				temp_list[i].parentNode.removeChild temp_list[i]
 			i++
 
+		j = 0
+		while j < who_list.length
+			name = $(who_list[j]).attr "name"
+			$cur = $("div[name='#{name}']")
+			if name isnt "my_location"
+				$cur.remove()
+			j++
+
+		k = 0
+		while k < why_list.length
+			name = $(why_list[k]).attr "name"
+			why_block = window["block_#{name}"]
+			$cur = $("div[name='#{name}']")
+			if not ($cur.hasClass("general_action"))
+				$cur.remove()
+			k++
+
+	check_me: (who) =>
+		for cur in who
+			name = cur.name
+			return true if name is "me"
+		return false
 
 	run: (who, where, action, helpers)=>
-		console.log typeof who
-		console.log where
-		console.log action
-
 		@begin_animation()
 		geocaching = ()=>
 			# perhaps change later to accomadate more who 
-			if ($.inArray("me", who) is -1) or (who.length isnt 1)
+			if (not @check_me(who)) or (who.length isnt 1)
 				alert "Wrong who for this"
 				return
 

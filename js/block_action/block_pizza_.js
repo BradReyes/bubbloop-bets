@@ -7,7 +7,7 @@ this.block_pizza_ = (function() {
     var css;
     css = ".pizza {\n	background-image: url(img/pizza.jpeg);\n	background-size: cover;\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable action Why pizza\" name=\"pizza\">\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable action Why pizza general_action\" name=\"pizza\">\n</div>").appendTo(".drag-zone");
   }
 
   block_pizza_.prototype.run = function() {

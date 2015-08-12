@@ -5,7 +5,7 @@ class @block_instagram_competition_
 		$('<style type="text/css"></style>').html(css).appendTo "head"
 
 		$("""
-		<div class="drag-wrap draggable celeb What" name="instagram_competition">
+		<div class="drag-wrap draggable celeb What block_instagram_" name="instagram_competition">
 			<img style='width:100%;height:auto;position:absolute;top:16%;left:0%;' src='http://d13zeczpqm2715.cloudfront.net/wp-content/uploads/2015/06/instagram-logo-vector-image.png'>
 		</div>
 		""").appendTo ".drag-zone"
@@ -67,8 +67,9 @@ class @block_instagram_competition_
 		#console.log("filtering")
 		temp_list = $(".draggable.Who")
 		what_list = $(".draggable.What")
+		why_list = $(".draggable.Why")
 		#console.log(temp_list)
-		i = 0 
+		i = 0
 		while i < temp_list.length
 			name = $(temp_list[i]).attr "name"
 			temp_block = window["block_#{name}"]
@@ -91,3 +92,14 @@ class @block_instagram_competition_
 			if (what_block.get_type() is "action") and (name isnt "instagram_competition")
 				what_list[j].parentNode.removeChild what_list[j]
 			j++
+		k = 0
+
+		while k < why_list.length
+			name = $(why_list[k]).attr "name"
+			why_block = window["block_#{name}"]
+			if not (name is "display_image" or name is "gmail")
+				console.log why_list[k]
+				console.log why_list[k].parentNode
+				console.log $(why_list[k]).children()
+				why_list[k].parentNode.removeChild why_list[k]
+			k++

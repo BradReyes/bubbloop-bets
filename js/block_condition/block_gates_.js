@@ -15,7 +15,7 @@ this.block_gates_ = (function() {
     southEastLng = -122.17311054;
     css = ".gates {\n	background-image: url(http://gaspull.geeksaresexytech.netdna-cdn.com/wp-content/uploads/2009/09/cs2.jpg);\n	background-size: cover;\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
-    $("<div class=\"gates drag-wrap draggable filter Where\" name=\"gates\">\n</div>").appendTo(".drag-zone");
+    $("<div class=\"gates drag-wrap draggable stanford_place filter Where\" name=\"gates\">\n</div>").appendTo(".drag-zone");
     this.rectangle = [new google.maps.LatLng(southWestLat, southWestLng), new google.maps.LatLng(northWestLat, northWestLng), new google.maps.LatLng(northEastLat, northEastLng), new google.maps.LatLng(southEastLat, southEastLng)];
   }
 

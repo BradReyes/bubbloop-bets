@@ -23,6 +23,7 @@ $ ->
 	window.block_rihanna = new block_rihanna_()
 	window.block_selenagomez = new block_selenagomez_()
 	window.block_kimkardashian = new block_kimkardashian_()
+	window.block_gmail = new block_gmail_()
 
 	# # Step 2 - Source
 	window.block_pizza = new block_pizza_()

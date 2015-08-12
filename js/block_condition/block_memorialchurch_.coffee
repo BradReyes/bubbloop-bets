@@ -28,7 +28,7 @@ class @block_memorialchurch_
 		$("<style type='text/css'></style>").html(css).appendTo "head"
 
 		$("""
-		<div class="memorialchurch drag-wrap draggable filter Where" name="memorialchurch">
+		<div class="memorialchurch drag-wrap draggable stanford_place filter Where" name="memorialchurch">
 		</div>
 		""").appendTo ".drag-zone"
 

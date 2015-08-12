@@ -254,9 +254,6 @@ this.bubble_section_ = (function() {
           block_name = $related_target.attr("name");
           _this.block = window["block_" + block_name];
           _this.block_list.push(_this.block);
-          if (_this.block.filter_items) {
-            _this.block.filter_items();
-          }
           _this.block_name = block_name;
           $target.removeClass('can--catch');
           block_offset = $related_target.offset();
@@ -287,7 +284,10 @@ this.bubble_section_ = (function() {
             $clone.attr('data-x', x);
             $clone.attr('data-y', y);
             items = $(".drag-wrap");
-            return onScroll();
+            onScroll();
+            if (_this.block.filter_items) {
+              return _this.block.filter_items();
+            }
           }
         };
       })(this),

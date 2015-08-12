@@ -15,7 +15,7 @@ this.block_lawschool_ = (function() {
     southEastLng = -122.167537441803;
     css = ".lawschool {\n	background-image: url(http://chronicle.com/blogs/buildings/files/2011/05/stanfordlaw.jpg);\n	background-size: cover;\n}";
     $("<style type='text/css'></style>").html(css).appendTo("head");
-    $("<div class=\"lawschool drag-wrap draggable filter Where\" name=\"lawschool\">\n</div>").appendTo(".drag-zone");
+    $("<div class=\"lawschool drag-wrap draggable stanford_place filter Where\" name=\"lawschool\">\n</div>").appendTo(".drag-zone");
     this.rectangle = [new google.maps.LatLng(southWestLat, southWestLng), new google.maps.LatLng(northWestLat, northWestLng), new google.maps.LatLng(northEastLat, northEastLng), new google.maps.LatLng(southEastLat, southEastLng)];
   }
 

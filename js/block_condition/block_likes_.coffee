@@ -28,7 +28,7 @@ class @block_likes_
 		$('<style type="text/css"></style>').html(css).appendTo "head"
 
 		$("""
-		<div class="drag-wrap draggable filter What" name="likes">
+		<div class="drag-wrap draggable instagram_filter What" name="likes">
 			<p class='likes-filter-text'>> LIKES</p>
 			<input class="likes-input" type="text" value="0">
 		</div>
@@ -125,22 +125,20 @@ class @block_likes_
 		if not @num_likes?
 			console.log $(".likes-input").val()
 			@num_likes = parseInt($(".likes-input").val())
-		# console.log @num_likes
-		# player1 = competitors.first_val
-		# player2 = competitors.second_val
-		# players are array with [0] = the id and [1] is the actual pic
-		# player1_likes = player1[1].likes.count
-		# player2_likes = player2[1].likes.count
-		# $("#instagram-matchup-counter-1").text "LIKES: #{player1_likes}"
-		# $("#instagram-matchup-counter-2").text "LIKES: #{player2_likes}"
-		# $("#put-goal-here").text @num_likes
-		console.log "    "
 		likes = item.likes.count
-		console.log "Likes: #{likes}"
-		console.log @num_likes
 
 		if likes >= @num_likes
-			console.log "Put in"
 			return true
-		console.log "skipped"
 		return false
+
+	filter_items: () =>
+		#what_filter
+		temp_list = $(".draggable.What")
+		i = 0
+		while i < temp_list.length
+			name = $(temp_list[i]).attr "name"
+			block = window["block_#{name}"]
+			if name is "instagram_competition"
+				# temp_list[i].parentNode.removeChild temp_list[i]
+				block.filter_items()
+			i++

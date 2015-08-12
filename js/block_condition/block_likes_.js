@@ -3,6 +3,7 @@ var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); 
 
 this.block_likes_ = (function() {
   function block_likes_() {
+    this.filter_items = bind(this.filter_items, this);
     this.run = bind(this.run, this);
     this.get_type = bind(this.get_type, this);
     this.expand = bind(this.expand, this);
@@ -10,7 +11,7 @@ this.block_likes_ = (function() {
     var css;
     css = ".likes-input{\n	position: absolute;\n	top: 55%;\n	width: 80%;\n	left: 6%;\n	text-align: center;\n	font-size: 12px;\n}\n\ninput[type='text'],\ninput[type='number'],\ntextarea {\n	font-size: 16px;\n}\n\n.likes-filter-text {\n	position: absolute;\n	top: -25px;\n	left: 20px;\n	font-size: 150%;\n	font-weight: bold;\n}";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable filter What\" name=\"likes\">\n	<p class='likes-filter-text'>> LIKES</p>\n	<input class=\"likes-input\" type=\"text\" value=\"0\">\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable instagram_filter What\" name=\"likes\">\n	<p class='likes-filter-text'>> LIKES</p>\n	<input class=\"likes-input\" type=\"text\" value=\"0\">\n</div>").appendTo(".drag-zone");
     interact(".likes-input").on('tap', (function(_this) {
       return function(event) {
         event.preventDefault();
@@ -101,16 +102,27 @@ this.block_likes_ = (function() {
       console.log($(".likes-input").val());
       this.num_likes = parseInt($(".likes-input").val());
     }
-    console.log("    ");
     likes = item.likes.count;
-    console.log("Likes: " + likes);
-    console.log(this.num_likes);
     if (likes >= this.num_likes) {
-      console.log("Put in");
       return true;
     }
-    console.log("skipped");
     return false;
+  };
+
+  block_likes_.prototype.filter_items = function() {
+    var block, i, name, results, temp_list;
+    temp_list = $(".draggable.What");
+    i = 0;
+    results = [];
+    while (i < temp_list.length) {
+      name = $(temp_list[i]).attr("name");
+      block = window["block_" + name];
+      if (name === "instagram_competition") {
+        block.filter_items();
+      }
+      results.push(i++);
+    }
+    return results;
   };
 
   return block_likes_;

@@ -10,6 +10,7 @@ $(function() {
   window.block_rihanna = new block_rihanna_();
   window.block_selenagomez = new block_selenagomez_();
   window.block_kimkardashian = new block_kimkardashian_();
+  window.block_gmail = new block_gmail_();
   window.block_pizza = new block_pizza_();
   window.block_hoovertower = new block_hoovertower_();
   window.block_dish = new block_dish_();

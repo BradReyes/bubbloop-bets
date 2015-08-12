@@ -13,7 +13,7 @@ this.block_my_location_ = (function() {
     };
     css = "		";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable source Who\" name=\"my_location\">\n	Me\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable me_block Who\" name=\"my_location\">\n	Me\n</div>").appendTo(".drag-zone");
   }
 
   block_my_location_.prototype.run = function(cb) {
@@ -21,14 +21,15 @@ this.block_my_location_ = (function() {
   };
 
   block_my_location_.prototype.filter_items = function() {
-    var i, name, results, temp_list;
+    var block, i, name, results, temp_list;
     temp_list = $(".draggable.What");
     i = 0;
     results = [];
     while (i < temp_list.length) {
       name = $(temp_list[i]).attr("name");
-      if (name === "instagram_competition") {
-        temp_list[i].parentNode.removeChild(temp_list[i]);
+      block = window["block_" + name];
+      if (name === "geocaching") {
+        block.filter_items();
       }
       results.push(i++);
     }

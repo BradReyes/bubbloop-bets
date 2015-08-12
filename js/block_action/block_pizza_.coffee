@@ -10,7 +10,7 @@ class @block_pizza_
 		$("<style type='text/css'></style>").html(css).appendTo "head"
 
 		$("""
-		<div class="drag-wrap draggable action Why pizza" name="pizza">
+		<div class="drag-wrap draggable action Why pizza general_action" name="pizza">
 		</div>
 		""").appendTo ".drag-zone"
 

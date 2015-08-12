@@ -243,10 +243,6 @@ class @bubble_section_
 				# gets from DOM so that we can use the block
 				@block = window["block_#{block_name}"]
 				@block_list.push @block
-				
-				# filters the blocks
-				if @block.filter_items
-					@block.filter_items() 
 
 				@block_name = block_name
 				$target.removeClass 'can--catch'
@@ -287,6 +283,10 @@ class @bubble_section_
 					# update bank
 					items = $ ".drag-wrap"
 					onScroll()
+
+					# filters the blocks
+					if @block.filter_items
+						@block.filter_items() 
 
 			ondropdeactivate: (event) ->
 				$target = $ event.target

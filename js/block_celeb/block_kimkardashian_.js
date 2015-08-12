@@ -3,6 +3,7 @@ var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); 
 
 this.block_kimkardashian_ = (function() {
   function block_kimkardashian_() {
+    this.filter_items = bind(this.filter_items, this);
     this.run = bind(this.run, this);
     var css, feed, kimkardashian;
     this.kim_kardashian = {
@@ -12,7 +13,7 @@ this.block_kimkardashian_ = (function() {
     };
     css = "#instafeed {\n	display: none;\n}\n.kim-image {\n	width:120%;\n	position: relative;\n	left: -15px;\n	bottom:0;\n}";
     $('<style type="text/css"></style>').html(css).appendTo("head");
-    $("<div class=\"drag-wrap draggable Who\" name=\"kimkardashian\">\n	<img class=\"kim-image\" src=\"img/kimkardashian.jpg\">\n	<div id=\"instafeed\"></div>\n</div>").appendTo(".drag-zone");
+    $("<div class=\"drag-wrap draggable celebrity Who\" name=\"kimkardashian\">\n	<img class=\"kim-image\" src=\"img/kimkardashian.jpg\">\n	<div id=\"instafeed\"></div>\n</div>").appendTo(".drag-zone");
     kimkardashian = 18428658;
     feed = new Instafeed({
       get: 'user',
@@ -33,6 +34,22 @@ this.block_kimkardashian_ = (function() {
 
   block_kimkardashian_.prototype.run = function() {
     return this.kim_kardashian;
+  };
+
+  block_kimkardashian_.prototype.filter_items = function() {
+    var block, i, name, results, temp_list;
+    temp_list = $(".draggable.What");
+    i = 0;
+    results = [];
+    while (i < temp_list.length) {
+      name = $(temp_list[i]).attr("name");
+      block = window["block_" + name];
+      if (name === "instagram_competition") {
+        block.filter_items();
+      }
+      results.push(i++);
+    }
+    return results;
   };
 
   return block_kimkardashian_;
